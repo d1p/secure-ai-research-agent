@@ -54,7 +54,7 @@ flowchart LR
 | `internal`| postgres, redis, litellm, ollama, orchestrator, gateway | yes |
 | `browser` | gateway, browser, proxy-web           | yes      |
 | `agents`  | litellm, proxy-dev, coding runners    | yes      |
-| `egress`  | litellm, proxy-web, proxy-dev         | no (outbound only) |
+| `egress`  | litellm, proxy-web, proxy-dev, gateway (DNS only) | no (outbound only) |
 | `novnc`   | browser (publishes `:6080` noVNC)     | no       |
 
 `novnc` exists only because Docker cannot publish ports from `internal: true`
@@ -238,6 +238,10 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
    non-internal `novnc` network solely to publish noVNC (`:6080`). Chrome is
    forced through `proxy-web` and the gateway's SSRF rules remain the tested
    security boundary.
+8. **Gateway DNS** — `internal: true` networks do not forward external DNS, so
+   the safeguard gateway also joins the `egress` network solely to resolve
+   hostnames for SSRF validation. The gateway is trusted, publishes no ports,
+   and remains LAN-inaccessible.
 
 ## Known limitations
 

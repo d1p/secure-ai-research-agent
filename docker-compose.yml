@@ -196,7 +196,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ./gateway/policy.yaml:/app/policy.yaml:ro
-    networks: [internal, browser]
+    networks: [internal, browser, egress]
     depends_on:
       postgres:
         condition: service_healthy

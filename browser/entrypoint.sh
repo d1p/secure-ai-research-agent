@@ -37,6 +37,20 @@ DISPLAY="$DISPLAY_NUM" google-chrome \
   about:blank &
 CHROME_PID=$!
 
+# Wait for the Chrome CDP endpoint and resolve the browser WebSocket URL
+# (the root ws://127.0.0.1:9222/ is not a valid CDP debugger target).
+CDP_WS=""
+for _ in $(seq 1 30); do
+  CDP_WS="$(curl -sf http://127.0.0.1:9222/json/version 2>/dev/null \
+    | grep -o '"webSocketDebuggerUrl": *"[^"]*"' | cut -d'"' -f4 || true)"
+  [ -n "$CDP_WS" ] && break
+  sleep 1
+done
+if [ -z "$CDP_WS" ]; then
+  echo "FATAL: Chrome CDP endpoint did not become ready" >&2
+  exit 1
+fi
+
 # x11vnc (RFB auth via password file, loopback only)
 x11vnc -display "$DISPLAY_NUM" -forever -shared -rfbauth /tmp/vnc/passwd \
   -rfbport 5900 -listen localhost -xkb &
@@ -48,7 +62,7 @@ WEBSOCKIFY_PID=$!
 
 # Playwright MCP over Chrome CDP (vision cap enables scroll via mouse wheel)
 playwright-mcp \
-  --cdp-endpoint ws://127.0.0.1:9222 \
+  --cdp-endpoint "$CDP_WS" \
   --browser chrome \
   --host 0.0.0.0 \
   --port 8931 \
