@@ -11,6 +11,8 @@ DISPLAY_NUM=:99
 mkdir -p /browser-profile/anon /tmp/vnc /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix
 rm -f /tmp/.X99-lock /tmp/.X11-unix/X99
+# Clear stale Chrome singleton lock (not user data) left by a prior run.
+rm -f /browser-profile/anon/SingletonLock /browser-profile/anon/SingletonCookie /browser-profile/anon/SingletonSocket
 
 # VNC auth file
 x11vnc -storepasswd "$VNC_PASSWORD" /tmp/vnc/passwd
