@@ -1,0 +1,22 @@
+# Browser safeguard gateway policy (loaded at startup)
+# Security policy is source-controlled; page content can never modify it.
+
+rate_limit:
+  requests_per_minute: 30        # per agent_id
+  page_load_interval_seconds: 5  # per domain (one page load / 5s)
+
+browser:
+  human_pacing:
+    min_delay_ms: 1000           # randomized 1-4s action delays
+    max_delay_ms: 4000
+  max_tabs: 1                    # one active tab at a time
+  daily_page_budget: 200         # per agent_id
+
+# "personal" profile: only reachable after per-session approval and only for
+# these domains (comma-separated, injected via PERSONAL_ALLOW_DOMAINS env).
+personal_allow_domains: []
+
+challenge_response:
+  # On CAPTCHA / Cloudflare / login-wall, return this shape and stop.
+  needs_human: true
+  message: "Challenge detected; human intervention required via noVNC."

@@ -1,0 +1,6 @@
+# proxy-dev allowlist (FilterDefaultDeny Yes -> only these may pass)
+pypi\.org
+files\.pythonhosted\.org
+registry\.npmjs\.org
+npmjs\.com
+github\.com
