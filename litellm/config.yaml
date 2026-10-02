@@ -1,0 +1,47 @@
+# =============================================================================
+# LiteLLM proxy configuration
+#
+# LiteLLM is the ONLY route from agents/application services to cloud model
+# providers.  Credentials are injected from the environment (os.environ/...),
+# never committed here.  See README.md for model-ID caveats.
+# =============================================================================
+
+model_list:
+  - model_name: bedrock-claude-sonnet
+    litellm_params:
+      model: bedrock/us.anthropic.claude-sonnet-5
+      aws_region_name: os.environ/AWS_REGION
+      aws_access_key_id: os.environ/AWS_ACCESS_KEY_ID
+      aws_secret_access_key: os.environ/AWS_SECRET_ACCESS_KEY
+
+  - model_name: gpt-5
+    litellm_params:
+      model: openai/gpt-5
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: gemini-pro
+    litellm_params:
+      model: gemini/gemini-2.5-pro
+      api_key: os.environ/GEMINI_API_KEY
+
+  - model_name: deepseek-chat
+    litellm_params:
+      model: deepseek/deepseek-chat
+      api_key: os.environ/DEEPSEEK_API_KEY
+
+litellm_settings:
+  # Drop provider params the client did not request.
+  drop_params: true
+  # Never log messages/prompts/responses (spend metadata still tracked).
+  turn_off_message_logging: true
+  # Global monthly budget: USD 50 over a 30-day window (requires Postgres).
+  max_budget: 50
+  budget_duration: 30d
+  # Pre-call secret guard (rejects prompts containing secrets).
+  callbacks: secret_guard.secret_guard_handler
+
+general_settings:
+  # Persist model/key state in Postgres (DATABASE_URL env var).
+  store_model_in_db: true
+  # Do not store prompt text in the spend log.
+  store_prompts_in_spend_logs: false
