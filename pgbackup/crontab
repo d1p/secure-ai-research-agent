@@ -1,0 +1,3 @@
+# pgbackup — nightly backup (project spec section 20)
+# 2:00 AM server time, retention handled inside backup.sh (7 days).
+0 2 * * * /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1
