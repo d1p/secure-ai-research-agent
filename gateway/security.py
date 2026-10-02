@@ -195,6 +195,37 @@ TOOL_TIERS: dict[str, int] = {
     "browser_evaluate": TIER_FORBIDDEN,
     "browser_run_code_unsafe": TIER_FORBIDDEN,
     "browser_file_download": TIER_FORBIDDEN,
+
+    # --- BrowserHand (real-browser) tools, mapped to the same tier model -----
+    # Tier 0 — read-only / navigation
+    "browserhand_navigate": TIER_ALWAYS,
+    "browserhand_extract": TIER_ALWAYS,
+    "browserhand_gettext": TIER_ALWAYS,
+    "browserhand_screenshot": TIER_ALWAYS,
+    "browserhand_fullscreenshot": TIER_ALWAYS,
+    "browserhand_pdf": TIER_ALWAYS,
+    "browserhand_wait": TIER_ALWAYS,
+    "browserhand_waitfor": TIER_ALWAYS,
+    "browserhand_scroll": TIER_ALWAYS,
+    "browserhand_scrollto": TIER_ALWAYS,
+    "browserhand_goback": TIER_ALWAYS,
+    "browserhand_goforward": TIER_ALWAYS,
+    "browserhand_refresh": TIER_ALWAYS,
+    "browserhand_tab": TIER_ALWAYS,
+    # Tier 1 — validated interactions
+    "browserhand_hover": TIER_VALIDATED,
+    "browserhand_click": TIER_VALIDATED,
+    "browserhand_type": TIER_VALIDATED,
+    "browserhand_select": TIER_VALIDATED,
+    "browserhand_keypress": TIER_VALIDATED,
+    "browserhand_clear": TIER_VALIDATED,
+    "browserhand_dialog": TIER_VALIDATED,
+    # Tier 2 — approval required
+    "browserhand_upload": TIER_APPROVAL,
+    # Tier 3 — always 403
+    "browserhand_exec": TIER_FORBIDDEN,
+    "browserhand_cookie": TIER_FORBIDDEN,
+    "browserhand_network": TIER_FORBIDDEN,
 }
 
 # Tier-3 tool name fragments (covers caps-gated tools even if not in the list).

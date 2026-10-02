@@ -12,10 +12,13 @@ is the deployment mechanism.
 - **PostgreSQL (pgvector)** — app + vector + budget/approval/audit state.
 - **Redis** — cache/queue.
 - **Browser** — headed Chrome + Xvfb + noVNC + Playwright MCP.
+- **BrowserHand relay** — opt-in real-browser automation (your Chrome + extension,
+  preserving logins/cookies, much harder to flag as a bot).
 - **Safeguard gateway** — SSRF/tier/rate-limit security boundary for the browser.
 - **Orchestrator** — LangGraph agent (research / browser / coding approval).
 - **Ephemeral coding runner** — aider/opencode in a hardened throwaway container.
 - **pgbackup** — nightly Postgres + Open WebUI backups with restore verification.
+- **Observability** — Grafana + Tempo (traces) + Prometheus + cAdvisor (metrics).
 
 ## Intentionally NOT deployed
 
@@ -26,32 +29,68 @@ already exist externally or are out of scope.
 
 ```mermaid
 flowchart LR
-    subgraph LAN
-        user[User] --> caddy[Caddy (external)]
-        caddy -->|:3000| webui[Open WebUI]
-        user -->|:6080 noVNC| browser[Browser]
+    subgraph clients["LAN clients"]
+        user[User]
+        ext[Your Chrome + extension]
     end
-    subgraph vm[AI VM]
-        webui --> litellm[LiteLLM]
-        webui --> ollama[Ollama embeddings]
-        webui --> pg[(Postgres/pgvector)]
-        orchestrator[Orchestrator] --> litellm
-        orchestrator --> gw[Safeguard Gateway]
-        orchestrator --> proxy[Docker socket proxy]
-        gw --> browser
-        browser --> proxyweb[proxy-web]
-        litellm --> cloud[Cloud LLMs]
-        proxyweb --> internet[Internet]
-        proxydev[proxy-dev] --> internet
+    caddy[Caddy proxy]
+
+    subgraph vm["AI VM (10.0.0.210)"]
+        webui[Open WebUI]
+        browser[Browser + noVNC]
+        bh[BrowserHand relay]
+        litellm[LiteLLM]
+        ollama[Ollama embeddings]
+        pg[(Postgres/pgvector)]
+        redis[(Redis)]
+        orchestrator[Orchestrator]
+        gw[Safeguard Gateway]
+        dsproxy[Docker socket proxy]
+        grafana[Grafana]
+        tempo[(Tempo)]
+        prom[Prometheus]
+        cadvisor[cAdvisor]
     end
+
+    cloud[Cloud LLMs]
+    internet[Internet]
+
+    user -->|ai.debashis.xyz| caddy
+    ext -->|browserhand.debashis.xyz wss| caddy
+    caddy -->|:3000| webui
+    caddy -->|:3001| grafana
+    caddy -->|:29981| bh
+    user -->|:6080 noVNC| browser
+
+    webui --> litellm
+    webui --> ollama
+    webui --> pg
+    webui --> redis
+    orchestrator --> litellm
+    orchestrator --> gw
+    orchestrator --> dsproxy
+    gw --> browser
+    gw --> bh
+    litellm --> cloud
+    browser -->|proxy-web| internet
+    orchestrator -->|proxy-dev| internet
+
+    grafana --> tempo
+    grafana --> prom
+    prom --> cadvisor
+    prom --> litellm
+    webui -.traces.-> tempo
+    litellm -.traces.-> tempo
+    orchestrator -.traces.-> tempo
+    gw -.traces.-> tempo
 ```
 
 ### Networks
 
 | Network   | Members                              | Internal |
 |-----------|--------------------------------------|----------|
-| `frontend`| Open WebUI (publishes `:3000`)        | no       |
-| `internal`| postgres, redis, litellm, ollama, orchestrator, gateway | yes |
+| `frontend`| Open WebUI (`:3000`), Grafana (`:3001`), BrowserHand relay (`:29981`) | no |
+| `internal`| postgres, redis, litellm, ollama, orchestrator, gateway, browserhand, tempo, prometheus, cadvisor | yes |
 | `browser` | gateway, browser, proxy-web           | yes      |
 | `agents`  | litellm, proxy-dev, coding runners    | yes      |
 | `egress`  | litellm, proxy-web, proxy-dev, gateway (DNS only) | no (outbound only) |
@@ -59,7 +98,9 @@ flowchart LR
 
 `novnc` exists only because Docker cannot publish ports from `internal: true`
 networks; the browser's automation/egress traffic stays on the internal
-`browser` network, and Chrome is forced through `proxy-web`.
+`browser` network, and Chrome is forced through `proxy-web`. The Grafana and
+BrowserHand relay services likewise join `frontend` solely so their ports
+(`:3001`, `:29981`) can be published; they are reached only through Caddy.
 
 Containers have no direct Internet access unless on the `egress` network. The
 browser reaches the Internet only through `proxy-web`; coding runners only
@@ -78,7 +119,8 @@ backed up.
 
 ### Resource limits
 
-Total `mem_limit` ≤ 13 GB. See `docker-compose.yml` for per-service limits.
+Total `mem_limit` ≈ 12.2 GB steady-state (+ 1.5 GB ephemeral coding runner), sized
+for the 14 GB VM. See `docker-compose.yml` for per-service limits.
 
 | Service | Limit |
 |---|---|
@@ -88,11 +130,16 @@ Total `mem_limit` ≤ 13 GB. See `docker-compose.yml` for per-service limits.
 | postgres | 2 GB |
 | redis | 256 MB |
 | browser | 2.5 GB |
+| browserhand | 128 MB |
 | safeguard-gateway | 256 MB |
 | orchestrator | 1 GB |
 | docker-socket-proxy | 64 MB |
 | proxy-web / proxy-dev | 64 MB each |
 | pgbackup | 128 MB |
+| tempo | 512 MB |
+| prometheus | 256 MB |
+| grafana | 256 MB |
+| cadvisor | 256 MB |
 | agent-runner (ephemeral) | 1.5 GB |
 
 ## Setup
@@ -129,10 +176,12 @@ Inside the VM: Docker data-root is `/fast/docker`; `/data` is an NFS mount of
 
 ### Firewall requirement
 
-The VM firewall must allow **only** ports `3000` and `6080`, and only from the
-Caddy PCT IP (`${CADDY_PCT_IP}`, default `10.0.0.28`). No other service may be
-reachable from the LAN. PostgreSQL, Redis, LiteLLM, Ollama, gateway and
-orchestrator are on `internal` networks and must not be LAN-accessible.
+The VM firewall must allow **only** the published ports — `3000` (Open WebUI),
+`3001` (Grafana) and `29981` (BrowserHand relay) — and only from the Caddy PCT IP
+(`${CADDY_PCT_IP}`, default `10.0.0.28`). `6080` (noVNC) is LAN-only for human
+browser control. No other service may be reachable from the LAN. PostgreSQL,
+Redis, LiteLLM, Ollama, gateway, orchestrator, Tempo, Prometheus and cAdvisor are
+on `internal` networks and must not be LAN-accessible.
 
 ### Caddy integration
 
@@ -166,6 +215,33 @@ domain. Every browser action is audited to `orchestrator.browser_audit`.
 
 On a CAPTCHA / Cloudflare challenge / login wall, the gateway stops and returns
 `needs_human: true`; the human resolves it through noVNC.
+
+## BrowserHand (real browser, opt-in)
+
+BrowserHand is an alternative browser backend that drives **your real Chrome**
+(its extension uses the `chrome.debugger`/`tabs` APIs), so logins, cookies and
+extensions are preserved and pages are much harder to flag as a bot. It is
+**off by default** — the containerized Playwright browser remains the default.
+
+Components:
+
+- **Relay** (`ai-stack-browserhand-1`) — self-hosted HTTP + WebSocket bridge,
+  published on `:29981` and proxied by Caddy as `browserhand.debashis.xyz`.
+- **Gateway** — exposes `browserhand_*` tools (`navigate`, `extract`, `gettext`,
+  `click`, `type`, …) routed to the relay, under the *same* SSRF/tier/rate-limit/
+  audit boundary as Playwright. `browserhand_exec`/`cookie`/`network` are Tier 3.
+- **Chrome extension** — installed in your local Chrome, connects to the relay.
+
+Enabling:
+
+1. Load the unpacked extension from `cclion/browserhand` (`extension/`) in Chrome.
+2. In the popup, set the relay URL to `wss://browserhand.debashis.xyz` (or
+   `ws://<BIND_IP>:29981` on the LAN) and the manual token `BROWSERHAND_TOKEN`.
+3. Set `BROWSER_BACKEND=browserhand` in `.env` and `docker compose up -d orchestrator`.
+
+The gateway reaches the relay over the internal network with
+`BROWSERHAND_API_KEY`; the extension authenticates to the relay with
+`BROWSERHAND_TOKEN`. The relay never touches the containerized browser.
 
 ## Security model
 

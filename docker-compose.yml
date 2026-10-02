@@ -1,7 +1,8 @@
 # =============================================================================
 # AI Stack — Docker Compose topology
 # Networks, resource limits, healthchecks, log rotation, volumes.
-# Two host ports only: ${BIND_IP}:3000 (Open WebUI) and ${BIND_IP}:6080 (noVNC).
+# Host ports: ${BIND_IP}:3000 (Open WebUI), ${BIND_IP}:6080 (noVNC),
+# and ${BIND_IP}:29981 (BrowserHand relay, LAN-only).
 # =============================================================================
 
 x-logging: &logging
@@ -198,6 +199,32 @@ services:
       start_period: 60s
 
   # ---------------------------------------------------------------------------
+  # BrowserHand relay: bridges the user's real Chrome (extension) to the
+  # gateway over HTTP. Published on the LAN only so the extension can connect
+  # via ws://<BIND_IP>:29981; the gateway talks to it over the internal network.
+  # ---------------------------------------------------------------------------
+  browserhand:
+    build: ./browserhand/relay
+    image: ai-stack-browserhand:local
+    <<: *restart
+    mem_limit: 128m
+    logging: *logging
+    ports:
+      - "${BIND_IP}:29981:29981"
+    environment:
+      BROWSERHAND_HOST: "0.0.0.0"
+      BROWSERHAND_PORT: "29981"
+      BROWSERHAND_API_KEY: ${BROWSERHAND_API_KEY}
+      BROWSERHAND_TOKEN: ${BROWSERHAND_TOKEN}
+      TZ: ${TZ}
+    networks: [internal, frontend]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:29981/status"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
   safeguard-gateway:
     build: ./gateway
     image: ai-stack-gateway:local
@@ -207,6 +234,8 @@ services:
     environment:
       GATEWAY_TOKEN: ${GATEWAY_TOKEN}
       MCP_ENDPOINT: http://browser:8931
+      BROWSERHAND_ENDPOINT: http://browserhand:29981
+      BROWSERHAND_API_KEY: ${BROWSERHAND_API_KEY}
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/orchestrator
       POLICY_FILE: /app/policy.yaml
       PERSONAL_ALLOW_DOMAINS: ${PERSONAL_ALLOW_DOMAINS:-}
@@ -239,6 +268,7 @@ services:
       WEB_LOADER_API_KEY: ${WEB_LOADER_API_KEY}
       GATEWAY_URL: http://safeguard-gateway:8000
       GATEWAY_TOKEN: ${GATEWAY_TOKEN}
+      BROWSER_BACKEND: ${BROWSER_BACKEND:-playwright}
       LITELLM_URL: http://litellm:4000
       LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/orchestrator

@@ -25,6 +25,7 @@ ORCHESTRATOR_TOKEN = os.environ.get("ORCHESTRATOR_TOKEN", "")
 WEB_LOADER_API_KEY = os.environ.get("WEB_LOADER_API_KEY", "")
 WORKSPACE = os.environ.get("WORKSPACE", "/workspace")
 DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "deepseek-flash")
+BROWSER_BACKEND = os.environ.get("BROWSER_BACKEND", "playwright")
 
 MAX_PAGE_CONTENT_CHARS = 60000
 
@@ -93,12 +94,19 @@ def _extract_mcp_text(payload: dict[str, Any]) -> str:
 
 
 async def _fetch_page_text(agent_id: str, url: str) -> str:
-    """Navigate the sandboxed browser to `url` and return its visible text.
+    """Navigate the browser to `url` and return its visible text.
 
     Reuses the safeguard gateway (SSRF/tier/rate-limit/audit) as the security
-    boundary; the orchestrator never talks to the browser directly.
+    boundary; the orchestrator never talks to the browser directly.  Uses the
+    Playwright MCP browser by default, or the user's real Chrome via BrowserHand
+    when BROWSER_BACKEND=browserhand.
     """
-    nav = await call_browser(agent_id, "browser_navigate", {"url": url})
+    if BROWSER_BACKEND == "browserhand":
+        nav_tool, text_tool = "browserhand_navigate", "browserhand_gettext"
+    else:
+        nav_tool, text_tool = "browser_navigate", "browser_snapshot"
+
+    nav = await call_browser(agent_id, nav_tool, {"url": url})
     if isinstance(nav, dict) and nav.get("error"):
         return f"[browser error {nav['error']}] {nav.get('detail', '')}"
     if isinstance(nav, dict) and nav.get("needs_human"):
@@ -106,7 +114,7 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
     if isinstance(nav, dict) and nav.get("needs_approval"):
         return "[needs_approval] navigation requires approval"
 
-    snap = await call_browser(agent_id, "browser_snapshot", {})
+    snap = await call_browser(agent_id, text_tool, {})
     if isinstance(snap, dict) and snap.get("error"):
         return f"[browser error {snap['error']}] {snap.get('detail', '')}"
 

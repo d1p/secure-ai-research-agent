@@ -1,0 +1,22 @@
+{
+	"name": "browserhand-relay",
+	"version": "0.1.0",
+	"description": "WebSocket relay server for BrowserHand — bridges HTTP commands to Chrome extension",
+	"license": "MIT",
+	"type": "module",
+	"main": "dist/index.js",
+	"files": ["dist"],
+	"scripts": {
+		"dev": "tsx watch index.ts",
+		"start": "tsx index.ts",
+		"build": "tsc"
+	},
+	"dependencies": {
+		"ws": "^8.18.0"
+	},
+	"devDependencies": {
+		"@types/ws": "^8.5.0",
+		"tsx": "^4.21.0",
+		"typescript": "^5.7.0"
+	}
+}

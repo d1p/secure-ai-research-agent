@@ -36,6 +36,8 @@ from security import (
 
 GATEWAY_TOKEN = os.environ.get("GATEWAY_TOKEN", "")
 MCP_ENDPOINT = os.environ.get("MCP_ENDPOINT", "http://browser:8931")
+BROWSERHAND_ENDPOINT = os.environ.get("BROWSERHAND_ENDPOINT", "http://browserhand:29981")
+BROWSERHAND_API_KEY = os.environ.get("BROWSERHAND_API_KEY", "")
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
 POLICY_FILE = os.environ.get("POLICY_FILE", "/app/policy.yaml")
 
@@ -164,6 +166,62 @@ class MCPClient:
 
 mcp = MCPClient(MCP_ENDPOINT)
 _connected = False
+
+
+# ---------------------------------------------------------------------------
+# BrowserHand client (stateless HTTP -> relay -> user's real Chrome)
+# ---------------------------------------------------------------------------
+class BrowserHandClient:
+    def __init__(self, base_url: str, api_key: str) -> None:
+        self.base_url = base_url.rstrip("/")
+        self.api_key = api_key
+        self._client = httpx.AsyncClient(timeout=httpx.Timeout(60.0, connect=10.0))
+
+    async def command(self, action: str, params: dict[str, Any], user_id: str = "") -> tuple[int, dict[str, Any]]:
+        headers = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
+        body: dict[str, Any] = {"action": action, "params": params or {}}
+        if user_id:
+            body["userId"] = user_id
+        resp = await self._client.post(f"{self.base_url}/command", json=body, headers=headers)
+        return resp.status_code, resp.json()
+
+
+browserhand = BrowserHandClient(BROWSERHAND_ENDPOINT, BROWSERHAND_API_KEY)
+
+
+_BROWSERHAND_IMAGE_ACTIONS = {"screenshot", "fullscreenshot", "pdf"}
+
+
+def _browserhand_result(tool: str, raw: dict[str, Any]) -> dict[str, Any]:
+    """Normalise a relay response to the same MCP `tools/call` envelope the
+    orchestrator already parses: {"result": {"content": [{"type": "text", ...}]}}."""
+    action = tool.removeprefix("browserhand_")
+    data = raw.get("data", {})
+    if action == "gettext" and isinstance(data, dict):
+        text = data.get("extractedText", "")
+    else:
+        if action in _BROWSERHAND_IMAGE_ACTIONS and isinstance(data, dict):
+            data = {k: v for k, v in data.items() if k not in ("screenshot", "data", "pdf")}
+        text = json.dumps(data, default=str) if data not in (None, "") else ""
+    return {"result": {"content": [{"type": "text", "text": text}]}}
+
+
+async def _run_browserhand(agent_id: str, tool: str, args: dict[str, Any]) -> dict[str, Any]:
+    action = tool.removeprefix("browserhand_")
+    try:
+        status, raw = await browserhand.command(action, args, user_id=agent_id)
+    except httpx.HTTPError as exc:  # noqa: BLE001 - connection-level failure
+        raise HTTPException(status_code=502, detail="browserhand relay unreachable") from exc
+    if status >= 400:
+        detail = (raw.get("data") or {}).get("error", f"relay returned {status}")
+        raise HTTPException(status_code=502, detail=detail)
+    if not raw.get("success"):
+        detail = (raw.get("data") or {}).get("error", "browserhand action failed")
+        raise HTTPException(status_code=502, detail=detail)
+    return _browserhand_result(tool, raw)
+
 
 
 # ---------------------------------------------------------------------------
@@ -308,7 +366,7 @@ async def execute(
     url = req.args.get("url", "")
 
     # URL/SSRF validation for navigation
-    if tool in ("browser_navigate",) and url:
+    if tool in ("browser_navigate", "browserhand_navigate") and url:
         verdict: UrlVerdict = validate_url(url)
         if not verdict.ok:
             await _audit(agent_id, url, tool, "denied", str(tier), verdict.reason)
@@ -334,14 +392,22 @@ async def execute(
         return {"needs_approval": True, "tool": tool}
 
     # Execute
+    is_browserhand = tool.startswith("browserhand_")
     try:
-        result = await mcp.call_tool(tool, req.args)
+        if is_browserhand:
+            result = await _run_browserhand(agent_id, tool, req.args)
+        else:
+            result = await mcp.call_tool(tool, req.args)
+    except HTTPException:
+        raise
     except Exception:  # noqa: BLE001 - reconnect once on a stale MCP session
+        if is_browserhand:
+            raise HTTPException(status_code=502, detail="browserhand relay unreachable")
         await mcp.reconnect()
         result = await mcp.call_tool(tool, req.args)
 
     # Cache snapshots for subsequent click/type validation.
-    if tool == "browser_snapshot":
+    if tool in ("browser_snapshot", "browserhand_gettext", "browserhand_extract"):
         text = _extract_text(result)
         if text:
             _snapshots[agent_id] = text
@@ -381,7 +447,7 @@ def _validate_interaction(tool: str, args: dict[str, Any], snapshot: str) -> _Ve
     value = str(args.get("text") or args.get("value") or "")
 
     # Typing into sensitive fields
-    if tool in ("browser_type", "browser_fill_form"):
+    if tool in ("browser_type", "browser_fill_form", "browserhand_type"):
         if is_sensitive_element(target, "", value) or is_sensitive_element(target, "", ""):
             return _Verdict(False, "sensitive field blocked")
         if value and _looks_like_secret(value):
