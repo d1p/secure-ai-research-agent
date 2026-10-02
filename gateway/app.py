@@ -68,8 +68,23 @@ class MCPClient:
         )
         await self.notify("notifications/initialized", {})
 
+    async def reconnect(self) -> None:
+        """Reset and re-establish the MCP session (e.g. after browser restart)."""
+        if self._reader is not None:
+            self._reader.cancel()
+            self._reader = None
+        for fut in self._pending.values():
+            if not fut.done():
+                fut.cancel()
+        self._pending.clear()
+        self._post_url = None
+        self._ready = asyncio.Event()
+        await self._client.aclose()
+        self._client = httpx.AsyncClient(timeout=httpx.Timeout(180.0, connect=10.0))
+        await self.connect()
+
     async def _read_stream(self) -> None:
-        async with self._client.stream("GET", f"{self.base_url}/mcp") as resp:
+        async with self._client.stream("GET", f"{self.base_url}/sse") as resp:
             resp.raise_for_status()
             event: str | None = None
             data_lines: list[str] = []
@@ -292,7 +307,11 @@ async def execute(
         return {"needs_approval": True, "tool": tool}
 
     # Execute
-    result = await mcp.call_tool(tool, req.args)
+    try:
+        result = await mcp.call_tool(tool, req.args)
+    except Exception:  # noqa: BLE001 - reconnect once on a stale MCP session
+        await mcp.reconnect()
+        result = await mcp.call_tool(tool, req.args)
 
     # Cache snapshots for subsequent click/type validation.
     if tool == "browser_snapshot":

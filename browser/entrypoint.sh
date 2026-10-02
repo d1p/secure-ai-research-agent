@@ -52,6 +52,7 @@ playwright-mcp \
   --browser chrome \
   --host 0.0.0.0 \
   --port 8931 \
+  --allowed-hosts "*" \
   --caps=vision &
 MCP_PID=$!
 
