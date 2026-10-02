@@ -73,7 +73,7 @@ services:
       - ./litellm/secret_guard.py:/app/secret_guard.py:ro
     networks: [internal, agents, egress]
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4000/health')"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4000/health/readiness')"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -171,7 +171,7 @@ services:
       PROXY_PORT: "8888"
     volumes:
       - browser-profile:/browser-profile
-    networks: [browser]
+    networks: [browser, novnc]
     shm_size: "512m"
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9222/json/version >/dev/null"]
@@ -338,6 +338,9 @@ networks:
   agents:
     internal: true
   egress: {}
+  # Non-internal; exists only so Docker can publish the noVNC port (6080).
+  # Docker cannot publish ports from `internal: true` networks.
+  novnc: {}
 
 volumes:
   pgdata:

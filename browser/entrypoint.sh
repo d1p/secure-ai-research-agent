@@ -10,6 +10,7 @@ DISPLAY_NUM=:99
 
 mkdir -p /browser-profile/anon /tmp/vnc /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix
+rm -f /tmp/.X99-lock /tmp/.X11-unix/X99
 
 # VNC auth file
 x11vnc -storepasswd "$VNC_PASSWORD" /tmp/vnc/passwd
@@ -46,7 +47,7 @@ websockify --web=/usr/share/novnc 0.0.0.0:6080 localhost:5900 &
 WEBSOCKIFY_PID=$!
 
 # Playwright MCP over Chrome CDP (vision cap enables scroll via mouse wheel)
-mcp-server-playwright \
+playwright-mcp \
   --cdp-endpoint ws://127.0.0.1:9222 \
   --browser chrome \
   --host 0.0.0.0 \

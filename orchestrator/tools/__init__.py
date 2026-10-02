@@ -33,7 +33,7 @@ def runner_container_spec(
         "Cmd": command,
         "Env": [f"{k}={v}" for k, v in env.items()],
         "WorkingDir": "/workspace",
-        "User": "1000:1000",
+        "User": "1001:1001",
         "HostConfig": {
             "CapDrop": ["ALL"],
             "SecurityOpt": ["no-new-privileges"],

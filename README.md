@@ -55,6 +55,11 @@ flowchart LR
 | `browser` | gateway, browser, proxy-web           | yes      |
 | `agents`  | litellm, proxy-dev, coding runners    | yes      |
 | `egress`  | litellm, proxy-web, proxy-dev         | no (outbound only) |
+| `novnc`   | browser (publishes `:6080` noVNC)     | no       |
+
+`novnc` exists only because Docker cannot publish ports from `internal: true`
+networks; the browser's automation/egress traffic stays on the internal
+`browser` network, and Chrome is forced through `proxy-web`.
 
 Containers have no direct Internet access unless on the `egress` network. The
 browser reaches the Internet only through `proxy-web`; coding runners only
@@ -228,6 +233,11 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
 6. **Scroll tool** — Playwright MCP has no `scroll`; scrolling is
    `browser_mouse_wheel` (via `--caps=vision`). Coordinate-based mouse tools are
    Tier-3 (blocked).
+7. **noVNC port + `novnc` network** — Docker cannot publish ports from
+   `internal: true` networks, so the browser also attaches to a dedicated
+   non-internal `novnc` network solely to publish noVNC (`:6080`). Chrome is
+   forced through `proxy-web` and the gateway's SSRF rules remain the tested
+   security boundary.
 
 ## Known limitations
 

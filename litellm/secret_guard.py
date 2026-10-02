@@ -16,8 +16,6 @@ Normal RAG chunks are intentionally NOT filtered unless they match one of the
 rules above.
 """
 
-from __future__ import annotations
-
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
