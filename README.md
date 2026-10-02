@@ -7,8 +7,12 @@ is the deployment mechanism.
 ## What this is
 
 - **Open WebUI** — chat/RAG UI (PWA).
-- **LiteLLM** — the *only* route to cloud LLMs (Bedrock/OpenAI/Gemini/DeepSeek).
-- **Ollama** — embeddings only (`nomic-embed-text`), no local chat LLM.
+- **LiteLLM** — the *only* route to model providers: cloud (DeepSeek) and the
+  LAN LM Studio host.
+- **LM Studio** — external LAN inference host (`10.0.0.20:1234`, OpenAI-compatible),
+  fronted by LiteLLM, not deployed by this stack. Serves `google/gemma-4-12b-qat`
+  (chat) for local testing only.
+- **Ollama** — local embeddings (`bge-m3`, 1024-dim); no local chat LLM.
 - **PostgreSQL (pgvector)** — app + vector + budget/approval/audit state.
 - **Redis** — cache/queue.
 - **Browser (Stagehand)** — headed Chrome + Xvfb + noVNC, driven by
@@ -18,12 +22,16 @@ is the deployment mechanism.
 - **Orchestrator** — LangGraph agent (research / browser / coding approval).
 - **Ephemeral coding runner** — aider/opencode in a hardened throwaway container.
 - **pgbackup** — nightly Postgres + Open WebUI backups with restore verification.
-- **Observability** — Grafana + Tempo (traces) + Prometheus + cAdvisor (metrics).
+- **Observability** — Grafana + Tempo (traces) + Prometheus + cAdvisor (metrics),
+  plus Beszel (host + Docker monitoring, hub in CT 114).
 
 ## Intentionally NOT deployed
 
-Tailscale, Caddy, Authentik, Kubernetes, local chat LLM, GPU services. These
-already exist externally or are out of scope.
+Tailscale, Caddy, Authentik, Kubernetes, local GPU services. These already
+exist externally or are out of scope. Local chat/embedding models are **not**
+run inside this stack — Ollama runs `bge-m3` for embeddings and the LM Studio
+host at `10.0.0.20` runs `gemma-4-12b-qat` for local testing; LiteLLM fronts
+them as OpenAI-compatible backends.
 
 ## Architecture
 

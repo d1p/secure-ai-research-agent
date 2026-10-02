@@ -452,6 +452,28 @@ services:
       - /dev/disk/:/dev/disk:ro
     networks: [internal]
 
+  # ---------------------------------------------------------------------------
+  # beszel-agent: reports this VM's host + Docker container metrics to the
+  # Beszel hub (CT 114, ${BESZEL_HUB_URL}). Host network mode is required for
+  # host network-interface stats; the agent registers via the hub's universal
+  # token, so no pre-provisioned system entry is needed.
+  # ---------------------------------------------------------------------------
+  beszel-agent:
+    image: henrygd/beszel-agent:0.18.7
+    <<: *restart
+    mem_limit: 128m
+    logging: *logging
+    network_mode: host
+    environment:
+      LISTEN: "45876"
+      KEY: ${BESZEL_KEY}
+      TOKEN: ${BESZEL_TOKEN}
+      HUB_URL: ${BESZEL_HUB_URL}
+      TZ: ${TZ}
+    volumes:
+      - ./beszel_agent_data:/var/lib/beszel-agent
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
 networks:
   frontend: {}
   internal:
