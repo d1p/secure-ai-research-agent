@@ -68,6 +68,9 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+      # LM Studio (LAN inference) — base URL + dummy key (LM Studio ignores it).
+      LMSTUDIO_BASE_URL: ${LMSTUDIO_BASE_URL}
+      LMSTUDIO_API_KEY: ${LMSTUDIO_API_KEY}
       # Prometheus metrics on an unauthenticated dedicated port (scraped by
       # Prometheus over the internal network only).
       PROMETHEUS_METRICS_PORT: "4001"
@@ -92,7 +95,7 @@ services:
   ollama:
     image: ollama/ollama:0.35.1
     <<: *restart
-    mem_limit: 1g
+    mem_limit: 4g
     logging: *logging
     environment:
       OLLAMA_MAX_LOADED_MODELS: "1"
@@ -127,10 +130,12 @@ services:
       OPENAI_API_KEY: ${OPENWEBUI_OPENAI_API_KEY}
       DEFAULT_MODELS: deepseek-flash
       RAG_EMBEDDING_ENGINE: ollama
-      RAG_EMBEDDING_MODEL: nomic-embed-text
+      RAG_EMBEDDING_MODEL: bge-m3
       RAG_OLLAMA_BASE_URL: http://ollama:11434
-      ENABLE_TITLE_GENERATION: "false"
-      ENABLE_TAGS_GENERATION: "false"
+      # Title / tag generation (LLM) — use the default cloud model; the local
+      # Ollama embedding model (bge-m3) is the RAG default.
+      ENABLE_TITLE_GENERATION: "true"
+      ENABLE_TAGS_GENERATION: "true"
       ENABLE_AUTOCOMPLETE_GENERATION: "false"
       HF_HUB_OFFLINE: "1"
       DO_NOT_TRACK: "true"

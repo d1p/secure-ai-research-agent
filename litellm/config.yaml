@@ -7,27 +7,31 @@
 # =============================================================================
 
 model_list:
-  - model_name: bedrock-claude-sonnet
-    litellm_params:
-      model: bedrock/us.anthropic.claude-sonnet-5
-      aws_region_name: os.environ/AWS_REGION
-      aws_access_key_id: os.environ/AWS_ACCESS_KEY_ID
-      aws_secret_access_key: os.environ/AWS_SECRET_ACCESS_KEY
-
-  - model_name: gpt-5
-    litellm_params:
-      model: openai/gpt-5
-      api_key: os.environ/OPENAI_API_KEY
-
-  - model_name: gemini-pro
-    litellm_params:
-      model: gemini/gemini-2.5-pro
-      api_key: os.environ/GEMINI_API_KEY
-
+  # Cloud chat
   - model_name: deepseek-flash
     litellm_params:
       model: deepseek/deepseek-flash
       api_key: os.environ/DEEPSEEK_API_KEY
+
+  # ---------------------------------------------------------------------------
+  # LM Studio (LAN inference, OpenAI-compatible API at LMSTUDIO_BASE_URL).
+  # Reached from the container only via the non-internal `egress` network.
+  # LM Studio ignores the API key, but LiteLLM requires a non-empty value.
+  # ---------------------------------------------------------------------------
+  - model_name: lmstudio-gemma-4-12b
+    litellm_params:
+      model: openai/google/gemma-4-12b-qat
+      api_base: os.environ/LMSTUDIO_BASE_URL
+      api_key: os.environ/LMSTUDIO_API_KEY
+
+  # Ollama embedding (local, `bge-m3`, 1024-dim) — used by RAG wherever
+  # embeddings are needed (Open WebUI points its RAG at Ollama directly).
+  - model_name: ollama-bge-m3
+    litellm_params:
+      model: ollama/bge-m3
+      api_base: http://ollama:11434
+    model_info:
+      mode: embedding
 
 litellm_settings:
   # Default model when the client does not request one.
