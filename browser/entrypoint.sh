@@ -4,9 +4,8 @@ set -euo pipefail
 : "${VNC_PASSWORD:?VNC_PASSWORD is required}"
 export TZ="${TZ:-UTC}"
 BROWSER_LANG="${BROWSER_LANG:-en-US}"
-PROXY_HOST="${PROXY_HOST:-proxy-web}"
-PROXY_PORT="${PROXY_PORT:-8888}"
 DISPLAY_NUM=:99
+export DISPLAY="$DISPLAY_NUM"
 
 mkdir -p /browser-profile/anon /tmp/vnc /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix
@@ -25,34 +24,6 @@ sleep 1
 DISPLAY="$DISPLAY_NUM" openbox &
 sleep 1
 
-# Headed Chrome under Xvfb (CDP bound to loopback only)
-DISPLAY="$DISPLAY_NUM" google-chrome \
-  --user-data-dir=/browser-profile/anon \
-  --no-first-run --no-default-browser-check \
-  --disable-dev-shm-usage \
-  --remote-debugging-port=9222 \
-  --proxy-server="http://${PROXY_HOST}:${PROXY_PORT}" \
-  --proxy-bypass-list="<-loopback>" \
-  --lang="${BROWSER_LANG}" \
-  --window-size=1280,800 --start-maximized \
-  --no-sandbox \
-  about:blank &
-CHROME_PID=$!
-
-# Wait for the Chrome CDP endpoint and resolve the browser WebSocket URL
-# (the root ws://127.0.0.1:9222/ is not a valid CDP debugger target).
-CDP_WS=""
-for _ in $(seq 1 30); do
-  CDP_WS="$(curl -sf http://127.0.0.1:9222/json/version 2>/dev/null \
-    | grep -o '"webSocketDebuggerUrl": *"[^"]*"' | cut -d'"' -f4 || true)"
-  [ -n "$CDP_WS" ] && break
-  sleep 1
-done
-if [ -z "$CDP_WS" ]; then
-  echo "FATAL: Chrome CDP endpoint did not become ready" >&2
-  exit 1
-fi
-
 # x11vnc (RFB auth via password file, loopback only)
 x11vnc -display "$DISPLAY_NUM" -forever -shared -rfbauth /tmp/vnc/passwd \
   -rfbport 5900 -listen localhost -xkb &
@@ -62,18 +33,16 @@ X11VNC_PID=$!
 websockify --web=/usr/share/novnc 0.0.0.0:6080 localhost:5900 &
 WEBSOCKIFY_PID=$!
 
-# Playwright MCP over Chrome CDP (vision cap enables scroll via mouse wheel)
-playwright-mcp \
-  --cdp-endpoint "$CDP_WS" \
-  --browser chrome \
-  --host 0.0.0.0 \
-  --port 8931 \
-  --allowed-hosts "*" \
-  --caps=vision &
-MCP_PID=$!
+# Stagehand service launches its own Chrome (with the Stagehand extension
+# pre-loaded) under Xvfb, drives it via act/observe/extract, and exposes an
+# HTTP API on :8931 for the gateway.
+export CHROME_PATH="/usr/bin/google-chrome-stable"
+export STAGEHAND_PORT="8931"
+node /app/stagehand-server.mjs &
+STAGEHAND_PID=$!
 
 cleanup() {
-  kill "$MCP_PID" "$WEBSOCKIFY_PID" "$X11VNC_PID" "$CHROME_PID" 2>/dev/null || true
+  kill "$STAGEHAND_PID" "$WEBSOCKIFY_PID" "$X11VNC_PID" 2>/dev/null || true
 }
 trap cleanup EXIT
 

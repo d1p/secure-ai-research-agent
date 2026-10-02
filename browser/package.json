@@ -1,0 +1,11 @@
+{
+  "name": "ai-stack-stagehand",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@browserbasehq/stagehand": "4.1.0",
+    "openai": "^4.77.0",
+    "zod": "~4.4.3"
+  }
+}

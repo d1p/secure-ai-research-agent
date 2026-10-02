@@ -14,3 +14,17 @@ datasources:
     uid: prometheus
     url: http://prometheus:9090
     editable: false
+
+  - name: LiteLLM Postgres
+    type: postgres
+    access: proxy
+    uid: postgres-litellm
+    url: postgres:5432
+    database: litellm
+    user: ${POSTGRES_USER}
+    jsonData:
+      sslmode: disable
+      timescaledb: false
+    secureJsonData:
+      password: ${POSTGRES_PASSWORD}
+    editable: false

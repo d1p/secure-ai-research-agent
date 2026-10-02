@@ -19,41 +19,31 @@ from gateway.security import (
 @pytest.mark.parametrize(
     "tool",
     [
-        "browser_navigate",
-        "browser_navigate_back",
-        "browser_snapshot",
-        "browser_take_screenshot",
-        "browser_wait_for",
-        "browser_tabs",
-        "browser_mouse_wheel",
+        "stagehand_navigate",
+        "stagehand_read",
+        "stagehand_observe",
+        "stagehand_extract",
+        "stagehand_screenshot",
     ],
 )
 def test_tier0_tools(tool: str) -> None:
     assert classify_tool(tool) == TIER_ALWAYS
 
 
-@pytest.mark.parametrize("tool", ["browser_click", "browser_type", "browser_fill_form", "browser_select_option"])
+@pytest.mark.parametrize("tool", ["stagehand_act"])
 def test_tier1_tools(tool: str) -> None:
     assert classify_tool(tool) == TIER_VALIDATED
-
-
-def test_tier2_upload() -> None:
-    assert classify_tool("browser_file_upload") == TIER_APPROVAL
 
 
 @pytest.mark.parametrize(
     "tool",
     [
+        "stagehand_exec",
         "browser_evaluate",
-        "browser_run_code_unsafe",
         "browser_cookie_get",
-        "browser_cookie_list",
         "browser_localstorage_get",
-        "browser_sessionstorage_set",
-        "browser_storage_state",
         "browser_file_download",
-        "browser_start_tracing",
-        "browser_video_show_actions",
+        "stagehand_network",
     ],
 )
 def test_tier3_tools_403(tool: str) -> None:
@@ -61,7 +51,7 @@ def test_tier3_tools_403(tool: str) -> None:
 
 
 def test_unknown_tool_denied() -> None:
-    assert classify_tool("browser_mystery_tool") == TIER_FORBIDDEN
+    assert classify_tool("stagehand_mystery_tool") == TIER_FORBIDDEN
 
 
 @pytest.mark.parametrize("label", ["password", "Enter password", "credit card number", "CVV", "PIN code"])

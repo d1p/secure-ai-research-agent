@@ -18,13 +18,17 @@ RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
     && apt-get update && apt-get install -y --no-install-recommends google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
-# Node.js 22 (Playwright MCP runtime)
+# Node.js 22 (Stagehand runtime)
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Playwright MCP (pinned)
-RUN npm install -g @playwright/mcp@0.0.83
+# Stagehand SDK + OpenAI (LiteLLM BYO-LLM) + zod
+WORKDIR /app
+COPY package.json ./
+RUN npm install --no-audit --no-fund --legacy-peer-deps
+
+COPY stagehand-server.mjs ./
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

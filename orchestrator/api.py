@@ -25,7 +25,6 @@ ORCHESTRATOR_TOKEN = os.environ.get("ORCHESTRATOR_TOKEN", "")
 WEB_LOADER_API_KEY = os.environ.get("WEB_LOADER_API_KEY", "")
 WORKSPACE = os.environ.get("WORKSPACE", "/workspace")
 DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "deepseek-flash")
-BROWSER_BACKEND = os.environ.get("BROWSER_BACKEND", "playwright")
 
 MAX_PAGE_CONTENT_CHARS = 60000
 
@@ -83,7 +82,7 @@ class WebLoaderRequest(BaseModel):
 
 
 def _extract_mcp_text(payload: dict[str, Any]) -> str:
-    """Extract text chunks from a Playwright MCP `tools/call` response envelope."""
+    """Extract text chunks from a browser `tools/call` response envelope."""
     content = (payload.get("result") or {}).get("content", [])
     chunks = [
         item.get("text", "")
@@ -97,16 +96,10 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
     """Navigate the browser to `url` and return its visible text.
 
     Reuses the safeguard gateway (SSRF/tier/rate-limit/audit) as the security
-    boundary; the orchestrator never talks to the browser directly.  Uses the
-    Playwright MCP browser by default, or the user's real Chrome via BrowserHand
-    when BROWSER_BACKEND=browserhand.
+    boundary; the orchestrator never talks to the browser directly.  The browser
+    is driven by the Stagehand service (navigate + read page text).
     """
-    if BROWSER_BACKEND == "browserhand":
-        nav_tool, text_tool = "browserhand_navigate", "browserhand_gettext"
-    else:
-        nav_tool, text_tool = "browser_navigate", "browser_snapshot"
-
-    nav = await call_browser(agent_id, nav_tool, {"url": url})
+    nav = await call_browser(agent_id, "stagehand_navigate", {"url": url})
     if isinstance(nav, dict) and nav.get("error"):
         return f"[browser error {nav['error']}] {nav.get('detail', '')}"
     if isinstance(nav, dict) and nav.get("needs_human"):
@@ -114,7 +107,7 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
     if isinstance(nav, dict) and nav.get("needs_approval"):
         return "[needs_approval] navigation requires approval"
 
-    snap = await call_browser(agent_id, text_tool, {})
+    snap = await call_browser(agent_id, "stagehand_read", {})
     if isinstance(snap, dict) and snap.get("error"):
         return f"[browser error {snap['error']}] {snap.get('detail', '')}"
 

@@ -165,15 +165,32 @@ async def node_chat(state: AgentState) -> AgentState:
     return state
 
 
+def _extract_text(payload: dict[str, Any]) -> str:
+    """Extract text chunks from a browser `tools/call` response envelope."""
+    content = (payload.get("result") or {}).get("content", [])
+    chunks = [
+        item.get("text", "")
+        for item in content
+        if isinstance(item, dict) and item.get("type") == "text"
+    ]
+    return "\n".join(chunks).strip()
+
+
 async def node_research(state: AgentState) -> AgentState:
     """Research mode: browse (Tier 0-1) without approval and persist notes."""
     messages = state.get("messages", [])
     query = next((m["content"] for m in reversed(messages) if m.get("content")), "")
-    # Simple research loop: navigate to a safe search URL, snapshot, summarize.
-    await call_browser(state["agent_id"], "browser_navigate", {"url": _research_url(query)})
-    snap = await call_browser(state["agent_id"], "browser_snapshot", {})
+
+    nav = await call_browser(state["agent_id"], "stagehand_navigate", {"url": _research_url(query)})
+    if isinstance(nav, dict) and nav.get("error"):
+        state["result"] = f"[browser error {nav['error']}] {nav.get('detail', '')}"
+        return state
+    snap = await call_browser(state["agent_id"], "stagehand_read", {})
+    text = _extract_text(snap) if isinstance(snap, dict) else str(snap)
+    if not text:
+        text = str(snap)
     summary = await call_litellm(
-        [{"role": "user", "content": f"Summarize research for query '{query}' from page: {snap}"}]
+        [{"role": "user", "content": f"Summarize research for query '{query}' from page: {text}"}]
     )
     await persist_research(state["agent_id"], query, [str(_research_url(query))], summary)
     state["result"] = summary

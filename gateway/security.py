@@ -163,69 +163,17 @@ TIER_VALIDATED = 1
 TIER_APPROVAL = 2
 TIER_FORBIDDEN = 3
 
-# Maps Playwright MCP tool names to their base tier.
-# Tier 3 tools (evaluate, cookies, storage, devtools, downloads) are 403.
+# Maps Stagehand tool names to their base tier.
+# Tier 3 tools are 403 (any unknown tool is denied by default).
 TOOL_TIERS: dict[str, int] = {
-    # Tier 0 — read-only / navigation
-    "browser_navigate": TIER_ALWAYS,
-    "browser_navigate_back": TIER_ALWAYS,
-    "browser_snapshot": TIER_ALWAYS,
-    "browser_find": TIER_ALWAYS,
-    "browser_take_screenshot": TIER_ALWAYS,
-    "browser_wait_for": TIER_ALWAYS,
-    "browser_tabs": TIER_ALWAYS,
-    "browser_console_messages": TIER_ALWAYS,
-    "browser_network_requests": TIER_ALWAYS,
-    "browser_mouse_wheel": TIER_ALWAYS,
-    "browser_resize": TIER_ALWAYS,
-    "browser_emulate_media": TIER_ALWAYS,
-    # Tier 1 — validated interactions
-    "browser_click": TIER_VALIDATED,
-    "browser_type": TIER_VALIDATED,
-    "browser_fill_form": TIER_VALIDATED,
-    "browser_select_option": TIER_VALIDATED,
-    "browser_press_key": TIER_VALIDATED,
-    "browser_hover": TIER_VALIDATED,
-    "browser_drag": TIER_VALIDATED,
-    "browser_drop": TIER_VALIDATED,
-    "browser_handle_dialog": TIER_VALIDATED,
-    # Tier 2 — approval required
-    "browser_file_upload": TIER_APPROVAL,
-    # Tier 3 — always 403
-    "browser_evaluate": TIER_FORBIDDEN,
-    "browser_run_code_unsafe": TIER_FORBIDDEN,
-    "browser_file_download": TIER_FORBIDDEN,
-
-    # --- BrowserHand (real-browser) tools, mapped to the same tier model -----
-    # Tier 0 — read-only / navigation
-    "browserhand_navigate": TIER_ALWAYS,
-    "browserhand_extract": TIER_ALWAYS,
-    "browserhand_gettext": TIER_ALWAYS,
-    "browserhand_screenshot": TIER_ALWAYS,
-    "browserhand_fullscreenshot": TIER_ALWAYS,
-    "browserhand_pdf": TIER_ALWAYS,
-    "browserhand_wait": TIER_ALWAYS,
-    "browserhand_waitfor": TIER_ALWAYS,
-    "browserhand_scroll": TIER_ALWAYS,
-    "browserhand_scrollto": TIER_ALWAYS,
-    "browserhand_goback": TIER_ALWAYS,
-    "browserhand_goforward": TIER_ALWAYS,
-    "browserhand_refresh": TIER_ALWAYS,
-    "browserhand_tab": TIER_ALWAYS,
-    # Tier 1 — validated interactions
-    "browserhand_hover": TIER_VALIDATED,
-    "browserhand_click": TIER_VALIDATED,
-    "browserhand_type": TIER_VALIDATED,
-    "browserhand_select": TIER_VALIDATED,
-    "browserhand_keypress": TIER_VALIDATED,
-    "browserhand_clear": TIER_VALIDATED,
-    "browserhand_dialog": TIER_VALIDATED,
-    # Tier 2 — approval required
-    "browserhand_upload": TIER_APPROVAL,
-    # Tier 3 — always 403
-    "browserhand_exec": TIER_FORBIDDEN,
-    "browserhand_cookie": TIER_FORBIDDEN,
-    "browserhand_network": TIER_FORBIDDEN,
+    # Tier 0 — read-only / navigation / extraction
+    "stagehand_navigate": TIER_ALWAYS,
+    "stagehand_read": TIER_ALWAYS,
+    "stagehand_observe": TIER_ALWAYS,
+    "stagehand_extract": TIER_ALWAYS,
+    "stagehand_screenshot": TIER_ALWAYS,
+    # Tier 1 — validated interactions (natural-language action)
+    "stagehand_act": TIER_VALIDATED,
 }
 
 # Tier-3 tool name fragments (covers caps-gated tools even if not in the list).
@@ -247,7 +195,7 @@ FORBIDDEN_TOOL_FRAGMENTS: tuple[str, ...] = (
 
 
 def classify_tool(tool_name: str) -> int:
-    """Return the tier for a Playwright MCP tool name."""
+    """Return the tier for a Stagehand tool name."""
     name = tool_name.lower()
     if name in TOOL_TIERS:
         return TOOL_TIERS[name]

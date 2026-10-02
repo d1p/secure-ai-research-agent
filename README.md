@@ -11,9 +11,9 @@ is the deployment mechanism.
 - **Ollama** — embeddings only (`nomic-embed-text`), no local chat LLM.
 - **PostgreSQL (pgvector)** — app + vector + budget/approval/audit state.
 - **Redis** — cache/queue.
-- **Browser** — headed Chrome + Xvfb + noVNC + Playwright MCP.
-- **BrowserHand relay** — opt-in real-browser automation (your Chrome + extension,
-  preserving logins/cookies, much harder to flag as a bot).
+- **Browser (Stagehand)** — headed Chrome + Xvfb + noVNC, driven by
+  [Stagehand](https://github.com/browserbase/stagehand) (`act`/`observe`/`extract`
+  over Chrome CDP) with LiteLLM as the LLM backend.
 - **Safeguard gateway** — SSRF/tier/rate-limit security boundary for the browser.
 - **Orchestrator** — LangGraph agent (research / browser / coding approval).
 - **Ephemeral coding runner** — aider/opencode in a hardened throwaway container.
@@ -31,14 +31,12 @@ already exist externally or are out of scope.
 flowchart LR
     subgraph clients["LAN clients"]
         user[User]
-        ext[Your Chrome + extension]
     end
     caddy[Caddy proxy]
 
     subgraph vm["AI VM (10.0.0.210)"]
         webui[Open WebUI]
-        browser[Browser + noVNC]
-        bh[BrowserHand relay]
+        browser[Browser + Stagehand + noVNC]
         litellm[LiteLLM]
         ollama[Ollama embeddings]
         pg[(Postgres/pgvector)]
@@ -56,10 +54,8 @@ flowchart LR
     internet[Internet]
 
     user -->|ai.debashis.xyz| caddy
-    ext -->|browserhand.debashis.xyz wss| caddy
     caddy -->|:3000| webui
     caddy -->|:3001| grafana
-    caddy -->|:29981| bh
     user -->|:6080 noVNC| browser
 
     webui --> litellm
@@ -70,9 +66,8 @@ flowchart LR
     orchestrator --> gw
     orchestrator --> dsproxy
     gw --> browser
-    gw --> bh
     litellm --> cloud
-    browser -->|proxy-web| internet
+    browser -->|egress| internet
     orchestrator -->|proxy-dev| internet
 
     grafana --> tempo
@@ -83,28 +78,29 @@ flowchart LR
     litellm -.traces.-> tempo
     orchestrator -.traces.-> tempo
     gw -.traces.-> tempo
+    browser -.traces.-> tempo
 ```
 
 ### Networks
 
 | Network   | Members                              | Internal |
 |-----------|--------------------------------------|----------|
-| `frontend`| Open WebUI (`:3000`), Grafana (`:3001`), BrowserHand relay (`:29981`) | no |
-| `internal`| postgres, redis, litellm, ollama, orchestrator, gateway, browserhand, tempo, prometheus, cadvisor | yes |
+| `frontend`| Open WebUI (`:3000`), Grafana (`:3001`) | no |
+| `internal`| postgres, redis, litellm, ollama, orchestrator, gateway, browser, tempo, prometheus, cadvisor | yes |
 | `browser` | gateway, browser, proxy-web           | yes      |
 | `agents`  | litellm, proxy-dev, coding runners    | yes      |
-| `egress`  | litellm, proxy-web, proxy-dev, gateway (DNS only) | no (outbound only) |
+| `egress`  | litellm, proxy-web, proxy-dev, gateway (DNS only), browser | no (outbound only) |
 | `novnc`   | browser (publishes `:6080` noVNC)     | no       |
 
 `novnc` exists only because Docker cannot publish ports from `internal: true`
 networks; the browser's automation/egress traffic stays on the internal
-`browser` network, and Chrome is forced through `proxy-web`. The Grafana and
-BrowserHand relay services likewise join `frontend` solely so their ports
-(`:3001`, `:29981`) can be published; they are reached only through Caddy.
+`browser` network, and Chrome reaches the Internet through the `egress` network.
+Grafana joins `frontend` solely so its port (`:3001`) can be published; it is
+reached only through Caddy.
 
 Containers have no direct Internet access unless on the `egress` network. The
-browser reaches the Internet only through `proxy-web`; coding runners only
-through `proxy-dev` (allowlisted domains) and LiteLLM.
+browser reaches the Internet through `egress`; coding runners only through
+`proxy-dev` (allowlisted domains) and LiteLLM.
 
 ### Storage
 
@@ -130,7 +126,6 @@ for the 14 GB VM. See `docker-compose.yml` for per-service limits.
 | postgres | 2 GB |
 | redis | 256 MB |
 | browser | 2.5 GB |
-| browserhand | 128 MB |
 | safeguard-gateway | 256 MB |
 | orchestrator | 1 GB |
 | docker-socket-proxy | 64 MB |
@@ -176,8 +171,8 @@ Inside the VM: Docker data-root is `/fast/docker`; `/data` is an NFS mount of
 
 ### Firewall requirement
 
-The VM firewall must allow **only** the published ports — `3000` (Open WebUI),
-`3001` (Grafana) and `29981` (BrowserHand relay) — and only from the Caddy PCT IP
+The VM firewall must allow **only** the published ports — `3000` (Open WebUI) and
+`3001` (Grafana) — and only from the Caddy PCT IP
 (`${CADDY_PCT_IP}`, default `10.0.0.28`). `6080` (noVNC) is LAN-only for human
 browser control. No other service may be reachable from the LAN. PostgreSQL,
 Redis, LiteLLM, Ollama, gateway, orchestrator, Tempo, Prometheus and cAdvisor are
@@ -196,12 +191,24 @@ ai.debashis.xyz {
 
 Restart Caddy (`pct exec 110 -- systemctl restart caddy`), never reload.
 
-## Browser / noVNC
+## Browser / Stagehand
 
 The browser runs headed Chrome under Xvfb, exposed via noVNC on port `6080`
-with the VNC password from `.env`. Cookies, history, localStorage and
-preferences persist in the `browser-profile` named volume and never leave the
-container. Reset with `scripts/browser_reset.sh --yes`.
+with the VNC password from `.env`. Chrome is driven by a
+[Stagehand](https://github.com/browserbase/stagehand) service that loads its
+extension, launches Chrome over CDP, and exposes `act`/`observe`/`extract`
+(natural-language browser actions) over a local HTTP API on `:8931`. Stagehand
+uses LiteLLM as its LLM backend (`STAGEHAND_MODEL`, default `deepseek-flash`),
+so every browser action's token spend flows through LiteLLM's spend log.
+
+The gateway exposes the Stagehand tools to the orchestrator as `stagehand_*`
+(`navigate`, `read`, `act`, `observe`, `extract`, `screenshot`) under the same
+SSRF/tier/rate-limit/audit boundary as before. `stagehand_act` is Tier 1
+(validated); sensitive actions require approval.
+
+Cookies, history, localStorage and preferences persist in the `browser-profile`
+named volume and never leave the container. Reset with
+`scripts/browser_reset.sh --yes`.
 
 Two profiles exist conceptually: `anon` (default, persistent, never logged in)
 and `personal` (optional, human-managed, only after explicit per-session
@@ -216,33 +223,6 @@ domain. Every browser action is audited to `orchestrator.browser_audit`.
 On a CAPTCHA / Cloudflare challenge / login wall, the gateway stops and returns
 `needs_human: true`; the human resolves it through noVNC.
 
-## BrowserHand (real browser, opt-in)
-
-BrowserHand is an alternative browser backend that drives **your real Chrome**
-(its extension uses the `chrome.debugger`/`tabs` APIs), so logins, cookies and
-extensions are preserved and pages are much harder to flag as a bot. It is
-**off by default** — the containerized Playwright browser remains the default.
-
-Components:
-
-- **Relay** (`ai-stack-browserhand-1`) — self-hosted HTTP + WebSocket bridge,
-  published on `:29981` and proxied by Caddy as `browserhand.debashis.xyz`.
-- **Gateway** — exposes `browserhand_*` tools (`navigate`, `extract`, `gettext`,
-  `click`, `type`, …) routed to the relay, under the *same* SSRF/tier/rate-limit/
-  audit boundary as Playwright. `browserhand_exec`/`cookie`/`network` are Tier 3.
-- **Chrome extension** — installed in your local Chrome, connects to the relay.
-
-Enabling:
-
-1. Load the unpacked extension from `cclion/browserhand` (`extension/`) in Chrome.
-2. In the popup, set the relay URL to `wss://browserhand.debashis.xyz` (or
-   `ws://<BIND_IP>:29981` on the LAN) and the manual token `BROWSERHAND_TOKEN`.
-3. Set `BROWSER_BACKEND=browserhand` in `.env` and `docker compose up -d orchestrator`.
-
-The gateway reaches the relay over the internal network with
-`BROWSERHAND_API_KEY`; the extension authenticates to the relay with
-`BROWSERHAND_TOKEN`. The relay never touches the containerized browser.
-
 ## Security model
 
 - LiteLLM is the only egress to cloud providers; all other cloud access is
@@ -250,9 +230,9 @@ The gateway reaches the relay over the internal network with
 - A **secret guard** (LiteLLM pre-call callback) rejects prompts containing AWS
   keys, `sk-...`, GitHub tokens, PEM private keys, or `.env`-style `KEY=`
   assignments with long values. RAG chunks pass unless they match these rules.
-- The **gateway** is the browser security boundary (Playwright MCP is not).
-  Tier 3 tools (evaluate, cookies, storage, devtools, downloads) return 403;
-  sensitive fields are blocked; Tier 2 actions require approval.
+- The **gateway** is the browser security boundary (Stagehand is not).
+  Unknown/forbidden tools return 403; sensitive fields are blocked; sensitive
+  `stagehand_act` instructions require approval.
 - Coding runners are ephemeral, non-root, `cap_drop: ALL`,
   `no-new-privileges`, `pids_limit`, 1.5 GB, `agents` network only, no push
   credentials, never merge/push.
@@ -306,13 +286,14 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
    interactive Approve/Edit/Reject buttons depend on the exact Open WebUI event
    API of the installed version. The decision API
    (`POST /approvals/{id}/decision`) is always available programmatically.
-6. **Scroll tool** — Playwright MCP has no `scroll`; scrolling is
-   `browser_mouse_wheel` (via `--caps=vision`). Coordinate-based mouse tools are
-   Tier-3 (blocked).
+6. **Stagehand driver** — the browser is driven by Stagehand (act/observe/extract)
+   rather than the Playwright MCP server; scrolling is a natural-language `act`
+   instruction. The Stagehand service launches Chrome itself (with its extension
+   pre-loaded) over CDP on port 9222.
 7. **noVNC port + `novnc` network** — Docker cannot publish ports from
    `internal: true` networks, so the browser also attaches to a dedicated
-   non-internal `novnc` network solely to publish noVNC (`:6080`). Chrome is
-   forced through `proxy-web` and the gateway's SSRF rules remain the tested
+   non-internal `novnc` network solely to publish noVNC (`:6080`). Chrome reaches
+   the Internet via the `egress` network, and the gateway's SSRF rules remain the
    security boundary.
 8. **Gateway DNS** — `internal: true` networks do not forward external DNS, so
    the safeguard gateway also joins the `egress` network solely to resolve
