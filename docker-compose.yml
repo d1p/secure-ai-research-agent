@@ -138,6 +138,11 @@ services:
       SCARF_NO_ANALYTICS: "true"
       WEBUI_URL: https://${APP_DOMAIN}
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      # Web loader (the "browse web" / fetch_url tool) -> orchestrator's
+      # /web-loader, which fetches pages through the Stagehand-driven browser.
+      WEB_LOADER_ENGINE: "external"
+      EXTERNAL_WEB_LOADER_URL: http://orchestrator:8080/web-loader
+      EXTERNAL_WEB_LOADER_API_KEY: ${WEB_LOADER_API_KEY}
       # OpenTelemetry tracing -> Tempo (instruments FastAPI/httpx/redis/sqlalchemy).
       ENABLE_OTEL: "true"
       ENABLE_OTEL_TRACES: "true"
