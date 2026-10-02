@@ -217,7 +217,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/orchestrator
       POLICY_FILE: /app/policy.yaml
       PERSONAL_ALLOW_DOMAINS: ${PERSONAL_ALLOW_DOMAINS:-}
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318/v1/traces
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
       OTEL_SERVICE_NAME: safeguard-gateway
       TZ: ${TZ}
     volumes:
@@ -253,7 +253,7 @@ services:
       DOCKER_PROXY_URL: http://docker-socket-proxy:2375
       RUNNER_IMAGE: ${RUNNER_IMAGE}
       WORKSPACE_REPOS: ${WORKSPACE_REPOS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318/v1/traces
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
       OTEL_SERVICE_NAME: orchestrator
       TZ: ${TZ}
     volumes:

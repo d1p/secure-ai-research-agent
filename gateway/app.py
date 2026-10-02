@@ -60,7 +60,7 @@ def _setup_otel(app: FastAPI) -> None:
 
     resource = Resource.create({"service.name": os.environ.get("OTEL_SERVICE_NAME", "safeguard-gateway")})
     provider = TracerProvider(resource=resource)
-    provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter(endpoint=endpoint)))
+    provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
     trace.set_tracer_provider(provider)
     FastAPIInstrumentor.instrument_app(app)
     HTTPXClientInstrumentor().instrument()
