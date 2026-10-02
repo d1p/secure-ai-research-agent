@@ -1,0 +1,17 @@
+# Prometheus scrape configuration.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Container-level CPU/memory/network metrics for every stack container.
+  - job_name: cadvisor
+    static_configs:
+      - targets: ["cadvisor:8080"]
+
+  # LiteLLM metrics served on the dedicated (unauthenticated) port 4001.
+  # `prometheus` callback must be enabled in litellm/config.yaml.
+  - job_name: litellm
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["litellm:4001"]

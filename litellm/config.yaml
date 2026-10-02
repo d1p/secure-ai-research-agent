@@ -34,13 +34,14 @@ litellm_settings:
   default_model: deepseek-flash
   # Drop provider params the client did not request.
   drop_params: true
-  # Never log messages/prompts/responses (spend metadata still tracked).
-  turn_off_message_logging: true
+  # Capture prompts/responses in OTel traces (Tempo).  The spend-log DB stays
+  # prompt-free via `store_prompts_in_spend_logs: false` below.
+  turn_off_message_logging: false
   # Global monthly budget: USD 50 over a 30-day window (requires Postgres).
   max_budget: 50
   budget_duration: 30d
-  # Pre-call secret guard (rejects prompts containing secrets).
-  callbacks: secret_guard.secret_guard_handler
+  # Pre-call secret guard + Prometheus metrics + OpenTelemetry tracing.
+  callbacks: ["secret_guard.secret_guard_handler", "prometheus", "otel"]
 
 general_settings:
   # Persist model/key state in Postgres (DATABASE_URL env var).

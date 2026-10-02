@@ -42,6 +42,33 @@ POLICY_FILE = os.environ.get("POLICY_FILE", "/app/policy.yaml")
 app = FastAPI(title="safeguard-gateway")
 
 
+def _setup_otel(app: FastAPI) -> None:
+    """Enable OpenTelemetry tracing (FastAPI + httpx) when configured."""
+    endpoint = os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT", "")
+    if not endpoint:
+        return
+    try:
+        from opentelemetry import trace
+        from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+        from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+        from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
+        from opentelemetry.sdk.resources import Resource
+        from opentelemetry.sdk.trace import TracerProvider
+        from opentelemetry.sdk.trace.export import BatchSpanProcessor
+    except ImportError:
+        return
+
+    resource = Resource.create({"service.name": os.environ.get("OTEL_SERVICE_NAME", "safeguard-gateway")})
+    provider = TracerProvider(resource=resource)
+    provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter(endpoint=endpoint)))
+    trace.set_tracer_provider(provider)
+    FastAPIInstrumentor.instrument_app(app)
+    HTTPXClientInstrumentor().instrument()
+
+
+_setup_otel(app)
+
+
 # ---------------------------------------------------------------------------
 # Minimal MCP-over-SSE client for Playwright MCP
 # ---------------------------------------------------------------------------
