@@ -22,7 +22,7 @@ from tools.aider_runner import run_aider
 
 ORCHESTRATOR_TOKEN = os.environ.get("ORCHESTRATOR_TOKEN", "")
 WORKSPACE = os.environ.get("WORKSPACE", "/workspace")
-DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "deepseek-chat")
+DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "deepseek-flash")
 
 app = FastAPI(title="orchestrator")
 

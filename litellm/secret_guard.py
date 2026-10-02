@@ -95,6 +95,32 @@ def detect_secrets_in_request(payload: Any) -> list[Finding]:
     return findings
 
 
+def extract_message_texts(data: Any) -> list[str]:
+    """Return only the text a user/model supplied in a chat request.
+
+    LiteLLM injects infrastructure fields (notably the resolved ``api_key``,
+    which itself matches the ``sk-...`` pattern) into the pre-call hook
+    payload.  Scanning the whole dict would flag the caller's own credentials,
+    so the hook must restrict itself to message content.
+    """
+    if not isinstance(data, dict):
+        return []
+    texts: list[str] = []
+    messages = data.get("messages")
+    if isinstance(messages, list):
+        for msg in messages:
+            if not isinstance(msg, dict):
+                continue
+            content = msg.get("content")
+            if isinstance(content, str):
+                texts.append(content)
+            elif isinstance(content, list):
+                for part in content:
+                    if isinstance(part, dict) and isinstance(part.get("text"), str):
+                        texts.append(part["text"])
+    return texts
+
+
 # ---------------------------------------------------------------------------
 # LiteLLM callback wiring (only importable inside the LiteLLM runtime)
 # ---------------------------------------------------------------------------
@@ -115,7 +141,9 @@ class SecretGuardHandler(CustomLogger):  # type: ignore[misc]
         call_type: str | None = None,
         **kwargs: Any,
     ) -> dict[str, Any] | None:
-        findings = detect_secrets_in_request(data)
+        findings: list[Finding] = []
+        for text in extract_message_texts(data):
+            findings.extend(detect_secrets(text))
         if findings:
             detail = "; ".join(
                 f"{f.category}: {f.value[:24]}" for f in findings[:3]

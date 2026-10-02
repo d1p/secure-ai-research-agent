@@ -222,7 +222,7 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
 3. **LiteLLM** — `drop_params` lives under `litellm_settings` (not
    `general_settings`). Self-hosted LiteLLM runs no telemetry by default. Model
    IDs are set from current docs (`bedrock/us.anthropic.claude-sonnet-5`,
-   `openai/gpt-5`, `gemini/gemini-2.5-pro`, `deepseek/deepseek-chat`) and should
+   `openai/gpt-5`, `gemini/gemini-2.5-pro`, `deepseek/deepseek-flash`) and should
    be re-verified against provider docs at deploy time.
 4. **docker-socket-proxy** — its `CONTAINERS=1` bundles create/start/stop/list
    under one flag; finer separation is not possible in that image.

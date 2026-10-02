@@ -8,6 +8,7 @@ from litellm.secret_guard import (
     Finding,
     detect_secrets,
     detect_secrets_in_request,
+    extract_message_texts,
 )
 
 
@@ -89,3 +90,53 @@ def test_detect_secrets_in_nested_request() -> None:
 def test_detect_secrets_returns_finding_type() -> None:
     findings = detect_secrets("ghp_" + "b" * 36)
     assert all(isinstance(f, Finding) for f in findings)
+
+
+# --- Pre-call hook scope ----------------------------------------------------
+# The LiteLLM pre-call hook payload includes the resolved `api_key` (which
+# itself matches the `sk-...` pattern).  The hook must only scan message
+# content, otherwise every real request would be blocked.
+
+
+def test_extract_message_texts_ignores_injected_api_key() -> None:
+    payload = {
+        "model": "deepseek-flash",
+        "api_key": "sk-abcdefghijklmnopqrstuvwxyz123456",
+        "messages": [{"role": "user", "content": "Reply with exactly: OK"}],
+    }
+    assert extract_message_texts(payload) == ["Reply with exactly: OK"]
+
+
+def test_hook_scope_not_flagged_by_injected_api_key() -> None:
+    payload = {
+        "model": "deepseek-flash",
+        "api_key": "sk-abcdefghijklmnopqrstuvwxyz123456",
+        "messages": [{"role": "user", "content": "hello world"}],
+    }
+    findings = [f for text in extract_message_texts(payload) for f in detect_secrets(text)]
+    assert findings == []
+
+
+def test_hook_scope_still_flags_secret_in_message() -> None:
+    payload = {
+        "model": "deepseek-flash",
+        "api_key": "sk-abcdefghijklmnopqrstuvwxyz123456",
+        "messages": [{"role": "user", "content": "my token is ghp_" + "b" * 36}],
+    }
+    findings = [f for text in extract_message_texts(payload) for f in detect_secrets(text)]
+    assert {f.category for f in findings} == {"github_token"}
+
+
+def test_extract_message_texts_multimodal_parts() -> None:
+    payload = {
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": "describe this"},
+                    {"type": "image_url", "image_url": {"url": "data:image/png;base64,AAAA"}},
+                ],
+            }
+        ]
+    }
+    assert extract_message_texts(payload) == ["describe this"]

@@ -116,6 +116,7 @@ services:
       OLLAMA_BASE_URL: http://ollama:11434
       OPENAI_API_BASE_URL: http://litellm:4000/v1
       OPENAI_API_KEY: ${OPENWEBUI_OPENAI_API_KEY}
+      DEFAULT_MODELS: deepseek-flash
       RAG_EMBEDDING_ENGINE: ollama
       RAG_EMBEDDING_MODEL: nomic-embed-text
       RAG_OLLAMA_BASE_URL: http://ollama:11434

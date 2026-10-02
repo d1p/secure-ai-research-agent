@@ -48,7 +48,7 @@ class AgentState(TypedDict, total=False):
 # ---------------------------------------------------------------------------
 # LiteLLM / browser helpers
 # ---------------------------------------------------------------------------
-async def call_litellm(messages: list[dict[str, Any]], model: str = "deepseek-chat") -> str:
+async def call_litellm(messages: list[dict[str, Any]], model: str = "deepseek-flash") -> str:
     async with httpx.AsyncClient(timeout=180.0) as client:
         resp = await client.post(
             f"{LITELLM_URL}/v1/chat/completions",

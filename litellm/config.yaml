@@ -24,12 +24,14 @@ model_list:
       model: gemini/gemini-2.5-pro
       api_key: os.environ/GEMINI_API_KEY
 
-  - model_name: deepseek-chat
+  - model_name: deepseek-flash
     litellm_params:
-      model: deepseek/deepseek-chat
+      model: deepseek/deepseek-flash
       api_key: os.environ/DEEPSEEK_API_KEY
 
 litellm_settings:
+  # Default model when the client does not request one.
+  default_model: deepseek-flash
   # Drop provider params the client did not request.
   drop_params: true
   # Never log messages/prompts/responses (spend metadata still tracked).
