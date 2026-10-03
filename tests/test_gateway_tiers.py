@@ -24,6 +24,7 @@ from gateway.security import (
         "stagehand_observe",
         "stagehand_extract",
         "stagehand_screenshot",
+        "http_fetch",
     ],
 )
 def test_tier0_tools(tool: str) -> None:

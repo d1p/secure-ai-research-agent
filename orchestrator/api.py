@@ -81,6 +81,11 @@ class WebLoaderRequest(BaseModel):
     urls: list[str] = Field(default_factory=list)
 
 
+class FetchRequest(BaseModel):
+    url: str = ""
+    max_chars: int = MAX_PAGE_CONTENT_CHARS
+
+
 def _extract_mcp_text(payload: dict[str, Any]) -> str:
     """Extract text chunks from a browser `tools/call` response envelope."""
     content = (payload.get("result") or {}).get("content", [])
@@ -168,6 +173,29 @@ async def web_loader(req: WebLoaderRequest, authorization: str | None = Header(d
         text = await _fetch_page_text("openwebui", url)
         results.append({"page_content": text, "metadata": {"source": url}})
     return results
+
+
+@app.post("/fetch")
+async def fetch(req: FetchRequest, authorization: str | None = Header(default=None)) -> dict[str, Any]:
+    """Plain HTTP(S) fetch for static pages/files.
+
+    Handled by the safeguard gateway's ``http_fetch`` tool (SSRF/audit) rather
+    than the browser; use ``/web-loader`` when JavaScript/interaction is needed.
+    """
+    if not WEB_LOADER_API_KEY:
+        raise HTTPException(503, "web loader key not configured")
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(401, "missing bearer token")
+    if authorization.removeprefix("Bearer ").strip() != WEB_LOADER_API_KEY:
+        raise HTTPException(401, "invalid token")
+    if not req.url:
+        raise HTTPException(400, "missing url")
+
+    result = await call_browser("openwebui", "http_fetch", {"url": req.url, "max_chars": req.max_chars})
+    if isinstance(result, dict) and result.get("error"):
+        raise HTTPException(int(result["error"]), result.get("detail", "fetch failed"))
+    text = _extract_mcp_text(result) if isinstance(result, dict) else ""
+    return {"text": text}
 
 
 @app.get("/approvals/{approval_id}")

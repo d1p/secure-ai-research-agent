@@ -15,8 +15,10 @@ Responsibilities (project spec section 13):
 
 from __future__ import annotations
 
+import html as html_lib
 import json
 import os
+import re
 import time
 from typing import Any
 
@@ -126,6 +128,55 @@ async def _run_stagehand(agent_id: str, tool: str, args: dict[str, Any]) -> dict
     if status >= 400:
         raise HTTPException(status_code=502, detail=data.get("error", f"stagehand returned {status}"))
     return _stagehand_result(action, data)
+
+
+# ---------------------------------------------------------------------------
+# Plain HTTP(S) fetch (no browser).  For static pages/files; the browser stays
+# reserved for JS-heavy / interactive sites.  Same SSRF + audit boundary.
+# ---------------------------------------------------------------------------
+MAX_FETCH_REDIRECTS = 5
+MAX_FETCH_BYTES = 2_000_000
+MAX_FETCH_CHARS = 20000
+_FETCH_UA = "Mozilla/5.0 (compatible; homelab-ai-stack/1.0)"
+_TAG_RE = re.compile(r"<[^>]+>")
+_SCRIPT_RE = re.compile(r"<(script|style|noscript|template)\b.*?</\1>", re.IGNORECASE | re.DOTALL)
+
+
+def _html_to_text(raw: str) -> str:
+    text = _SCRIPT_RE.sub(" ", raw)
+    text = _TAG_RE.sub(" ", text)
+    text = html_lib.unescape(text)
+    return re.sub(r"[ \t\r\f\v]+", " ", text).strip()
+
+
+async def _http_fetch(url: str, max_chars: int = MAX_FETCH_CHARS) -> dict[str, Any]:
+    current = url
+    resp: httpx.Response | None = None
+    async with httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=10.0), follow_redirects=False) as client:
+        for _ in range(MAX_FETCH_REDIRECTS + 1):
+            verdict = validate_url(current)
+            if not verdict.ok:
+                raise HTTPException(status_code=403, detail=verdict.reason)
+            resp = await client.get(
+                current,
+                headers={"User-Agent": _FETCH_UA, "Accept": "text/html,application/xhtml+xml,text/plain,application/json,*/*"},
+            )
+            if resp.is_redirect and "location" in resp.headers:
+                current = str(httpx.URL(current).join(resp.headers["location"]))
+                continue
+            break
+    content_type = resp.headers.get("content-type", "")
+    raw = resp.content[:MAX_FETCH_BYTES].decode(resp.encoding or "utf-8", errors="replace")
+    if "html" in content_type.lower():
+        raw = _html_to_text(raw)
+    raw = re.sub(r"\n{3,}", "\n\n", raw)
+    if max_chars > 0 and len(raw) > max_chars:
+        raw = raw[:max_chars] + "\n\n[content truncated]"
+    text = json.dumps(
+        {"url": current, "status": resp.status_code, "content_type": content_type, "text": raw},
+        default=str,
+    )
+    return {"result": {"content": [{"type": "text", "text": text}]}}
 
 
 # ---------------------------------------------------------------------------
@@ -274,6 +325,19 @@ async def execute(
     if tier == TIER_APPROVAL:
         await _audit(agent_id, url, tool, "approval_required", str(tier))
         return {"needs_approval": True, "tool": tool}
+
+    # Plain HTTP(S) fetch: handled locally (gateway holds the egress network),
+    # never via the browser.
+    if tool == "http_fetch":
+        if not url:
+            raise HTTPException(status_code=400, detail="missing url")
+        try:
+            max_chars = int(req.args.get("max_chars", MAX_FETCH_CHARS))
+        except (TypeError, ValueError):
+            max_chars = MAX_FETCH_CHARS
+        result = await _http_fetch(url, max_chars)
+        await _audit(agent_id, url, tool, "allowed", str(tier))
+        return result
 
     # Execute via Stagehand
     result = await _run_stagehand(agent_id, tool, req.args)

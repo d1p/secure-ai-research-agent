@@ -231,6 +231,29 @@ domain. Every browser action is audited to `orchestrator.browser_audit`.
 On a CAPTCHA / Cloudflare challenge / login wall, the gateway stops and returns
 `needs_human: true`; the human resolves it through noVNC.
 
+### Smart web routing
+
+To avoid every query doing *both* a search and a full-page browser load, Open
+WebUI exposes an OWUI tool, `smart_web`
+(`open-webui/tools/smart_web.py`), and a workspace model, `deepseek-router`
+(base `deepseek-flash`), whose system prompt tells the model to pick the
+cheapest tool that works:
+
+| Tool          | Backing                                    | Use for                                   |
+|---------------|--------------------------------------------|-------------------------------------------|
+| `web_search`  | DuckDuckGo snippets (in-container)         | general / factual questions (default)     |
+| `http_fetch`  | gateway `http_fetch` (plain HTTP, SSRF)    | static pages, docs, direct files          |
+| `browse_page` | orchestrator `/web-loader` -> Stagehand    | JS-heavy, interactive, shopping (eBay)    |
+
+`http_fetch` is a Tier-0 gateway tool: it reuses `validate_url` (SSRF) and the
+audit log, and the gateway holds the `egress` network, so no browser is needed
+for plain HTTP. `web.search.bypass_web_loader` is `true`, so Open WebUI's own
+web search returns snippets instead of loading every result through Chrome.
+
+Register (or update) the tool + model once per database with
+`scripts/register_smart_web.py`; the DB is included in `pgbackup`, so restores
+keep them.
+
 ## Security model
 
 - LiteLLM is the only egress to cloud providers; all other cloud access is

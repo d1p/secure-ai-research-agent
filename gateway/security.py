@@ -172,6 +172,8 @@ TOOL_TIERS: dict[str, int] = {
     "stagehand_observe": TIER_ALWAYS,
     "stagehand_extract": TIER_ALWAYS,
     "stagehand_screenshot": TIER_ALWAYS,
+    # Tier 0 — plain HTTP(S) fetch (no browser, no JS). Same SSRF boundary.
+    "http_fetch": TIER_ALWAYS,
     # Tier 1 — validated interactions (natural-language action)
     "stagehand_act": TIER_VALIDATED,
 }
