@@ -1,84 +1,462 @@
 {
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "graphTooltip": 1,
-  "links": [],
+  "links": [
+    {
+      "title": "AI Stack — LLM Cost & Spend",
+      "type": "link",
+      "url": "/d/ai-stack-cost",
+      "icon": "external link",
+      "targetBlank": false,
+      "keepTime": true
+    }
+  ],
   "panels": [
     {
+      "id": 1,
       "type": "row",
-      "title": "Traces",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "title": "Recent activity",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "collapsed": false,
       "panels": []
     },
     {
+      "id": 2,
       "type": "table",
-      "title": "Recent traces",
-      "gridPos": { "h": 12, "w": 12, "x": 0, "y": 1 },
-      "datasource": { "type": "tempo", "uid": "tempo" },
-      "fieldConfig": {
-        "defaults": { "unit": "short" },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Duration" }, "properties": [{ "id": "unit", "value": "ms" }] }
-        ]
+      "title": "Recent traces — click a Trace ID for the span waterfall",
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "tempo", "uid": "tempo" },
-          "queryType": "search",
-          "serviceName": "",
-          "spanName": "",
-          "limit": 100
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "queryType": "traceql",
+          "query": "{ resource.service.name =~ \"litellm|open-webui|orchestrator|safeguard-gateway|stagehand\" }",
+          "limit": 100,
+          "tableType": "traces",
+          "spss": 20
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "traceID"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Open trace",
+                    "internal": {
+                      "datasourceUid": "tempo",
+                      "datasourceName": "Tempo",
+                      "query": {
+                        "query": "${__value.raw}",
+                        "queryType": "traceId"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Cost & tokens",
+                    "url": "/d/ai-stack-cost?var-session=${__value.raw}&from=${__from}&to=${__to}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm"
+      }
     },
     {
+      "id": 3,
       "type": "table",
       "title": "Error spans",
-      "gridPos": { "h": 12, "w": 12, "x": 12, "y": 1 },
-      "datasource": { "type": "tempo", "uid": "tempo" },
-      "fieldConfig": {
-        "defaults": { "unit": "short" },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Duration" }, "properties": [{ "id": "unit", "value": "ms" }] }
-        ]
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "tempo", "uid": "tempo" },
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
           "queryType": "traceql",
           "query": "{ status = error }",
-          "limit": 100
+          "limit": 100,
+          "tableType": "spans",
+          "spss": 20
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "spanID"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Open trace",
+                    "internal": {
+                      "datasourceUid": "tempo",
+                      "datasourceName": "Tempo",
+                      "query": {
+                        "query": "${__data.fields.traceIdHidden}",
+                        "queryType": "traceId"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Cost & tokens",
+                    "url": "/d/ai-stack-cost?var-session=${__data.fields.traceIdHidden}&from=${__from}&to=${__to}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm"
+      }
     },
     {
+      "id": 4,
       "type": "table",
-      "title": "Traces by service",
-      "gridPos": { "h": 12, "w": 12, "x": 0, "y": 13 },
-      "datasource": { "type": "tempo", "uid": "tempo" },
-      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "title": "Recent LLM traces",
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "tempo", "uid": "tempo" },
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
           "queryType": "traceql",
-          "query": "{ resource.service.name =~ \"litellm|open-webui|orchestrator|safeguard-gateway|stagehand\" } | rate() by (resource.service.name)",
-          "limit": 100
+          "query": "{ span.gen_ai.request.model != nil }",
+          "limit": 100,
+          "tableType": "traces",
+          "spss": 20
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "traceID"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Open trace",
+                    "internal": {
+                      "datasourceUid": "tempo",
+                      "datasourceName": "Tempo",
+                      "query": {
+                        "query": "${__value.raw}",
+                        "queryType": "traceId"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Cost & tokens",
+                    "url": "/d/ai-stack-cost?var-session=${__value.raw}&from=${__from}&to=${__to}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 5,
+      "type": "table",
+      "title": "LLM spans — token & cost attributes per span",
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "queryType": "traceql",
+          "query": "{ span.gen_ai.request.model != nil }",
+          "limit": 200,
+          "tableType": "spans",
+          "spss": 20
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "spanID"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Open trace",
+                    "internal": {
+                      "datasourceUid": "tempo",
+                      "datasourceName": "Tempo",
+                      "query": {
+                        "query": "${__data.fields.traceIdHidden}",
+                        "queryType": "traceId"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Cost & tokens",
+                    "url": "/d/ai-stack-cost?var-session=${__data.fields.traceIdHidden}&from=${__from}&to=${__to}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.usage.input_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.usage.output_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.usage.total_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.cost.input_cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.cost.output_cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.cost.cache_read_cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.cost.reasoning_cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "gen_ai.cost.total_cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm",
+        "sortBy": [
+          {
+            "displayName": "Start time",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "type": "row",
+      "title": "How to read this",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 7,
+      "type": "text",
+      "title": "Drill-down guide",
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
+      "targets": [],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "**Click a Trace ID** to open the span waterfall in Explore. **Click Cost & tokens** to open the cost dashboard filtered to the same chat session (LiteLLM `session_id` is the Tempo trace ID).\n\n**LLM spans** lists individual `gen_ai` spans with prompt/completion/total tokens and the input/output/cache/reasoning cost breakdown. Click **Span ID** to jump directly to that span in the trace."
+      }
     }
   ],
   "refresh": "30s",
   "schemaVersion": 39,
-  "tags": ["ai-stack", "traces"],
-  "templating": { "list": [] },
-  "time": { "from": "now-1h", "to": "now" },
+  "tags": [
+    "ai-stack",
+    "traces",
+    "llm"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "browser",
   "title": "AI Stack — Traces",
   "uid": "ai-stack-traces",
-  "version": 1
+  "version": 2
 }

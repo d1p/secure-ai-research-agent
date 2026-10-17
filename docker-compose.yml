@@ -78,7 +78,10 @@ services:
       OTEL_EXPORTER: otlp_http
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
       OTEL_SERVICE_NAME: litellm
-      OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT: SPAN_AND_EVENT
+      # Token usage/cost live on the span attributes; prompt/response bodies are
+      # not needed for the dashboards and make traces large enough to OOM Tempo.
+      OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT: NO_CONTENT
+      OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT: "512"
       TZ: ${TZ}
     volumes:
       - ./litellm/config.yaml:/app/config.yaml:ro
@@ -155,6 +158,9 @@ services:
       OTEL_EXPORTER_OTLP_INSECURE: "true"
       OTEL_OTLP_SPAN_EXPORTER: http
       OTEL_SERVICE_NAME: open-webui
+      # Redis HSET/HEXPIRE spans otherwise embed ~2KB values each and push a
+      # single chat trace past Tempo's max-trace-size limit.
+      OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT: "512"
       TZ: ${TZ}
     volumes:
       - openwebui-data:/app/backend/data
@@ -374,7 +380,7 @@ services:
   tempo:
     image: grafana/tempo:2.7.1
     <<: *restart
-    mem_limit: 512m
+    mem_limit: 1g
     logging: *logging
     command: ["-config.file=/etc/tempo.yaml"]
     volumes:
@@ -409,7 +415,7 @@ services:
   grafana:
     image: grafana/grafana:11.4.0
     <<: *restart
-    mem_limit: 256m
+    mem_limit: 512m
     logging: *logging
     ports:
       - "${BIND_IP}:3001:3000"

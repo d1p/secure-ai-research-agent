@@ -4,22 +4,57 @@
   },
   "editable": true,
   "graphTooltip": 1,
-  "links": [],
+  "links": [
+    {
+      "title": "AI Stack — LLM Cost & Spend",
+      "type": "link",
+      "url": "/d/ai-stack-cost",
+      "icon": "external link",
+      "targetBlank": false,
+      "keepTime": true
+    },
+    {
+      "title": "AI Stack — Traces",
+      "type": "link",
+      "url": "/d/ai-stack-traces",
+      "icon": "external link",
+      "targetBlank": false,
+      "keepTime": true
+    }
+  ],
   "panels": [
     {
       "type": "row",
       "title": "Infrastructure",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "collapsed": false,
       "panels": []
     },
     {
       "type": "timeseries",
       "title": "Container CPU usage",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
-        "defaults": { "unit": "short", "custom": { "fillOpacity": 15 } },
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 15
+          }
+        },
         "overrides": []
       },
       "targets": [
@@ -33,10 +68,23 @@
     {
       "type": "timeseries",
       "title": "Container memory usage",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
-        "defaults": { "unit": "bytes", "custom": { "fillOpacity": 15 } },
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 15
+          }
+        },
         "overrides": []
       },
       "targets": [
@@ -50,17 +98,35 @@
     {
       "type": "row",
       "title": "LiteLLM",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
       "collapsed": false,
       "panels": []
     },
     {
       "type": "timeseries",
       "title": "Requests / sec",
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 10 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 10
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
-        "defaults": { "unit": "reqps", "custom": { "fillOpacity": 15 } },
+        "defaults": {
+          "unit": "reqps",
+          "custom": {
+            "fillOpacity": 15
+          }
+        },
         "overrides": []
       },
       "targets": [
@@ -74,10 +140,23 @@
     {
       "type": "timeseries",
       "title": "Spend",
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 10 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 10
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
-        "defaults": { "unit": "currencyUSD", "custom": { "fillOpacity": 15 } },
+        "defaults": {
+          "unit": "currencyUSD",
+          "custom": {
+            "fillOpacity": 15
+          }
+        },
         "overrides": []
       },
       "targets": [
@@ -91,10 +170,23 @@
     {
       "type": "timeseries",
       "title": "Tokens",
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 10 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 10
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
-        "defaults": { "unit": "short", "custom": { "fillOpacity": 15 } },
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 15
+          }
+        },
         "overrides": []
       },
       "targets": [
@@ -108,9 +200,16 @@
   ],
   "refresh": "30s",
   "schemaVersion": 39,
-  "tags": ["ai-stack"],
-  "templating": { "list": [] },
-  "time": { "from": "now-1h", "to": "now" },
+  "tags": [
+    "ai-stack"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "browser",
   "title": "AI Stack",

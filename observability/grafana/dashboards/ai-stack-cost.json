@@ -1,207 +1,1108 @@
 {
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "graphTooltip": 1,
-  "links": [],
+  "links": [
+    {
+      "title": "AI Stack — Traces",
+      "type": "link",
+      "url": "/d/ai-stack-traces",
+      "icon": "external link",
+      "targetBlank": false,
+      "keepTime": true
+    }
+  ],
   "panels": [
     {
+      "id": 1,
       "type": "row",
-      "title": "Spend",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "title": "Overview",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "collapsed": false,
       "panels": []
     },
     {
+      "id": 2,
       "type": "stat",
-      "title": "Total spend (all time)",
-      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "thresholds" } }, "overrides": [] },
+      "title": "Total spend (all time, global)",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\"",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT COALESCE(SUM(spend),0) AS \"spend\" FROM \"LiteLLM_SpendLogs\"",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
     },
     {
+      "id": 3,
       "type": "stat",
       "title": "Spend (selected range)",
-      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "thresholds" } }, "overrides": [] },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT COALESCE(SUM(spend),0) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session'",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
     },
     {
+      "id": 4,
       "type": "stat",
       "title": "Requests",
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "short", "color": { "mode": "thresholds" } }, "overrides": [] },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT COUNT(*) AS \"requests\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT COUNT(*) AS \"requests\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session'",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
     },
     {
+      "id": 5,
       "type": "stat",
       "title": "Total tokens",
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "short", "color": { "mode": "thresholds" } }, "overrides": [] },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT SUM(\"total_tokens\") AS \"tokens\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT COALESCE(SUM(\"total_tokens\"),0) AS \"tokens\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session'",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
     },
     {
+      "id": 6,
+      "type": "row",
+      "title": "Trends",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 7,
       "type": "timeseries",
       "title": "Spend over time (by model)",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 5 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "currencyUSD", "custom": { "fillOpacity": 15 } }, "overrides": [] },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT $__timeGroup(\"startTime\",'$__interval') AS \"time\", model, SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\") GROUP BY 1,2 ORDER BY 1",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT $__timeGroup(\"startTime\",$__interval) AS time, model, SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1,2 ORDER BY 1",
           "format": "time_series"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "custom": {
+            "fillOpacity": 15
+          }
+        },
+        "overrides": []
+      }
     },
     {
+      "id": 8,
       "type": "timeseries",
-      "title": "Tokens over time",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "short", "custom": { "fillOpacity": 15 } }, "overrides": [] },
+      "title": "Tokens over time (prompt / completion / cached)",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT $__timeGroup(\"startTime\",'$__interval') AS \"time\", SUM(\"total_tokens\") AS \"total\", SUM(\"prompt_tokens\") AS \"prompt\", SUM(\"completion_tokens\") AS \"completion\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\") GROUP BY 1 ORDER BY 1",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT $__timeGroup(\"startTime\",$__interval) AS time, SUM(\"prompt_tokens\") AS \"prompt\", SUM(\"completion_tokens\") AS \"completion\", SUM(COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0)) AS \"cached\", SUM(\"total_tokens\") AS \"total\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1 ORDER BY 1",
           "format": "time_series"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 15
+          }
+        },
+        "overrides": []
+      }
     },
     {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Cost breakdown over time (input / output / cache / reasoning)",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT $__timeGroup(\"startTime\",$__interval) AS time, SUM(COALESCE((metadata->'cost_breakdown'->>'input_cost')::float8,0)) AS \"input\", SUM(COALESCE((metadata->'cost_breakdown'->>'output_cost')::float8,0)) AS \"output\", SUM(COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0)) AS \"cache_read\", SUM(COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0)) AS \"reasoning\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1 ORDER BY 1",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "custom": {
+            "fillOpacity": 30,
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            }
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 10,
       "type": "row",
       "title": "Breakdown",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
       "collapsed": false,
       "panels": []
     },
     {
+      "id": 11,
       "type": "barchart",
       "title": "Spend by model",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "palette-classic" } }, "overrides": [] },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 23
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT model, SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\") GROUP BY model ORDER BY 2 DESC",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT model, SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY model ORDER BY 2 DESC",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "orientation": "horizontal"
+          }
+        },
+        "overrides": []
+      }
     },
     {
+      "id": 12,
       "type": "barchart",
       "title": "Spend by user",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "palette-classic" } }, "overrides": [] },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 23
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT \"user\", SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\") GROUP BY 1 ORDER BY 2 DESC",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT \"user\", SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1 ORDER BY 2 DESC",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "orientation": "horizontal"
+          }
+        },
+        "overrides": []
+      }
     },
     {
+      "id": 13,
+      "type": "table",
+      "title": "Cost & tokens by model",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 23
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT model, COUNT(*) AS requests, SUM(prompt_tokens) AS prompt, SUM(completion_tokens) AS completion, SUM(COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0)) AS cached, SUM(COALESCE((metadata->'usage_object'->'completion_tokens_details'->>'reasoning_tokens')::bigint,0)) AS reasoning, SUM(\"total_tokens\") AS total, ROUND(SUM(spend)::numeric,6) AS spend FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY model ORDER BY spend DESC",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "spend"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "requests"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "prompt"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cached"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reasoning"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 18,
       "type": "row",
-      "title": "Chat threads (by session_id)",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 22 },
+      "title": "Cost composition",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      },
       "collapsed": false,
       "panels": []
     },
     {
+      "id": 19,
+      "type": "piechart",
+      "title": "Cost by token type (selected range)",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 32
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "WITH costs AS (SELECT GREATEST(COALESCE((metadata->'cost_breakdown'->>'input_cost')::float8,0) - COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0),0) AS input, COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0) AS cache_read, GREATEST(COALESCE((metadata->'cost_breakdown'->>'output_cost')::float8,0) - COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0),0) AS output, COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0) AS reasoning FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session') SELECT 'input (uncached)' AS \"type\", SUM(input) AS \"cost\" FROM costs UNION ALL SELECT 'cache read', SUM(cache_read) FROM costs UNION ALL SELECT 'output (non-reasoning)', SUM(output) FROM costs UNION ALL SELECT 'reasoning', SUM(reasoning) FROM costs",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "pieType": "donut",
+        "displayLabels": [
+          "name",
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "description": "Cache read is part of input and reasoning is part of output; this is a non-overlapping split."
+    },
+    {
+      "id": 20,
+      "type": "table",
+      "title": "Cost per model by token type",
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 8,
+        "y": 32
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT model, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'input_cost')::float8,0))::numeric,6) AS input_total, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'output_cost')::float8,0))::numeric,6) AS output_total, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0))::numeric,6) AS cache_read, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0))::numeric,6) AS reasoning, ROUND(SUM(spend)::numeric,6) AS total_cost, SUM(\"total_tokens\") AS tokens FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY model ORDER BY total_cost DESC",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "input_total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "output_total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cache_read"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reasoning"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total_cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm"
+      },
+      "description": "cache_read is included in input_total; reasoning is included in output_total."
+    },
+    {
+      "id": 14,
+      "type": "row",
+      "title": "Chat sessions",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 15,
       "type": "table",
       "title": "Sessions — cost per chat thread",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 23 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": {
-        "defaults": { "unit": "short" },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "cost" }, "properties": [{ "id": "unit", "value": "currencyUSD" }] }
-        ]
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 41
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT session_id, COUNT(*) AS requests, ROUND(SUM(spend)::numeric,6) AS cost, SUM(\"total_tokens\") AS tokens, MIN(\"startTime\") AS first_seen, MAX(\"startTime\") AS last_seen FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\") AND session_id <> '' GROUP BY session_id ORDER BY cost DESC LIMIT 100",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT session_id, COUNT(*) AS requests, ROUND(SUM(spend)::numeric,6) AS cost, SUM(\"total_tokens\") AS tokens, SUM(COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0)) AS cached, MIN(\"startTime\") AS first_seen, MAX(\"startTime\") AS last_seen FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' AND session_id <> '' GROUP BY session_id ORDER BY cost DESC LIMIT 200",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "requests"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cached"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "session_id"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Open trace",
+                    "internal": {
+                      "datasourceUid": "tempo",
+                      "datasourceName": "Tempo",
+                      "query": {
+                        "query": "${__value.raw}",
+                        "queryType": "traceId"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Filter to this session",
+                    "url": "/d/ai-stack-cost?var-session=${__value.raw}&from=${__from}&to=${__to}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm"
+      }
     },
     {
+      "id": 16,
       "type": "row",
       "title": "Every call",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 31 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 49
+      },
       "collapsed": false,
       "panels": []
     },
     {
+      "id": 17,
       "type": "table",
-      "title": "Requests (every LLM call)",
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 32 },
-      "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-      "fieldConfig": {
-        "defaults": { "unit": "short" },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "spend" }, "properties": [{ "id": "unit", "value": "currencyUSD" }] },
-          { "matcher": { "id": "byName", "options": "duration_ms" }, "properties": [{ "id": "unit", "value": "ms" }] }
-        ]
+      "title": "Requests — every LLM call",
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 50
+      },
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "postgres", "uid": "postgres-litellm" },
-          "rawSql": "SELECT \"startTime\", model, \"user\", \"total_tokens\", \"prompt_tokens\", \"completion_tokens\", ROUND(spend::numeric,6) AS spend, \"request_duration_ms\" AS duration_ms, status, session_id, \"custom_llm_provider\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\") ORDER BY \"startTime\" DESC LIMIT 200",
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-litellm"
+          },
+          "rawSql": "SELECT \"startTime\", model, \"user\", total_tokens, prompt_tokens, completion_tokens, COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0) AS cached_tokens, COALESCE((metadata->'usage_object'->'completion_tokens_details'->>'reasoning_tokens')::bigint,0) AS reasoning_tokens, ROUND(COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0)::numeric,6) AS cache_read, ROUND(COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0)::numeric,6) AS reasoning, ROUND(spend::numeric,6) AS spend, request_duration_ms AS duration_ms, status, session_id, litellm_call_id, request_id, custom_llm_provider FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' ORDER BY \"startTime\" DESC LIMIT 200",
           "format": "table"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "spend"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cache_read"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reasoning"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "duration_ms"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "prompt_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cached_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reasoning_tokens"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "session_id"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Open trace",
+                    "internal": {
+                      "datasourceUid": "tempo",
+                      "datasourceName": "Tempo",
+                      "query": {
+                        "query": "${__value.raw}",
+                        "queryType": "traceId"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Filter to this session",
+                    "url": "/d/ai-stack-cost?var-session=${__value.raw}&from=${__from}&to=${__to}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "litellm_call_id"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Find span in Tempo",
+                    "internal": {
+                      "datasourceUid": "tempo",
+                      "datasourceName": "Tempo",
+                      "query": {
+                        "query": "{ span.litellm.call_id = \"${__value.raw}\" }",
+                        "queryType": "traceql"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm"
+      }
     }
   ],
   "refresh": "30s",
   "schemaVersion": 39,
-  "tags": ["ai-stack", "cost"],
-  "templating": { "list": [] },
-  "time": { "from": "now-24h", "to": "now" },
+  "tags": [
+    "ai-stack",
+    "cost",
+    "llm"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "session",
+        "label": "Chat session / trace",
+        "type": "query",
+        "datasource": {
+          "type": "postgres",
+          "uid": "postgres-litellm"
+        },
+        "definition": "SELECT DISTINCT session_id FROM \"LiteLLM_SpendLogs\" WHERE session_id <> '' ORDER BY 1",
+        "query": "SELECT DISTINCT session_id FROM \"LiteLLM_SpendLogs\" WHERE session_id <> '' ORDER BY 1",
+        "refresh": 2,
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": false,
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "sort": 1,
+        "hide": 0
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "browser",
   "title": "AI Stack — LLM Cost & Spend",
   "uid": "ai-stack-cost",
-  "version": 1
+  "version": 2
 }
