@@ -12,6 +12,14 @@
       "icon": "external link",
       "targetBlank": false,
       "keepTime": true
+    },
+    {
+      "title": "Phoenix — LLM tracing",
+      "type": "link",
+      "url": "https://phoenix.debashis.xyz",
+      "icon": "external link",
+      "targetBlank": true,
+      "keepTime": false
     }
   ],
   "panels": [

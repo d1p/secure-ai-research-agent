@@ -22,8 +22,10 @@ is the deployment mechanism.
 - **Orchestrator** — LangGraph agent (research / browser / coding approval).
 - **Ephemeral coding runner** — aider/opencode in a hardened throwaway container.
 - **pgbackup** — nightly Postgres + Open WebUI backups with restore verification.
-- **Observability** — Grafana + Tempo (traces) + Prometheus + cAdvisor (metrics),
-  plus Beszel (host + Docker monitoring, hub in CT 114).
+- **Observability** — Phoenix (LLM traces/evals) + Grafana + Tempo (traces) +
+  Prometheus + cAdvisor (metrics), plus Beszel (host + Docker monitoring, hub in
+  CT 114). An OTel Collector fans application traces out to both Phoenix and
+  Tempo.
 
 ## Intentionally NOT deployed
 
@@ -53,6 +55,8 @@ flowchart LR
         gw[Safeguard Gateway]
         dsproxy[Docker socket proxy]
         grafana[Grafana]
+        phoenix[Phoenix]
+        otelcol[OTel Collector]
         tempo[(Tempo)]
         prom[Prometheus]
         cadvisor[cAdvisor]
@@ -64,6 +68,7 @@ flowchart LR
     user -->|ai.debashis.xyz| caddy
     caddy -->|:3000| webui
     caddy -->|:3001| grafana
+    caddy -->|:3002| phoenix
     user -->|:6080 noVNC| browser
 
     webui --> litellm
@@ -82,19 +87,21 @@ flowchart LR
     grafana --> prom
     prom --> cadvisor
     prom --> litellm
-    webui -.traces.-> tempo
-    litellm -.traces.-> tempo
-    orchestrator -.traces.-> tempo
-    gw -.traces.-> tempo
-    browser -.traces.-> tempo
+    webui -.traces.-> otelcol
+    litellm -.traces.-> otelcol
+    orchestrator -.traces.-> otelcol
+    gw -.traces.-> otelcol
+    browser -.traces.-> otelcol
+    otelcol -.traces.-> tempo
+    otelcol -.traces.-> phoenix
 ```
 
 ### Networks
 
 | Network   | Members                              | Internal |
 |-----------|--------------------------------------|----------|
-| `frontend`| Open WebUI (`:3000`), Grafana (`:3001`) | no |
-| `internal`| postgres, redis, litellm, ollama, orchestrator, gateway, browser, tempo, prometheus, cadvisor | yes |
+| `frontend`| Open WebUI (`:3000`), Grafana (`:3001`), Phoenix (`:3002`) | no |
+| `internal`| postgres, redis, litellm, ollama, orchestrator, gateway, browser, otel-collector, phoenix, tempo, prometheus, cadvisor | yes |
 | `browser` | gateway, browser, proxy-web           | yes      |
 | `agents`  | litellm, proxy-dev, coding runners    | yes      |
 | `egress`  | litellm, proxy-web, proxy-dev, gateway (DNS only), browser | no (outbound only) |
@@ -103,8 +110,9 @@ flowchart LR
 `novnc` exists only because Docker cannot publish ports from `internal: true`
 networks; the browser's automation/egress traffic stays on the internal
 `browser` network, and Chrome reaches the Internet through the `egress` network.
-Grafana joins `frontend` solely so its port (`:3001`) can be published; it is
-reached only through Caddy.
+Grafana and Phoenix join `frontend` solely so their ports (`:3001`, `:3002`)
+can be published; both are reached only through Caddy. Phoenix also joins
+`internal` so the OTel Collector can send it traces.
 
 Containers have no direct Internet access unless on the `egress` network. The
 browser reaches the Internet through `egress`; coding runners only through
@@ -114,7 +122,7 @@ browser reaches the Internet through `egress`; coding runners only through
 
 | Path  | Backing                        | Contents                                  |
 |-------|--------------------------------|-------------------------------------------|
-| `/fast`| VM NVMe disk (Docker data-root)| images + named volumes (`pgdata`, `openwebui-data`, `ollama-data`, `browser-profile`) |
+| `/fast`| VM NVMe disk (Docker data-root)| images + named volumes (`pgdata`, `openwebui-data`, `ollama-data`, `browser-profile`, `phoenix-data`, `tempo-data`, `grafana-data`) |
 | `/data`| NFS mount of host `/mnt/nasdata/ai` | `uploads`, `workspaces`, `backups`, `bulk` |
 
 `/data` bind mounts use `bind: { create_host_path: false }` so a missing mount
@@ -123,14 +131,14 @@ backed up.
 
 ### Resource limits
 
-Total `mem_limit` ≈ 12.2 GB steady-state (+ 1.5 GB ephemeral coding runner), sized
-for the 14 GB VM. See `docker-compose.yml` for per-service limits.
+`mem_limit` values are ceilings, not reservations; the VM has 14 GB and Docker
+enforces each service cap independently. See `docker-compose.yml` for per-service limits.
 
 | Service | Limit |
 |---|---|
 | open-webui | 2 GB |
 | litellm | 1.5 GB |
-| ollama | 1 GB |
+| ollama | 4 GB |
 | postgres | 2 GB |
 | redis | 256 MB |
 | browser | 2.5 GB |
@@ -139,9 +147,11 @@ for the 14 GB VM. See `docker-compose.yml` for per-service limits.
 | docker-socket-proxy | 64 MB |
 | proxy-web / proxy-dev | 64 MB each |
 | pgbackup | 128 MB |
-| tempo | 512 MB |
+| otel-collector | 256 MB |
+| phoenix | 1 GB |
+| tempo | 1 GB |
 | prometheus | 256 MB |
-| grafana | 256 MB |
+| grafana | 512 MB |
 | cadvisor | 256 MB |
 | agent-runner (ephemeral) | 1.5 GB |
 
@@ -158,8 +168,13 @@ for the 14 GB VM. See `docker-compose.yml` for per-service limits.
 All values are documented with placeholders in `.env.example`. The
 security-relevant ones: `POSTGRES_PASSWORD`, `REDIS_PASSWORD`,
 `WEBUI_SECRET_KEY`, `LITELLM_MASTER_KEY`, `GATEWAY_TOKEN`,
-`ORCHESTRATOR_TOKEN`, `VNC_PASSWORD`, and the cloud provider keys. Cloud
-credentials live **only** in `.env`.
+`ORCHESTRATOR_TOKEN`, `VNC_PASSWORD`, `PHOENIX_SECRET`,
+`PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD`, `PHOENIX_API_KEY`, and the cloud
+provider keys. Cloud credentials live **only** in `.env`.
+
+After the first Phoenix login, create a system API key (Settings → API Keys),
+set it as `PHOENIX_API_KEY` in `.env`, and restart `otel-collector` so Phoenix
+accepts traces.
 
 ### VM provisioning
 
@@ -179,21 +194,25 @@ Inside the VM: Docker data-root is `/fast/docker`; `/data` is an NFS mount of
 
 ### Firewall requirement
 
-The VM firewall must allow **only** the published ports — `3000` (Open WebUI) and
-`3001` (Grafana) — and only from the Caddy PCT IP
+The VM firewall must allow **only** the published ports — `3000` (Open WebUI),
+`3001` (Grafana) and `3002` (Phoenix) — and only from the Caddy PCT IP
 (`${CADDY_PCT_IP}`, default `10.0.0.28`). `6080` (noVNC) is LAN-only for human
 browser control. No other service may be reachable from the LAN. PostgreSQL,
-Redis, LiteLLM, Ollama, gateway, orchestrator, Tempo, Prometheus and cAdvisor are
-on `internal` networks and must not be LAN-accessible.
+Redis, LiteLLM, Ollama, gateway, orchestrator, OTel Collector, Tempo,
+Prometheus and cAdvisor are on `internal` networks and must not be
+LAN-accessible.
 
 ### Caddy integration
 
-Add a Caddyfile entry in CT 110 proxying `ai.debashis.xyz` (or your domain) to
-`${BIND_IP}:3000`, e.g.:
+Add Caddyfile entries in CT 110 for `ai` (`:3000`), `grafana` (`:3001`) and
+`phoenix` (`:3002`), e.g.:
 
 ```caddy
 ai.debashis.xyz {
     reverse_proxy 10.0.0.210:3000
+}
+phoenix.debashis.xyz {
+    reverse_proxy 10.0.0.210:3002
 }
 ```
 

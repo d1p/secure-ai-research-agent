@@ -1,7 +1,8 @@
 # =============================================================================
 # AI Stack — Docker Compose topology
 # Networks, resource limits, healthchecks, log rotation, volumes.
-# Host ports: ${BIND_IP}:3000 (Open WebUI), ${BIND_IP}:6080 (noVNC).
+# Host ports: ${BIND_IP}:3000 (Open WebUI), :3001 (Grafana),
+# :3002 (Phoenix), :6080 (noVNC).
 # =============================================================================
 
 x-logging: &logging
@@ -74,9 +75,9 @@ services:
       # Prometheus metrics on an unauthenticated dedicated port (scraped by
       # Prometheus over the internal network only).
       PROMETHEUS_METRICS_PORT: "4001"
-      # OpenTelemetry tracing -> Tempo.
+      # OpenTelemetry tracing -> OTel Collector (Tempo + Phoenix).
       OTEL_EXPORTER: otlp_http
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: litellm
       # Token usage/cost live on the span attributes; prompt/response bodies are
       # not needed for the dashboards and make traces large enough to OOM Tempo.
@@ -151,10 +152,10 @@ services:
       WEB_LOADER_ENGINE: "external"
       EXTERNAL_WEB_LOADER_URL: http://orchestrator:8080/web-loader
       EXTERNAL_WEB_LOADER_API_KEY: ${WEB_LOADER_API_KEY}
-      # OpenTelemetry tracing -> Tempo (instruments FastAPI/httpx/redis/sqlalchemy).
+      # OpenTelemetry tracing -> OTel Collector (instruments FastAPI/httpx/redis/sqlalchemy).
       ENABLE_OTEL: "true"
       ENABLE_OTEL_TRACES: "true"
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318/v1/traces
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318/v1/traces
       OTEL_EXPORTER_OTLP_INSECURE: "true"
       OTEL_OTLP_SPAN_EXPORTER: http
       OTEL_SERVICE_NAME: open-webui
@@ -207,7 +208,7 @@ services:
       LITELLM_URL: http://litellm:4000/v1
       LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
       STAGEHAND_MODEL: ${STAGEHAND_MODEL:-gpt-5}
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318/v1/traces
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318/v1/traces
       OTEL_SERVICE_NAME: stagehand
     volumes:
       - browser-profile:/browser-profile
@@ -233,7 +234,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/orchestrator
       POLICY_FILE: /app/policy.yaml
       PERSONAL_ALLOW_DOMAINS: ${PERSONAL_ALLOW_DOMAINS:-}
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: safeguard-gateway
       TZ: ${TZ}
     volumes:
@@ -269,7 +270,7 @@ services:
       DOCKER_PROXY_URL: http://docker-socket-proxy:2375
       RUNNER_IMAGE: ${RUNNER_IMAGE}
       WORKSPACE_REPOS: ${WORKSPACE_REPOS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: orchestrator
       TZ: ${TZ}
     volumes:
@@ -375,8 +376,55 @@ services:
       retries: 5
 
   # ---------------------------------------------------------------------------
-  # Observability: traces (Tempo), metrics (Prometheus + cAdvisor), Grafana UI.
+  # Observability: OTLP fan-out, Phoenix LLM tracing UI, Tempo, Prometheus,
+  # cAdvisor and Grafana.
   # ---------------------------------------------------------------------------
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.163.1
+    <<: *restart
+    mem_limit: 256m
+    logging: *logging
+    command: ["--config=/etc/otel/config.yaml"]
+    environment:
+      PHOENIX_API_KEY: ${PHOENIX_API_KEY}
+    volumes:
+      - ./observability/otel-collector/config.yaml:/etc/otel/config.yaml:ro
+    networks: [internal]
+    depends_on:
+      phoenix:
+        condition: service_started
+      tempo:
+        condition: service_healthy
+
+  # Phoenix UI + OTLP collector. SQLite state lives in the phoenix-data volume.
+  phoenix:
+    image: arizephoenix/phoenix:20.23.0
+    <<: *restart
+    mem_limit: 1g
+    logging: *logging
+    environment:
+      PHOENIX_WORKING_DIR: /mnt/data
+      PHOENIX_HOST: "0.0.0.0"
+      PHOENIX_PORT: "6006"
+      PHOENIX_GRPC_PORT: "4317"
+      PHOENIX_ENABLE_AUTH: "true"
+      PHOENIX_SECRET: ${PHOENIX_SECRET}
+      PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD: ${PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD}
+      PHOENIX_USE_SECURE_COOKIES: "true"
+      PHOENIX_CSRF_TRUSTED_ORIGINS: ${PHOENIX_PUBLIC_URL:-https://phoenix.debashis.xyz}
+      TZ: ${TZ}
+    volumes:
+      - phoenix-data:/mnt/data
+    ports:
+      - "${BIND_IP}:3002:6006"
+    networks: [frontend, internal]
+    healthcheck:
+      test: ["CMD", "/usr/bin/python3.13", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:6006/', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
   tempo:
     image: grafana/tempo:2.7.1
     <<: *restart
@@ -498,6 +546,7 @@ volumes:
   openwebui-data:
   ollama-data:
   browser-profile:
+  phoenix-data:
   tempo-data:
   prometheus-data:
   grafana-data:

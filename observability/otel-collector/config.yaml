@@ -1,0 +1,60 @@
+# =============================================================================
+# OpenTelemetry Collector — fan out application traces to both backends.
+#
+# Applications send OTLP to otel-collector:4317 (gRPC) or :4318 (HTTP).
+# The collector forwards every trace to:
+#   * Tempo   — Grafana trace waterfall / TraceQL dashboards
+#   * Phoenix — LLM observability, evals and prompt/trace inspection
+#
+# Phoenix authentication is enabled, so the Phoenix exporter sends the system
+# API key from PHOENIX_API_KEY (created once in the Phoenix UI/API).
+# =============================================================================
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 192
+    spike_limit_mib: 64
+  resource:
+    attributes:
+      - key: openinference.project.name
+        value: ai-stack
+        action: upsert
+  batch:
+    timeout: 5s
+    send_batch_size: 512
+
+exporters:
+  otlp_grpc/tempo:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+
+  otlp_http/phoenix:
+    endpoint: http://phoenix:6006
+    headers:
+      authorization: "Bearer ${env:PHOENIX_API_KEY}"
+    tls:
+      insecure: true
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, resource, batch]
+      exporters: [otlp_grpc/tempo, otlp_http/phoenix]
+  telemetry:
+    logs:
+      level: info
