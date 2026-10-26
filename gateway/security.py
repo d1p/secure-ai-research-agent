@@ -169,6 +169,7 @@ TOOL_TIERS: dict[str, int] = {
     # Tier 0 — read-only / navigation / extraction
     "stagehand_navigate": TIER_ALWAYS,
     "stagehand_read": TIER_ALWAYS,
+    "stagehand_content": TIER_ALWAYS,
     "stagehand_observe": TIER_ALWAYS,
     "stagehand_extract": TIER_ALWAYS,
     "stagehand_screenshot": TIER_ALWAYS,

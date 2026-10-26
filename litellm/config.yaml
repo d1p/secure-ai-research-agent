@@ -36,6 +36,9 @@ model_list:
 litellm_settings:
   # Default model when the client does not request one.
   default_model: deepseek-flash
+  # Retry transient provider drops (DeepSeek occasionally closes streams).
+  num_retries: 3
+  request_timeout: 600
   # Drop provider params the client did not request.
   drop_params: true
   # OTel traces carry usage/cost span attributes only; message content capture

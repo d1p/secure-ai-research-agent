@@ -19,6 +19,7 @@ from agent import (
 )
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
+from reader import html_to_reader
 from tools.aider_runner import run_aider
 
 ORCHESTRATOR_TOKEN = os.environ.get("ORCHESTRATOR_TOKEN", "")
@@ -38,7 +39,9 @@ def _setup_otel(app: FastAPI) -> None:
         return
     try:
         from opentelemetry import trace
-        from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+        from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
+            OTLPSpanExporter,
+        )
         from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
         from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
         from opentelemetry.sdk.resources import Resource
@@ -98,11 +101,12 @@ def _extract_mcp_text(payload: dict[str, Any]) -> str:
 
 
 async def _fetch_page_text(agent_id: str, url: str) -> str:
-    """Navigate the browser to `url` and return its visible text.
+    """Navigate the browser to `url` and return reader-mode text.
 
     Reuses the safeguard gateway (SSRF/tier/rate-limit/audit) as the security
     boundary; the orchestrator never talks to the browser directly.  The browser
-    is driven by the Stagehand service (navigate + read page text).
+    is driven by the Stagehand service (navigate + rendered HTML), then the HTML
+    is reduced to reader mode so agents only spend tokens on core content.
     """
     nav = await call_browser(agent_id, "stagehand_navigate", {"url": url})
     if isinstance(nav, dict) and nav.get("error"):
@@ -112,11 +116,20 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
     if isinstance(nav, dict) and nav.get("needs_approval"):
         return "[needs_approval] navigation requires approval"
 
-    snap = await call_browser(agent_id, "stagehand_read", {})
-    if isinstance(snap, dict) and snap.get("error"):
-        return f"[browser error {snap['error']}] {snap.get('detail', '')}"
+    text = ""
+    page = await call_browser(agent_id, "stagehand_content", {})
+    if isinstance(page, dict) and not page.get("error"):
+        html = _extract_mcp_text(page)
+        if html:
+            text = html_to_reader(html, url, max_chars=MAX_PAGE_CONTENT_CHARS)
 
-    text = _extract_mcp_text(snap) if isinstance(snap, dict) else ""
+    if not text:
+        # Fallback: plain visible text (already tag-free) when readability fails.
+        snap = await call_browser(agent_id, "stagehand_read", {})
+        if isinstance(snap, dict) and snap.get("error"):
+            return f"[browser error {snap['error']}] {snap.get('detail', '')}"
+        text = _extract_mcp_text(snap) if isinstance(snap, dict) else ""
+
     if not text:
         return "[no text content]"
     if len(text) > MAX_PAGE_CONTENT_CHARS:

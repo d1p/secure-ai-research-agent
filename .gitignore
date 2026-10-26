@@ -32,3 +32,8 @@ browser-profile/
 .DS_Store
 *.swp
 *~
+
+# Local config/DB backups (may contain secrets)
+*.bak
+*.bak.*
+*.pre-upgrade-*

@@ -20,6 +20,7 @@ import os
 from pathlib import Path
 
 from open_webui.internal.db import get_async_db_context
+from open_webui.models.config import Config
 from open_webui.models.models import ModelForm, ModelMeta, Models
 from open_webui.models.tools import ToolForm, ToolMeta, Tools
 from open_webui.models.users import User
@@ -52,6 +53,39 @@ Rules:
 5. Always cite the URLs you used.
 """
 
+# Sub-agent runtime budget + behaviour.  Open WebUI sub-agents inherit the
+# selected model and tool IDs, but not the workspace model's system prompt, so
+# give them explicit routing/efficiency rules.  Without this they use the
+# unbounded builtin fetch_url, burn the 30-iteration cap, and overflow context.
+SUBAGENT_SYSTEM_PROMPT = """\
+You are a sub-agent working on one focused task assigned by the lead agent. Work efficiently and then stop.
+
+Tool rules (cheapest sufficient tool first):
+1. Use web_search for discovery and snippets; answer from snippets when they are enough.
+2. For a static page use http_fetch (bounded output). Prefer http_fetch over fetch_url.
+3. Use browse_page only for JavaScript-heavy or interactive sites.
+4. Do not fetch the same URL twice and do not chase tangents. Keep total tool calls under 20.
+5. Cite the URLs and publication dates you used.
+
+When the task is answered, stop calling tools and end with:
+- What you did
+- Key facts (with source URLs and dates)
+- Files changed (if any)
+- Gaps or open questions
+"""
+
+RUNTIME_CONFIG = {
+    # Cap builtin fetch_url output (reader mode is applied upstream).
+    "web.fetch.max_content_length": 12000,
+    # Open WebUI sub-agents: on, foreground only, bounded concurrency/iterations.
+    "subagents.enable": True,
+    "subagents.background_enabled": False,
+    "subagents.max_concurrent": 3,
+    "subagents.max_iterations": 80,
+    "subagents.max_output": 30000,
+    "subagents.system_prompt": SUBAGENT_SYSTEM_PROMPT,
+}
+
 
 async def _admin_user_id() -> str:
     async with get_async_db_context() as db:
@@ -63,8 +97,8 @@ async def _admin_user_id() -> str:
 
 
 async def register_tool(user_id: str, content: str) -> None:
-    module, _ = await load_tool_module_by_id(TOOL_ID, content=content)
-    specs = get_tool_specs(module)
+    tool_instance, _, _ = await load_tool_module_by_id(TOOL_ID, content=content)
+    specs = get_tool_specs(tool_instance)
     meta = ToolMeta(description=TOOL_DESCRIPTION, manifest={}, has_user_valves=False)
 
     if await Tools.get_tool_by_id(TOOL_ID):
@@ -99,11 +133,17 @@ async def register_model(user_id: str) -> None:
         print(f"created model {MODEL_ID}")
 
 
+async def configure_runtime() -> None:
+    await Config.upsert(RUNTIME_CONFIG)
+    print("updated sub-agent + web fetch config")
+
+
 async def main() -> None:
     content = await asyncio.to_thread(Path(TOOL_PATH).read_text, encoding="utf-8")
     user_id = await _admin_user_id()
     await register_tool(user_id, content)
     await register_model(user_id)
+    await configure_runtime()
 
 
 if __name__ == "__main__":

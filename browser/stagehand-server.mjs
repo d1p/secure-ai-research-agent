@@ -150,12 +150,18 @@ const server = createServer(async (req, res) => {
     if (req.method === "POST" && path === "/navigate") {
       if (!body.url) return json(res, 400, { error: "url required" });
       await page.goto(body.url, { waitUntil: "domcontentloaded", timeout: 60000 });
-      return json(res, 200, { ok: true, url: String(page.url()), title: await page.title() });
+      return json(res, 200, { ok: true, url: await page.url(), title: await page.title() });
     }
 
     if (req.method === "POST" && path === "/read") {
       const text = await page.locator("body").innerText({ timeout: 30000 }).catch(() => "");
       return json(res, 200, { text });
+    }
+
+    // Rendered HTML for reader-mode extraction (trafilatura) upstream.
+    if (req.method === "POST" && path === "/content") {
+      const html = await page.evaluate(() => document.documentElement.outerHTML);
+      return json(res, 200, { html });
     }
 
     if (req.method === "POST" && path === "/act") {

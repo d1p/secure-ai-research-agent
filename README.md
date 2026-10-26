@@ -18,7 +18,8 @@ is the deployment mechanism.
 - **Browser (Stagehand)** — headed Chrome + Xvfb + noVNC, driven by
   [Stagehand](https://github.com/browserbase/stagehand) (`act`/`observe`/`extract`
   over Chrome CDP) with LiteLLM as the LLM backend.
-- **Safeguard gateway** — SSRF/tier/rate-limit security boundary for the browser.
+- **Safeguard gateway** — SSRF/tier/rate-limit security boundary for the browser,
+  plus reader-mode (trafilatura) extraction for plain HTTP fetches.
 - **Orchestrator** — LangGraph agent (research / browser / coding approval).
 - **Ephemeral coding runner** — aider/opencode in a hardened throwaway container.
 - **pgbackup** — nightly Postgres + Open WebUI backups with restore verification.
@@ -229,9 +230,11 @@ uses LiteLLM as its LLM backend (`STAGEHAND_MODEL`, default `deepseek-flash`),
 so every browser action's token spend flows through LiteLLM's spend log.
 
 The gateway exposes the Stagehand tools to the orchestrator as `stagehand_*`
-(`navigate`, `read`, `act`, `observe`, `extract`, `screenshot`) under the same
-SSRF/tier/rate-limit/audit boundary as before. `stagehand_act` is Tier 1
-(validated); sensitive actions require approval.
+(`navigate`, `read`, `content`, `act`, `observe`, `extract`, `screenshot`) under
+the same SSRF/tier/rate-limit/audit boundary as before. `stagehand_act` is Tier
+1 (validated); sensitive actions require approval. `stagehand_content` returns
+the rendered DOM HTML, which the orchestrator reduces to reader mode (see
+below) before it reaches an agent.
 
 Cookies, history, localStorage and preferences persist in the `browser-profile`
 named volume and never leave the container. Reset with
@@ -258,11 +261,11 @@ WebUI exposes an OWUI tool, `smart_web`
 (base `deepseek-flash`), whose system prompt tells the model to pick the
 cheapest tool that works:
 
-| Tool          | Backing                                    | Use for                                   |
+| Tool          | Backing                                    | Output / use for                          |
 |---------------|--------------------------------------------|-------------------------------------------|
-| `web_search`  | DuckDuckGo snippets (in-container)         | general / factual questions (default)     |
-| `http_fetch`  | gateway `http_fetch` (plain HTTP, SSRF)    | static pages, docs, direct files          |
-| `browse_page` | orchestrator `/web-loader` -> Stagehand    | JS-heavy, interactive, shopping (eBay)    |
+| `web_search`  | DuckDuckGo snippets (in-container)         | snippets; general / factual questions     |
+| `http_fetch`  | gateway `http_fetch` (plain HTTP, SSRF)    | reader-mode Markdown; static pages, docs  |
+| `browse_page` | orchestrator `/web-loader` -> Stagehand    | reader-mode Markdown; JS/interactive      |
 
 `http_fetch` is a Tier-0 gateway tool: it reuses `validate_url` (SSRF) and the
 audit log, and the gateway holds the `egress` network, so no browser is needed
@@ -271,7 +274,50 @@ web search returns snippets instead of loading every result through Chrome.
 
 Register (or update) the tool + model once per database with
 `scripts/register_smart_web.py`; the DB is included in `pgbackup`, so restores
-keep them.
+keep them. The script also applies the sub-agent and web-fetch runtime settings
+listed below, so the DB can be rebuilt from Git.
+
+### Reader mode (token reduction)
+
+Both page-fetch paths return **reader-mode Markdown** instead of raw HTML:
+
+- Plain HTTP: `gateway/app.py` passes HTML through `trafilatura`
+  (`gateway/reader.py`).
+- Stagehand: `browser/stagehand-server.mjs` exposes `/content` (rendered
+  `document.documentElement.outerHTML`), and the orchestrator runs the same
+  `trafilatura` extraction (`orchestrator/reader.py`) before returning
+  `/web-loader` content.
+
+The extractor keeps the main article body, headings, lists, tables and links,
+and drops navigation, headers/footers, ads, cookie banners, scripts, styles and
+other boilerplate. Failures degrade to a conservative tag-strip (plain HTTP) or
+`body.innerText` (Stagehand), never to an error. Output is then capped:
+`http_fetch` at 12,000 chars (caller default), `browse_page` at 12,000,
+Open WebUI `fetch_url` via `web.fetch.max_content_length=12000`, and
+`/web-loader` at 60,000 as a hard ceiling.
+
+### Sub-agents
+
+Open WebUI's sub-agent (`delegate_task`) runs each sub-task with the selected
+model and inherited tool IDs, but **not** the workspace model's system prompt.
+Without guidance they used the unbounded builtin `fetch_url`, looped past the
+iteration cap, and grew the context until DeepSeek closed the stream. The
+registered runtime config (`scripts/register_smart_web.py`) therefore sets:
+
+| Key                              | Value | Why                                      |
+|----------------------------------|-------|------------------------------------------|
+| `subagents.enable`               | true  | expose `delegate_task`                   |
+| `subagents.background_enabled`   | false | foreground only (no orphaned tasks)      |
+| `subagents.max_concurrent`       | 3     | limit parallel upstream streams          |
+| `subagents.max_iterations`       | 80    | research tasks need > 30 tool calls      |
+| `subagents.max_output`           | 30000 | per-sub-agent output ceiling             |
+| `subagents.system_prompt`        | (see script) | prefer `http_fetch`, <20 tool calls |
+| `web.fetch.max_content_length`   | 12000 | cap builtin `fetch_url` output           |
+
+LiteLLM also retries transient provider drops (`num_retries: 3`,
+`request_timeout: 600`) because DeepSeek occasionally closes a long stream.
+Sub-agents run foreground and return their result to the lead agent; a failed
+sub-agent is reported as an error string, not a crashed chat.
 
 ## Security model
 
@@ -359,3 +405,10 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
   uid 1000 on the NFS mount) needs a shared GID for multi-user use; single-user
   works with `chown` on the worktree.
 - Browser profile switching (`anon` vs `personal`) is human-managed via noVNC.
+- Sub-agents inherit the selected model and tool IDs but not the workspace
+  model's system prompt; their behaviour is steered by
+  `subagents.system_prompt`. The upstream provider can still close a very long
+  stream; LiteLLM retries reduce, but do not eliminate, those failures.
+- Stagehand is rate-limited to one page load per 5 s per domain, so bulk
+  static-page fetches should stay on `http_fetch`.
+

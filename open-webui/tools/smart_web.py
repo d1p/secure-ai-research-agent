@@ -114,5 +114,7 @@ class Tools:
         except Exception as exc:  # noqa: BLE001
             return f"browse_page error: {exc}"
         if isinstance(data, list) and data:
-            return data[0].get("page_content", "")
+            # Cap browser output as well; /web-loader already returns
+            # reader-mode text, but long pages still need a token budget.
+            return (data[0].get("page_content") or "")[:12000]
         return json.dumps(data)

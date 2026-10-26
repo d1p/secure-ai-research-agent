@@ -20,12 +20,13 @@ import json
 import os
 import re
 import time
-from typing import Any
+from typing import Any, ClassVar
 
 import httpx
 import yaml
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
+from reader import html_to_reader
 from security import (
     TIER_APPROVAL,
     TIER_FORBIDDEN,
@@ -51,7 +52,9 @@ def _setup_otel(app: FastAPI) -> None:
         return
     try:
         from opentelemetry import trace
-        from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+        from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
+            OTLPSpanExporter,
+        )
         from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
         from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
         from opentelemetry.sdk.resources import Resource
@@ -75,7 +78,7 @@ _setup_otel(app)
 # Stagehand client (stateless HTTP -> browser container's Stagehand service)
 # ---------------------------------------------------------------------------
 class StagehandClient:
-    _ENDPOINTS = {
+    _ENDPOINTS: ClassVar[dict[str, tuple[str, str | None]]] = {
         "navigate": ("/navigate", "url"),
         "read": ("/read", None),
         "act": ("/act", "instruction"),
@@ -109,6 +112,10 @@ def _stagehand_result(action: str, data: dict[str, Any]) -> dict[str, Any]:
     orchestrator already parses: {"result": {"content": [{"type": "text", ...}]}}."""
     if action == "read":
         text = data.get("text", "")
+    elif action == "content":
+        # Raw HTML from the rendered page; the orchestrator turns this into
+        # reader-mode Markdown before handing it to an agent.
+        text = data.get("html", "")
     elif action == "navigate":
         text = json.dumps({"ok": True, "url": data.get("url", ""), "title": data.get("title", "")})
     elif action == "screenshot":
@@ -123,7 +130,7 @@ async def _run_stagehand(agent_id: str, tool: str, args: dict[str, Any]) -> dict
     action = tool.removeprefix("stagehand_")
     try:
         status, data = await stagehand.call(action, args)
-    except httpx.HTTPError as exc:  # noqa: BLE001 - connection-level failure
+    except httpx.HTTPError as exc:
         raise HTTPException(status_code=502, detail="stagehand service unreachable") from exc
     if status >= 400:
         raise HTTPException(status_code=502, detail=data.get("error", f"stagehand returned {status}"))
@@ -167,8 +174,9 @@ async def _http_fetch(url: str, max_chars: int = MAX_FETCH_CHARS) -> dict[str, A
             break
     content_type = resp.headers.get("content-type", "")
     raw = resp.content[:MAX_FETCH_BYTES].decode(resp.encoding or "utf-8", errors="replace")
-    if "html" in content_type.lower():
-        raw = _html_to_text(raw)
+    if "html" in content_type.lower() or raw.lstrip()[:15].lower().startswith("<!doctype html"):
+        # Reader mode: extract the main article, drop nav/ads/scripts/styles.
+        raw = html_to_reader(raw, current, max_chars=None) or _html_to_text(raw)
     raw = re.sub(r"\n{3,}", "\n\n", raw)
     if max_chars > 0 and len(raw) > max_chars:
         raw = raw[:max_chars] + "\n\n[content truncated]"
@@ -350,8 +358,9 @@ async def execute(
 
     await _audit(agent_id, url, tool, "allowed", str(tier))
 
-    # Challenge detection (CAPTCHA / Cloudflare / login wall)
-    challenge = _detect_challenge(result)
+    # Challenge detection (CAPTCHA / Cloudflare / login wall).  Skip raw HTML:
+    # page markup often mentions these words without being a challenge page.
+    challenge = False if tool == "stagehand_content" else _detect_challenge(result)
     if challenge:
         await _audit(agent_id, url, tool, "challenge", str(tier), "needs_human")
         return {

@@ -18,6 +18,7 @@ from typing import Annotated, Any, TypedDict
 
 import httpx
 from langgraph.graph import END, StateGraph
+from reader import html_to_reader
 
 LITELLM_URL = os.environ.get("LITELLM_URL", "http://litellm:4000")
 LITELLM_MASTER_KEY = os.environ.get("LITELLM_MASTER_KEY", "")
@@ -185,10 +186,19 @@ async def node_research(state: AgentState) -> AgentState:
     if isinstance(nav, dict) and nav.get("error"):
         state["result"] = f"[browser error {nav['error']}] {nav.get('detail', '')}"
         return state
-    snap = await call_browser(state["agent_id"], "stagehand_read", {})
-    text = _extract_text(snap) if isinstance(snap, dict) else str(snap)
+
+    text = ""
+    page = await call_browser(state["agent_id"], "stagehand_content", {})
+    if isinstance(page, dict) and not page.get("error"):
+        html = _extract_text(page)
+        if html:
+            text = html_to_reader(html, _research_url(query), max_chars=20000)
+
     if not text:
-        text = str(snap)
+        snap = await call_browser(state["agent_id"], "stagehand_read", {})
+        text = _extract_text(snap) if isinstance(snap, dict) else str(snap)
+    if not text:
+        text = str(page if isinstance(page, dict) else "")
     summary = await call_litellm(
         [{"role": "user", "content": f"Summarize research for query '{query}' from page: {text}"}]
     )
