@@ -169,10 +169,13 @@ async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
             verdict = validate_url(current)
             if not verdict.ok:
                 raise HTTPException(status_code=403, detail=verdict.reason)
-            resp = await client.get(
-                current,
-                headers={"User-Agent": _FETCH_UA, "Accept": "text/html,application/xhtml+xml,text/plain,application/json,*/*"},
-            )
+            try:
+                resp = await client.get(
+                    current,
+                    headers={"User-Agent": _FETCH_UA, "Accept": "text/html,application/xhtml+xml,text/plain,application/json,*/*"},
+                )
+            except httpx.HTTPError as exc:
+                raise HTTPException(status_code=502, detail=f"fetch failed: {exc}") from exc
             if resp.is_redirect and "location" in resp.headers:
                 current = str(httpx.URL(current).join(resp.headers["location"]))
                 continue

@@ -183,3 +183,21 @@ def test_table_fallback_strips_nested_style(monkeypatch) -> None:
     assert out.method == "table"
     assert ".bad{color:red}" not in out.text
     assert "Label" in out.text and "789" in out.text
+
+
+def test_xbrl_uses_table_mode_without_trafilatura(monkeypatch) -> None:
+    from shared import reader
+
+    html = (
+        "<html><body><type>XML<description>IDEA: XBRL DOCUMENT<text>"
+        "<table><tr><th>Revenue</th><th>2026</th><th>2025</th></tr>"
+        "<tr><td>Revenue</td><td>804905</td><td>499627</td></tr>"
+        "<tr><td>Net income</td><td>252848</td><td>89297</td></tr>"
+        "</table></body></html>"
+    )
+    calls = []
+    monkeypatch.setattr(reader, "_extract_markdown", lambda *a, **k: calls.append(1) or "SHOULD NOT RUN")
+    out = read_html(html, "https://www.sec.gov/x/R2.htm", max_chars=None)
+    assert out.method == "table"
+    assert "804905" in out.text
+    assert not calls

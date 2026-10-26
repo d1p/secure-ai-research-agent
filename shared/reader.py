@@ -178,6 +178,14 @@ def _challenge_score(text: str) -> int:
     return sum(1 for phrase in _CHALLENGE_PHRASES if phrase in lowered)
 
 
+def _is_xbrl_document(html) -> bool:
+    """True for SEC IDEA/XBRL statement pages (R2.htm, R4.htm, ...)."""
+    head = _str_from_any(html)[:20_000].lower()
+    return "idea: xbrl document" in head or (
+        "xbrl document" in head and "<type>xml" in head
+    )
+
+
 def _cell_text(cell) -> str:
     """Visible cell text with nested scripts/styles removed."""
     for bad in cell.xpath(".//script|.//style|.//noscript|.//template"):
@@ -317,6 +325,17 @@ def read_html(
 
     if detect_challenge_html(source):
         return ReaderResult(text="", method="challenge", challenge=True)
+
+    if _is_xbrl_document(source):
+        tables = _extract_tables(source)
+        if len(tables) >= TABLE_MIN_CHARS:
+            text, truncated = _truncate(tables, "", max_chars)
+            return ReaderResult(
+                text=text,
+                method="table",
+                tag_chars=len(_strip_tags(source)),
+                truncated=truncated,
+            )
 
     tag_text = _strip_tags(source)
     mode = include_links if include_links in {"sources", "inline", "none"} else "sources"
