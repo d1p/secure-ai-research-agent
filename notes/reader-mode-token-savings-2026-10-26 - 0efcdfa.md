@@ -2,7 +2,7 @@
 
 - **Date:** 2026-10-26
 - **Original change:** [`0efcdfa`](https://github.com/d1p/secure-ai-research-agent/commit/0efcdfa) — reader-mode extraction and resilient sub-agents
-- **Follow-up fixes:** [`3def9e7`](https://github.com/d1p/secure-ai-research-agent/commit/3def9e7) — reader core (`fa6e5b5`), table-first XBRL (`9e3dabf`), fetch hardening (`bba5dcf`/`3def9e7`)
+- **Verified against:** [`ba3e799`](https://github.com/d1p/secure-ai-research-agent/commit/ba3e799) — app code from `3def9e7`: reader core (`fa6e5b5`), table-first XBRL (`9e3dabf`), fetch hardening (`bba5dcf`/`3def9e7`)
 - **Component:** `shared/reader.py`, `gateway/app.py`, `orchestrator/{api,agent}.py`, `browser/stagehand-server.mjs` (`/content`), Open WebUI `smart_web` / sub-agents
 - **Measured on:** AI stack VM (10.0.0.210), live pages, `trafilatura==2.3.1`
 
@@ -12,10 +12,10 @@
   cap both methods simply fill the cap; it cannot show whether the reader is
   better. The useful metric is the **minimum budget that keeps all key facts**,
   plus the tokens needed at that budget.
-- At equal key-fact recall the reader needs **1.5k vs 6k chars** on Wikipedia
-  (**-75% tokens**) and **10k vs 16k chars** on GitHub (**-34%**). On clean docs
-  (Python asyncio) the win is smaller (2.5k vs 3.5k chars, **-24%**) and at a
-  fixed 12k cap the reader is slightly more expensive (+8%). There is no
+- At equal key-fact recall the reader needs **1.4k vs 5.8k chars** on Wikipedia
+  (**-77% tokens**) and **9.5k vs 13.5k chars** on GitHub (**-24%**). On clean
+  docs (Python asyncio) the win is smaller (2.5k vs 3.2k chars, **-16%**) and at
+  a fixed 12k cap the reader is slightly more expensive (+8%). There is no
   universal token win.
 - The biggest fixes are for data-heavy pages: link compaction cuts the reader’s
   full Wikipedia output by **42%**, and table-first extraction returns the
@@ -65,18 +65,39 @@ Metrics:
   Percentages are stable; absolute counts differ slightly.
 - Old behavior: gateway regex tag-strip; Stagehand `body.innerText`.
 
+## Current verification (deployed)
+
+Verified 2026-10-26 after deploying app code `3def9e7` (tree `ba3e799`):
+
+| Check | Result |
+|-------|--------|
+| Gateway `http_fetch` Wikipedia | 200, **12,020 chars** at the 12k budget |
+| Gateway `http_fetch` SEC R2 | 200, **1,120 chars**, table-first |
+| Gateway `http_fetch` StockAnalysis | 200, **1,956 chars**, table-first |
+| Orchestrator `/web-loader` SEC R2 | 200, **1,120 chars** (no 32k reader blob) |
+| Orchestrator `/web-loader` StockAnalysis | 200, **1,956 chars** |
+| Orchestrator `/fetch` SEC R2 | plain text, 1,120 chars (JSON envelope unwrapped) |
+| Challenge path | “Just a moment…” -> `needs_human`; headed Stagehand received the data table |
+| 20 consecutive Wikipedia `http_fetch` calls | **20/20** succeeded after retry + worker thread |
+| Tests / lint | **104 passed**, ruff clean |
+| Open WebUI runtime config | 40 iterations, 32k fetch cap (verified in DB) |
+| Browser dependency audit | **0 high** after zod 4.6.7 override |
+| Containers | gateway, orchestrator, browser, open-webui healthy |
+
 ## Token results
 
 ### Minimum budget for full key-fact recall (new reader vs old tag-strip)
 
 | Page | Reader budget / tokens | Tag-strip budget / tokens | Token change |
 |------|------------------------|---------------------------|--------------|
-| Wikipedia / Reddit | **1,500 chars / 475 tok** | 6,000 chars / 1,924 tok | **-75%** |
-| Python asyncio docs | **2,500 chars / 647 tok** | 3,500 chars / 852 tok | **-24%** |
-| GitHub README | **10,000 chars / 2,286 tok** | 16,000 chars / 3,461 tok | **-34%** |
+| Wikipedia / Reddit | **1,400 chars / 436 tok** | 5,800 chars / 1,865 tok | **-77%** |
+| Python asyncio docs | **2,500 chars / 647 tok** | 3,200 chars / 770 tok | **-16%** |
+| GitHub README | **9,500 chars / 2,182 tok** | 13,500 chars / 2,875 tok | **-24%** |
 
-Reader facts at those budgets: 5/5, 5/5, 5/5. The tag-strip needs 4x, 1.4x and
-1.6x the budget respectively. This is the comparison that matters.
+Reader facts at those budgets: 5/5, 5/5, 5/5. The tag-strip needs 4.1x, 1.3x and
+1.4x the budget respectively. Budgets are scanned in 100-char steps against the
+live pages fetched on 2026-10-26; page changes can move the exact boundary.
+This is the comparison that matters.
 
 ### Fixed 12k budget (diagnostic, not a value claim)
 
