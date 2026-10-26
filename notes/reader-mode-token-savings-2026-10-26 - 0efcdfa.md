@@ -2,7 +2,7 @@
 
 - **Date:** 2026-10-26
 - **Original change:** [`0efcdfa`](https://github.com/d1p/secure-ai-research-agent/commit/0efcdfa) — reader-mode extraction and resilient sub-agents
-- **Follow-up fixes:** [`9e3dabf`](https://github.com/d1p/secure-ai-research-agent/commit/9e3dabf) (table-first XBRL, fetch errors), [`fa6e5b5`](https://github.com/d1p/secure-ai-research-agent/commit/fa6e5b5) (link compaction, fallbacks, budgets, UA, challenge detection)
+- **Follow-up fixes:** [`3def9e7`](https://github.com/d1p/secure-ai-research-agent/commit/3def9e7) — reader core (`fa6e5b5`), table-first XBRL (`9e3dabf`), fetch hardening (`bba5dcf`/`3def9e7`)
 - **Component:** `shared/reader.py`, `gateway/app.py`, `orchestrator/{api,agent}.py`, `browser/stagehand-server.mjs` (`/content`), Open WebUI `smart_web` / sub-agents
 - **Measured on:** AI stack VM (10.0.0.210), live pages, `trafilatura==2.3.1`
 
@@ -161,8 +161,11 @@ prompt adherence; the previous estimate was **70-85%** fewer tool-output tokens.
 3. **Challenge detection.** Raw HTML and rendered content are checked for
    structural markers/titles; long articles that merely mention “captcha” are
    not flagged.
-4. **Fetch failures.** Connect/read timeouts now return a clean 502 instead of a
-   500 traceback.
+4. **Fetch failures and event-loop blocking.** Connect/read failures retry with
+   backoff and return a clean 502 with the exception type instead of a 500
+   traceback. trafilatura/lxml extraction now runs in a worker thread, so a
+   1.5MB page cannot block health checks or concurrent fetches. After this,
+   20/20 consecutive Wikipedia fetches succeeded (an earlier run failed 1/10).
 5. **Payload wrapping.** The orchestrator no longer forwards the gateway JSON
    envelope to the model; it returns page text only.
 

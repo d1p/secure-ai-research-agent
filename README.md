@@ -326,6 +326,8 @@ navigation/headers/footers/ads/cookie banners/scripts/styles, and additionally:
 - **Avoids trafilatura's stateful `deduplicate=True`.** In 2.3.x it keeps
   cross-call state and starts returning empty output after repeated extractions
   of the same page, which silently forced tag-strip fallback.
+- Runs extraction in a worker thread and retries transient connect/read
+  failures, so a large page cannot block the event loop or turn into a 500.
 
 Caps: `http_fetch` per-domain (12k/24k/32k), `browse_page` <=32k,
 `/web-loader` <=32k, and Open WebUI `fetch_url` via
