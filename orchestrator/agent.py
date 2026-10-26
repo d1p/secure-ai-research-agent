@@ -11,6 +11,7 @@ coding workflow is persisted to orchestrator.approvals.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import uuid
@@ -201,7 +202,9 @@ async def node_research(state: AgentState) -> AgentState:
     if isinstance(page, dict) and not page.get("error"):
         html = _extract_text(page)
         if html:
-            extracted = read_html(html, url, max_chars=budget, include_links="sources")
+            extracted = await asyncio.to_thread(
+                read_html, html, url, budget, include_links="sources"
+            )
             if extracted.challenge:
                 state["result"] = "[needs_human] Challenge detected; human intervention required via noVNC."
                 return state

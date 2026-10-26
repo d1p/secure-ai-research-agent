@@ -165,12 +165,17 @@ _FETCH_UA = os.environ.get(
 async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
     current = url
     resp: httpx.Response | None = None
-    async with httpx.AsyncClient(timeout=httpx.Timeout(60.0, connect=15.0), follow_redirects=False) as client:
+    transport = httpx.AsyncHTTPTransport(retries=2)
+    async with httpx.AsyncClient(
+        timeout=httpx.Timeout(60.0, connect=15.0),
+        follow_redirects=False,
+        transport=transport,
+    ) as client:
         for _ in range(MAX_FETCH_REDIRECTS + 1):
             verdict = validate_url(current)
             if not verdict.ok:
                 raise HTTPException(status_code=403, detail=verdict.reason)
-            for attempt in range(2):
+            for attempt in range(3):
                 try:
                     resp = await client.get(
                         current,
@@ -178,8 +183,8 @@ async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
                     )
                     break
                 except (httpx.ConnectTimeout, httpx.ConnectError, httpx.ReadTimeout) as exc:
-                    if attempt == 0:
-                        await asyncio.sleep(0.25)
+                    if attempt < 2:
+                        await asyncio.sleep(0.25 * (attempt + 1))
                         continue
                     raise HTTPException(
                         status_code=502,
@@ -199,7 +204,9 @@ async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
     budget = content_budget(current, max_chars)
 
     if "html" in content_type.lower() or raw.lstrip()[:15].lower().startswith("<!doctype html"):
-        extracted = read_html(raw, current, max_chars=budget, include_links="sources")
+        extracted = await asyncio.to_thread(
+            read_html, raw, current, budget, include_links="sources"
+        )
         if extracted.challenge:
             message = _challenge_message()
             return {

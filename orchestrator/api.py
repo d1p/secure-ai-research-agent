@@ -6,6 +6,7 @@ OpenAI-compatible chat endpoint + approval management.  The coding workflow
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import subprocess
@@ -139,7 +140,9 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
     if isinstance(page, dict) and not page.get("error"):
         html = _extract_mcp_text(page)
         if html:
-            extracted = read_html(html, url, max_chars=budget, include_links="sources")
+            extracted = await asyncio.to_thread(
+                read_html, html, url, budget, include_links="sources"
+            )
             if extracted.challenge:
                 return "[needs_human] Challenge detected; human intervention required via noVNC."
             text = extracted.text
