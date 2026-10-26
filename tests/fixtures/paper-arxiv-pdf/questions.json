@@ -1,0 +1,34 @@
+[
+  {
+    "id": "title",
+    "question": "What is the title of the paper on page 1?",
+    "answer": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+    "evidence": "[page 1] Llama 2: Open Foundation and Fine-Tuned Chat Models",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "range",
+    "question": "What parameter range do the models cover?",
+    "answer": "7 billion to 70 billion parameters",
+    "evidence": "ranging in scale from 7 billion to 70 billion parameters",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "context",
+    "question": "What happened to the context length?",
+    "answer": "It was doubled",
+    "evidence": "doubled the context length",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "marker",
+    "question": "Does the extracted text include page markers?",
+    "answer": "Yes, for example [page 1]",
+    "evidence": "[page 1]",
+    "kind": "code",
+    "grading": "exact"
+  }
+]

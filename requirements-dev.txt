@@ -1,0 +1,10 @@
+-r gateway/requirements.txt
+-r orchestrator/requirements.txt
+pytest>=9.1.1
+pytest-asyncio>=1.4.1
+hypothesis>=6.170.12
+readability-lxml>=0.9
+markdownify>=1.2.3
+pypdf>=6.21.2
+tokenizers>=0.23.3
+tiktoken>=0.14.0

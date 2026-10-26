@@ -54,8 +54,10 @@ def test_reader_extracts_main_content() -> None:
 
 def test_max_chars_truncates() -> None:
     out = html_to_reader(SAMPLE, max_chars=40)
-    assert "[content truncated]" in out
-    assert len(out) <= 40 + len("\n\n[content truncated]")
+    assert "[content truncated" in out
+    from shared import reader
+
+    assert len(out) <= 40 + len(reader.TRUNCATION_MARKER)
 
 
 def test_link_compaction_keeps_labels_and_dedupes_sources(monkeypatch) -> None:
@@ -79,7 +81,9 @@ def test_link_compaction_keeps_labels_and_dedupes_sources(monkeypatch) -> None:
 def test_fallback_when_reader_drops_too_much(monkeypatch) -> None:
     from shared import reader
 
-    html = "<html><body><article>" + ("important data " * 120) + "</article></body></html>"
+    html = (
+        "<html><body><article>" + ("important data " * 120) + "</article></body></html>"
+    )
     monkeypatch.setattr(reader, "_extract_markdown", lambda *a, **k: "tiny")
     out = read_html(html, max_chars=None)
     assert out.method == "tag-strip"
@@ -117,14 +121,16 @@ def test_challenge_detection_on_visible_text() -> None:
     assert detect_challenge_text("An article about captcha design " * 100) is False
 
 
-def test_content_budget_per_domain() -> None:
-    assert content_budget("https://en.wikipedia.org/wiki/Reddit") == 12000
-    assert content_budget("https://www.sec.gov/Archives/edgar/data/x/R2.htm") == 32000
-    assert content_budget("https://stockanalysis.com/stocks/rddt/financials/") == 24000
-    assert content_budget("https://www.sec.gov/x", 50000) == 32000
-    assert content_budget("https://www.sec.gov/x", 8000) == 8000
-    assert content_budget("https://www.sec.gov/x", None) == 32000
-    assert content_budget("https://www.sec.gov/x", "bad") == 32000
+def test_content_budget_by_page_type() -> None:
+    assert content_budget("https://example.com/x", page_type="article") == 24000
+    assert content_budget("https://example.com/x", page_type="docs") == 12000
+    assert content_budget("https://example.com/x", page_type="table") == 24000
+    assert content_budget("https://example.com/x", page_type="listing") == 8000
+    assert content_budget("https://example.com/x", page_type="unknown") == 12000
+    assert content_budget("https://example.com/x", 50000, "table") == 24000
+    assert content_budget("https://example.com/x", 8000, "docs") == 8000
+    assert content_budget("https://example.com/x", None, "paper") == 24000
+    assert content_budget("https://example.com/x", "bad", "docs") == 12000
 
 
 def test_truncation_keeps_appended_sources(monkeypatch) -> None:
@@ -146,7 +152,9 @@ def test_repeated_extraction_is_stable() -> None:
         for index in range(80)
     )
     html = f"<html><head><title>Stable article</title></head><body><article>{body}</article></body></html>"
-    outputs = [read_html(html, "https://example.com/stable", max_chars=None) for _ in range(10)]
+    outputs = [
+        read_html(html, "https://example.com/stable", max_chars=None) for _ in range(10)
+    ]
     assert all(result.text for result in outputs)
     assert all(result.method == "reader" for result in outputs)
 
@@ -157,9 +165,10 @@ def test_table_fallback_for_data_pages(monkeypatch) -> None:
     html = (
         "<html><body><article><p>short</p></article><table>"
         "<tr><th>Year</th><th>Revenue</th><th>Net income</th></tr>"
-        "<tr><td>2026</td><td>804905</td><td>252848</td></tr>"
-        "<tr><td>2025</td><td>499627</td><td>89297</td></tr>"
-        "</table><footer>" + ("boilerplate " * 100) + "</footer></body></html>"
+        + ("<tr><td>2026</td><td>804905</td><td>252848</td></tr>" * 25)
+        + "</table><footer>"
+        + ("boilerplate " * 30)
+        + "</footer></body></html>"
     )
     monkeypatch.setattr(reader, "_extract_markdown", lambda *a, **k: "short")
     out = read_html(html, "https://www.sec.gov/x", max_chars=None)
@@ -196,7 +205,9 @@ def test_xbrl_uses_table_mode_without_trafilatura(monkeypatch) -> None:
         "</table></body></html>"
     )
     calls = []
-    monkeypatch.setattr(reader, "_extract_markdown", lambda *a, **k: calls.append(1) or "SHOULD NOT RUN")
+    monkeypatch.setattr(
+        reader, "_extract_markdown", lambda *a, **k: calls.append(1) or "SHOULD NOT RUN"
+    )
     out = read_html(html, "https://www.sec.gov/x/R2.htm", max_chars=None)
     assert out.method == "table"
     assert "804905" in out.text

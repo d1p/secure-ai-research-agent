@@ -1,0 +1,34 @@
+[
+  {
+    "id": "rev-2026",
+    "question": "What was revenue in 2026?",
+    "answer": "804,905",
+    "evidence": "2026 revenue 804,905",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "rev-2025",
+    "question": "What was revenue in 2025?",
+    "answer": "499,627",
+    "evidence": "2025 revenue 499,627",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "net-2026",
+    "question": "What was net income in 2026?",
+    "answer": "252,848",
+    "evidence": "2026 net income 252,848",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "op-2026",
+    "question": "What was operating income in 2026?",
+    "answer": "231,716",
+    "evidence": "2026 operating income 231,716",
+    "kind": "table",
+    "grading": "exact"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "what",
+    "question": "What is Open WebUI?",
+    "answer": "A self-hosted, extensible, feature-rich AI platform that can run entirely offline",
+    "evidence": "Open WebUI is a home for AI, a self-hosted AI platform that's extensible, feature-rich, user-friendly, and built to run entirely offline",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "install",
+    "question": "Which installation methods are listed?",
+    "answer": "pip, uv, Docker, and Kubernetes",
+    "evidence": "Install seamlessly via pip, uv, Docker, or Kubernetes",
+    "kind": "list",
+    "grading": "exact"
+  },
+  {
+    "id": "python",
+    "question": "Which Python version does the pip installation section recommend?",
+    "answer": "Python 3.12",
+    "evidence": "ensure you're using Python 3.12",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "feature",
+    "question": "What kind of model/API integration does the README advertise?",
+    "answer": "Broad model and API integration",
+    "evidence": "Broad Model & API Integration",
+    "kind": "list",
+    "grading": "semantic"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "acronym",
+    "question": "What does CAPTCHA stand for?",
+    "answer": "Completely Automated Public Turing test to tell Computers and Humans Apart",
+    "evidence": "Completely Automated Public Turing test to tell Computers and Humans Apart",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "coined",
+    "question": "When and by whom was the term CAPTCHA coined?",
+    "answer": "2003 by Luis von Ahn, Manuel Blum, Nicholas J. Hopper, and John Langford",
+    "evidence": "coined in 2003 by Luis von Ahn, Manuel Blum, Nicholas J. Hopper, and John Langford",
+    "kind": "deep",
+    "grading": "semantic"
+  },
+  {
+    "id": "first",
+    "question": "When was the historically common image CAPTCHA first invented?",
+    "answer": "1997, by two groups working in parallel",
+    "evidence": "first invented in 1997 by two groups working in parallel",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "type",
+    "question": "What did the historically common reCAPTCHA v1 challenge require?",
+    "answer": "Interpreting a sequence of letters or numbers from a distorted image",
+    "evidence": "interpreting a sequence of letters or numbers from a distorted image",
+    "kind": "prose",
+    "grading": "semantic"
+  }
+]

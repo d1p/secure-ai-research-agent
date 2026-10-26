@@ -1,0 +1,20 @@
+{
+  "bytes_raw": 1070599,
+  "capture_method": "http-get",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "arXiv non-exclusive distribution license 1.0; excerpt",
+  "page_type": "paper",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "f9277e041ed9b6feef766eacb94a543256cb6ddbb858ce5dda927aa3d4c3e562",
+  "slug": "paper-arxiv-html",
+  "source_url": "https://arxiv.org/html/2307.09288v1",
+  "stored_file": "page.html.gz",
+  "synthetic": false,
+  "tags": [
+    "has_tables",
+    "has_code"
+  ]
+}

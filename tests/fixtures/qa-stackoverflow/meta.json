@@ -1,0 +1,20 @@
+{
+  "bytes_raw": 9980,
+  "capture_method": "stackexchange-api-reconstruction",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "CC BY-SA 4.0 (Stack Exchange); question + top answers",
+  "page_type": "thread",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "95d8a9af4770d72c1c7ca10ad62dbb34d7609b3c99f2a5c83968e09c28ac6568",
+  "slug": "qa-stackoverflow",
+  "source_url": "https://stackoverflow.com/questions/136097",
+  "stored_file": "page.html",
+  "synthetic": false,
+  "tags": [
+    "has_comments",
+    "has_code"
+  ]
+}

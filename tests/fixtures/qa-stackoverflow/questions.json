@@ -1,0 +1,34 @@
+[
+  {
+    "id": "difference",
+    "question": "What is the key difference between @staticmethod and @classmethod?",
+    "answer": "classmethod receives the class as its first argument; staticmethod receives no implicit instance/class argument",
+    "evidence": "The @classmethod form is a function decorator",
+    "kind": "code",
+    "grading": "semantic"
+  },
+  {
+    "id": "call",
+    "question": "How can a classmethod be called?",
+    "answer": "On the class (C.f()) or on an instance",
+    "evidence": "It can be called either on the class (such as C.f()) or on",
+    "kind": "code",
+    "grading": "semantic"
+  },
+  {
+    "id": "instance-arg",
+    "question": "What is implicitly passed to an instance method?",
+    "answer": "The object instance",
+    "evidence": "The object instance, a, is implicitly passed as the first argument",
+    "kind": "deep",
+    "grading": "semantic"
+  },
+  {
+    "id": "decorator",
+    "question": "Which decorator creates a classmethod?",
+    "answer": "@classmethod",
+    "evidence": "@classmethod",
+    "kind": "code",
+    "grading": "exact"
+  }
+]

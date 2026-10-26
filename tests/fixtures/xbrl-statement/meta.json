@@ -1,0 +1,21 @@
+{
+  "bytes_raw": 661,
+  "capture_method": "synthetic",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "No source license; synthetic test data",
+  "page_type": "table",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "692472566db795d021e18d23a587985703b05e6b6a65416064b148de2a4ed84a",
+  "slug": "xbrl-statement",
+  "source_url": "https://example.com/xbrl-statement",
+  "stored_file": "page.html",
+  "synthetic": true,
+  "tags": [
+    "has_tables",
+    "xbrl",
+    "data"
+  ]
+}

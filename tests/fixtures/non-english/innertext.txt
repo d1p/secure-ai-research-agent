@@ -1,0 +1,2148 @@
+Künstliche Intelligenz – Wikipedia
+
+Zum Inhalt springen
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+Hauptmenü
+ 
+ 
+
+ 
+ 
+
+ 
+ Hauptmenü
+ In die Seitenleiste verschieben
+ Verbergen
+
+ 
+
+ 
+ Navigation
+ 
+ 
+ 
+ 
+ 
+ HauptseiteThemenportaleZufälliger ArtikelSpezialseiten
+ 
+ 
+ 
+
+ 
+
+ 
+ Mitmachen
+ 
+ 
+ 
+ 
+ 
+ Artikel verbessernNeuen Artikel anlegenAutorenportalHilfeLetzte ÄnderungenKontakt
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+
+Suche
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Suchen
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+Erscheinungsbild
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+ Jetzt spenden
+
+Benutzerkonto erstellen
+
+Anmelden
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+Meine Werkzeuge
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+
+Jetzt spenden
+
+Benutzerkonto erstellen
+
+Anmelden
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Inhaltsverzeichnis
+ In die Seitenleiste verschieben
+ Verbergen
+
+ 
+ 
+ 
+ (Anfang)
+ 
+ 
+ 
+ 
+ 
+ 1
+ Beschreibung
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 2
+ Geschichte
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Geschichte umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 2.1
+ Begriffsherkunft
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 2.2
+ Vorläufer
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3
+ Definitionen und Kategorien Künstlicher Intelligenz
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Definitionen und Kategorien Künstlicher Intelligenz umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.1
+ Definitionskategorien nach Russell und Norvig
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.1.1
+ Nachbildung menschlichen Verhaltens
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.1.2
+ Nachbildung menschlichen Denkens
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.1.3
+ Nachbildung rationalen Denkens
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.1.4
+ Nachbildung rationalen Verhaltens
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.2
+ Starke und schwache KI
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.3
+ EU-rechtliche Definition
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 3.4
+ Eigenschaften von Intelligenz
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 4
+ Metaphorik
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 5
+ Forschungsgebiete
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 6
+ Teilgebiete
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Teilgebiete umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 6.1
+ Wissensbasierte Systeme
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 6.2
+ Musteranalyse und Mustererkennung
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 6.3
+ Mustervorhersage
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 6.4
+ Robotik
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 6.5
+ Künstliches Leben
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 6.6
+ AI-Alignment
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 7
+ Methoden
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Methoden umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 7.1
+ Suchen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 7.2
+ Planen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 7.3
+ Optimierungsmethoden
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 7.4
+ Logisches Schließen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 7.5
+ Approximationsmethoden
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 7.5.1
+ Künstliches neuronales Netz
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 7.5.1.1
+ Schwachstellen der Deep Learning basierten KI
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 8
+ Anwendungen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 9
+ Technologische Singularität
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 10
+ Bewusstsein bei künstlicher Intelligenz
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11
+ Angrenzende Wissenschaften
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Angrenzende Wissenschaften umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 11.1
+ Sprachwissenschaft
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11.2
+ Psychologie & Neurobiologie
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11.3
+ Psychotherapie
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11.4
+ Philosophie
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11.5
+ Menschenrechte
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11.6
+ Tierethik
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11.7
+ Klimatologie und Ökologie
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 12
+ Kritik an KI-Forschung und -Anwendung
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Kritik an KI-Forschung und -Anwendung umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 12.1
+ Warnung vor existenziellem Risiko für die Menschheit
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 12.2
+ Warnung vor Gefahren durch autonome und KI-gestützte Waffen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 12.3
+ Weitere Aspekte
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 12.4
+ Bösartige Nutzung künstlicher Intelligenz
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 12.5
+ Veränderung menschlichen Verhaltens
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 12.6
+ Vorschläge zum Umgang mit KI
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 12.7
+ Das KI-Observatorium
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 13
+ Regulierung und Gesetzgebung
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Regulierung und Gesetzgebung umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 13.1
+ Europäische Union
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 13.2
+ Vereinigte Staaten
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 13.3
+ Vereinte Nationen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 14
+ Darstellung in Film, Videospielen, Literatur und Musik
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Darstellung in Film, Videospielen, Literatur und Musik umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 14.1
+ Kritik
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 15
+ Soziale Auswirkungen
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Soziale Auswirkungen umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 15.1
+ Wirtschaft, Arbeitswelt und Verteilungsgerechtigkeit
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 15.2
+ Kommunikation
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 15.3
+ Veränderte Websuche
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 16
+ Siehe auch
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 17
+ Literatur
+ 
+ 
+ 
+ 
+ 
+ Unterabschnitt Literatur umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 17.1
+ Einführungen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 17.2
+ Geschichte
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 17.3
+ Lehrbücher
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 17.4
+ Nachschlagewerke
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 17.5
+ Sonstige Literatur
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 18
+ Weblinks
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 19
+ Einzelnachweise
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+Inhaltsverzeichnis umschalten
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+ Künstliche Intelligenz
+ 
+
+ 
+ 
+
+183 Sprachen
+ 
+ 
+
+ 
+ 
+ 
+ 
+ AfrikaansAlemannischአማርኛAragonésअंगिकाالعربيةالدارجةمصرىঅসমীয়াAsturianuAzərbaycancaتۆرکجهБашҡортсаBoarischŽemaitėškaBikol CentralБеларуская (тарашкевіца)БеларускаяBetawiБългарскиभोजपुरीပအိုဝ်ႏဘာႏသာႏবাংলাབོད་ཡིགBrezhonegBosanskiБуряадCatalàНохчийнCebuanoکوردیQırımtatarcaČeštinaKaszëbscziЧӑвашлаCymraegDanskZazakiKadazandusunΕλληνικάEnglishEsperantoEspañolEestiEuskaraEstremeñuفارسیSuomiVõroFøroysktFɔ̀ngbèFrançaisNordfriiskFurlanFryskGaeilge贛語Kriyòl gwiyannenGàidhligGalegoAvañe'ẽगोंयची कोंकणी / Gõychi KonknniગુજરાતીGaelgHausaעבריתहिन्दीFiji HindiHrvatskiKreyòl ayisyenMagyarՀայերենԱրեւմտահայերէնInterlinguaJaku IbanBahasa IndonesiaInterlingueIgboIlokanoIdoÍslenskaMedžuslovjanskyItaliano日本語PatoisLa .lojban.JawaქართულიQaraqalpaqshaTaqbaylitGĩkũyũҚазақшаភាសាខ្មែរಕನ್ನಡ한국어کٲشُرRipoarischKurdîКыргызчаLatinaLëtzebuergeschLimburgsLigureLombardລາວLietuviųLatviešuMadhurâMalagasyMinangkabauМакедонскиമലയാളംМонголဘာသာမန်मराठीBahasa MelayuMaltiမြန်မာဘာသာNedersaksiesPlattdüütschनेपालीनेपाल भाषाNederlandsNorsk nynorskNorsk bokmålSesotho sa LeboaOccitanଓଡ଼ିଆਪੰਜਾਬੀPicardPolskiPiemontèisپنجابیپښتوPortuguêsRuna SimiRomânăРускиРусскийРусиньскыйसंस्कृतम्Саха тылаSicilianuScotsسنڌيSängöSrpskohrvatski / српскохрватскиසිංහලSimple EnglishSlovenčinaSlovenščinaShqipСрпски / srpskiSvenskaKiswahiliꠍꠤꠟꠐꠤதமிழ்తెలుగుТоҷикӣไทยTürkmençeTagalogToki ponaTürkçeТатарча / tatarçaReo tahitiئۇيغۇرچە / UyghurcheУкраїнськаاردوOʻzbekcha / ўзбекчаVènetoTiếng ViệtWalonWinaray吴语მარგალურიייִדישⵜⴰⵎⴰⵣⵉⵖⵜ ⵜⴰⵏⴰⵡⴰⵢⵜ文言閩南語 / Bân-lâm-gí粵語中文IsiZulu
+ 
+ Links bearbeiten
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ Artikel
+
+Diskussion
+
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+ Deutsch
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ Lesen
+
+Bearbeiten
+
+Quelltext bearbeiten
+
+Versionsgeschichte
+
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+ 
+
+ 
+ 
+
+Werkzeuge
+ 
+ 
+
+ 
+ 
+
+ 
+ Werkzeuge
+ In die Seitenleiste verschieben
+ Verbergen
+
+ 
+
+ 
+ Aktionen
+ 
+ 
+ 
+ 
+ 
+
+Lesen
+
+Bearbeiten
+
+Quelltext bearbeiten
+
+Versionsgeschichte
+
+ 
+ 
+ 
+ 
+
+ 
+ Allgemein
+ 
+ 
+ 
+ 
+ 
+ Links auf diese SeiteÄnderungen an verlinkten SeitenPermanenter LinkSeiten­­informationenArtikel zitierenKurzlinkZum Legacy-Parser wechseln
+ 
+ 
+ 
+
+ 
+ Drucken/​exportieren
+ 
+ 
+ 
+ 
+ 
+ Als PDF herunterladenDruckversion
+ 
+ 
+ 
+
+ 
+ In anderen Projekten
+ 
+ 
+ 
+ 
+ 
+ Abstrakte WikipediaCommonsWikiversityWikidata-Datenobjekt
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Erscheinungsbild
+ In die Seitenleiste verschieben
+ Verbergen
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ aus Wikipedia, der freien Enzyklopädie
+ Dies ist die aktuelle Version dieser Seite, zuletzt bearbeitet am 26. Oktober 2026 um 11:16 Uhr durch Knowledge2need (Diskussion | Beiträge) (→Starke und schwache KI: Andere Beispiele + Belege).(Unterschied) ← Nächstältere Version | Aktuelle Version (Unterschied) | Nächstjüngere Version → (Unterschied)
+ 
+ 
+ 
+ 
+
+Dieser Artikel oder Abschnitt bedarf einer grundsätzlichen Überarbeitung. Näheres sollte auf der Diskussionsseite angegeben sein. Bitte hilf mit, ihn zu verbessern, und entferne anschließend diese Markierung.
+
+Künstliche Intelligenz (kurz KI, englisch artificial intelligence, kurz AI) ist ein Forschungs- und Anwendungsgebiet der Informatik. Es handelt sich dabei um verschiedene Klassen von Problemlösungsverfahren, die anhand von Eingaben aus ihrer Umgebung Handlungen ausführen.[1.1]
+
+Beschreibung[Bearbeiten | Quelltext bearbeiten]
+Historisch ist der Begriff nicht einheitlich definiert, sondern kann sich einerseits auf „Intelligenz“ im Sinne der Nachbildung menschlichen Verhaltens beispielsweise bei der Bilderkennung oder der Interaktion in menschlicher Sprache beziehen, andererseits auf die Fähigkeit zu rationalem, logikbasiertem Schlussfolgern. In der öffentlichen Wahrnehmung werden häufig maschinelles Lernen und die auf diesem Prinzip aufbauenden Chatbots mit dem Begriff der künstlichen Intelligenz gleichgesetzt. Maschinelles Lernen ist jedoch nur eines von mehreren Teilgebieten des Feldes; ihm stehen beispielsweise traditionelle logik- und regelbasierte Ansätze wie die der symbolischen künstlichen Intelligenz gegenüber,[1.2] welche ergänzend auch in Chatbots zum Einsatz kommen.[2]
+
+Im Laufe der Zeit haben sich innerhalb der KI-Forschung zahlreiche Teilgebiete und Methoden herausgebildet. Zudem wird unterschieden, welche Probleme mit den Methoden der KI gelöst werden sollen. Dabei werden zwei Bereiche unterschieden: schwache KI und starke KI.
+
+Die angewandte Informatik befasst sich damit, wie solche Systeme entwickelt und umgesetzt werden können. Beispiele dafür sind Multiagentensysteme, Expertensysteme, Transformer und serviceorientierte Architekturen.
+
+Geschichte[Bearbeiten | Quelltext bearbeiten]
+
+→ Hauptartikel: Geschichte der künstlichen Intelligenz
+
+Begriffsherkunft[Bearbeiten | Quelltext bearbeiten]
+Der Begriff artificial intelligence (künstliche Intelligenz) wurde 1955 vom US-amerikanischen Informatiker John McCarthy im Rahmen eines Förderantrags an die Rockefeller-Stiftung für das Dartmouth Summer Research Project on Artificial Intelligence geprägt, ein Forschungsprojekt, bei dem sich im Sommer 1956 eine Gruppe von zehn Wissenschaftlern über ca. acht Wochen mit der Thematik befasste.[3][4]
+
+Die Wahl des Begriffs „Künstliche Intelligenz“ wurde im Lauf der Zeit verschiedentlich diskutiert. Der Computerpionier Douglas Engelbart zog bereits 1962 den Begriff „Intelligence Augmentation“ vor. Seiner Ansicht nach sei das Ziel, durch geeignete Interaktionsparadigmen das Können und Verständnis des mit dem Computer interagierenden Menschen zu verstärken, anstatt lediglich menschliche Aufgaben zu automatisieren.[1.3][5]
+
+Vorläufer[Bearbeiten | Quelltext bearbeiten]
+Künstliche neuronale Netze (KNN) im Sinne von Warren McCulloch und Walter Pitts (1943),[6] Alan Turings Überlegungen zur maschinellen Intelligenz (siehe auch Turing-Test)[7] um 1950 und Frank Rosenblatts Implementierungen des Perzeptrons[8] ab 1957 waren Vorläufer zur Entwicklung der Künstlichen Intelligenz.[9.1] Die Hoffnungen von Expertensystemen, u. a. Mycin zur Diagnose und Therapie von Infektionskrankheiten ab Anfang der 1970er Jahre, erfüllten sich nicht und führten zum ersten KI-Winter. Verbesserte Expertensysteme in den 1980ern, vor allem aufgrund erhöhter Rechenleistung, und Verfahren zum Training mehrschichtiger Netze (u. a. Paul Werbos), heute als Backpropagation bekannt, förderten einen neuen Aufschwung in der Forschung an künstlichen neuronalen Netzen. Aber auch diese Erwartungen wurden verfehlt und führten ab Ende der 1980er zum zweiten KI-Winter durch ökonomische Blasen, da sich keine nachhaltigen Geschäftsmodelle erzielen ließen. Erfolge durch maschinelles Lernen, u. a. Deep-Learning-Ansätze mittels Deep Blue für Schach (1997) und AlphaGo für Go (2017), führten zu einer allmählichen Erholung und allgemein sichtbaren Erfolgen bis zum endgültigen Durchbruch der Large Language Models (LLM) 2022.
+
+Definitionen und Kategorien Künstlicher Intelligenz[Bearbeiten | Quelltext bearbeiten]
+Der Begriff der künstlichen Intelligenz wird in der Forschung anhand unterschiedlicher Kriterien und Zielvorstellungen definiert. Je nach Sichtweise wird der Begriff in Industrie, Gesellschaft und Politik teilweise über diese wissenschaftlichen Grundlagen definiert, oder aber über die zu erzielenden Anwendungen. Die Bestimmung des Gegenstands wird dadurch erschwert, dass bereits der zugrunde liegende Begriff der Intelligenz auch in der Psychologie nicht einheitlich definiert ist. Legg und Hutter stellten in einer Übersicht zahlreiche Definitionen aus Psychologie, Philosophie und KI-Forschung zusammen und hielten fest, dass es trotz langer Forschungstradition keine allgemein akzeptierte Standarddefinition von Intelligenz gibt.[10]
+
+Definitionskategorien nach Russell und Norvig[Bearbeiten | Quelltext bearbeiten]
+Die zwei Einordnungsdimensionen nach Russell und Norvig
+Stuart J. Russell und Peter Norvig unterscheiden in ihrem Standardwerk Künstliche Intelligenz: Ein moderner Ansatz die verschiedenen Ansätze und Ausprägungen von KI-Systemen anhand von vier Kategorien:[1]
+Nachbildung menschlichen Verhaltens
+Nachbildung menschlichen Denkens
+Nachbildung rationalen Denkens
+Nachbildung rationalen Verhaltens
+Diese vier Kategorien lassen sich anhand zweier Dimensionen einordnen: Eine Achse stellt den symbolischen bzw. logikbasierten Ansatz dem heuristischen Ansatz mit der Nachbildung neuronaler Netze gegenüber. Die andere Achse stellt die Simulationsmethode einer Konzentration auf das phänomenologisch beobachtbare Verhalten gegenüber.
+
+Neuronale KI-Methoden verfolgen einen Bottom-up-Ansatz und versuchen, die Funktionen des menschlichen Gehirns über mathematische Verfahren zu approximieren oder gar möglichst präzise nachzubilden. Die symbolische KI verfolgt umgekehrt einen Top-down-Ansatz und nähert sich den Intelligenzleistungen von einer begrifflichen Ebene her. Die Simulationsmethode orientiert sich so nah wie möglich an den tatsächlichen kognitiven Prozessen des Menschen. Dagegen kommt es dem phänomenologischen Ansatz nur auf das Ergebnis an.
+
+Viele ältere Methoden, die in der KI entwickelt wurden, basieren auf heuristischen Lösungsverfahren. In jüngerer Zeit spielen mathematisch fundierte Ansätze aus der Statistik, der mathematischen Programmierung und der Approximationstheorie eine bedeutende Rolle.
+
+Die Kategorien nach Russell und Norvig im Einzelnen:
+
+Nachbildung menschlichen Verhaltens[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: Turing-Test
+Alan Turing schlug den nach ihm benannten Turing-Test als Kriterium dafür vor, ob eine Maschine intelligentes Verhalten zeigt, das dem eines Menschen gleichwertig ist. Dazu stellt ein Mensch per Terminal (Bildschirm und Tastatur, oder auch Lautsprecher und Mikrofon) beliebige Fragen, ohne dabei zu wissen, ob diese von einem anderen Menschen oder einer Maschine beantwortet werden. Der Fragesteller muss danach entscheiden, ob es sich beim Interviewpartner um eine Maschine oder einen Menschen handelte. Ist die Maschine nicht von einem Menschen zu unterscheiden, erfüllt sie laut Turing das Kriterium für Intelligenz.[7] Ziel ist hier also ein phänomenologisch beobachtbares Verhalten, das nicht von dem eines Menschen unterscheidbar sein soll. Seit 1991 existiert der Loebner-Preis für den Turing-Test.[11]
+
+Nachbildung menschlichen Denkens[Bearbeiten | Quelltext bearbeiten]
+
+Dieser Ansatz ist mit den Kognitionswissenschaften verknüpft und zielt darauf ab, die Mechanismen menschlichen Denkens nachzuvollziehen und maschinell zu modellieren. Die Theorie ist, dass auf Basis einer hinreichend präzisen Theorie menschlicher Kognition die damit verbundenen Abläufe programmatisch simuliert werden können. Hierfür werden die tatsächlichen Abläufe im Gehirn bei Denkprozessen experimentell ermittelt und beschrieben, um sie in Software nachbilden zu können. Sobald die Ausgaben solch eines Systems nicht von menschlichen Reaktionen auf dieselben Ausgangssituationen unterscheidbar sind, könnten diese Mechanismen auch in einem menschlichen Gehirn ablaufen.
+
+In der Frühzeit der KI-Forschung wurden die beiden vorangegangenen Ansätze häufig gleichbedeutend verwendet: Wenn ein Algorithmus eine gestellte Aufgabe überzeugend löste, wurde dies als Indiz angesehen, dass der Algorithmus auch die Abläufe im Gehirn gut modelliere, oder andersherum. Mittlerweile werden diese beiden Ansätze als getrennte Herangehensweisen unterschieden.[1.4]
+
+Nachbildung rationalen Denkens[Bearbeiten | Quelltext bearbeiten]
+Bei diesem Ansatz werden Aussagen nach formalen Regeln abgebildet, um sie nach den Regeln der Logik auswerten zu können. Bereits 1965 war es möglich, jegliches (prinzipiell lösbare Problem) zu lösen, das in formaler Semantik notiert ist.[1.5] Ziel hierbei ist es, logische Schlüsse ziehen zu können. Nach Russell und Norvig eignet sich diese Herangehensweise dafür, auch komplexe Zusammenhänge logisch erschließen zu können – nicht jedoch zur Nachbildung „intelligenten Verhaltens“.
+
+Aus diesem Feld ging die Klasse der logischen Programmiersprachen hervor.
+
+Nachbildung rationalen Verhaltens[Bearbeiten | Quelltext bearbeiten]
+Laut Russell und Norvig ist das Ziel hier, Handlungen eines Systems auf das beste oder erwartbar beste Ergebnis hin zu optimieren.
+
+Starke und schwache KI[Bearbeiten | Quelltext bearbeiten]
+
+Dieser Artikel oder nachfolgende Abschnitt ist nicht hinreichend mit Belegen (beispielsweise Einzelnachweisen) ausgestattet. Angaben ohne ausreichenden Beleg könnten demnächst entfernt werden. Bitte hilf Wikipedia, indem du die Angaben recherchierst und gute Belege einfügst. 
+
+Starke KI wären kognitive Systeme, die auf Augenhöhe mit Menschen die Arbeit zur Erledigung schwieriger Aufgaben übernehmen können. Demgegenüber geht es bei schwacher KI darum, konkrete Anwendungsprobleme zu meistern. Das menschliche Denken und technische Anwendungen sollen hier in Einzelbereichen unterstützt werden.[12]
+
+Die Fähigkeit zu lernen ist eine wichtige Eigenschaft vieler KI-Systeme. Ein weiteres wichtiges Merkmal ist die Fähigkeit eines KI-Systems, mit Unsicherheiten und Wahrscheinlichkeiten (sowie mit probabilistischen Informationen) umzugehen.[13] Insbesondere sind solche Anwendungen von Interesse, zu deren Lösung nach allgemeinem Verständnis eine Form von „Intelligenz“ notwendig zu sein scheint.[14]
+
+Letztlich geht es der schwachen KI somit um die Simulation intelligenten Verhaltens mit Mitteln der Mathematik und der Informatik, es geht ihr nicht um Schaffung von Bewusstsein oder um ein tieferes Verständnis von Intelligenz.[15] Während die Frage nach der prinzipiellen Machbarkeit starker KI bis heute offen ist, sind bei der schwachen KI in den letzten Jahren bedeutende Fortschritte erzielt worden.
+
+Unterscheidung der wissenschaftlichen Fragestellungen in die Bereiche „starke KI“ und „schwache KI“
+
+Unterschieden wird nach den Fragestellungen, die untersucht werden, nicht nach den verwendeten Methoden. Schwache KI ist stark in der Anwendung, erlaubt eine Monetarisierung und prägt das gesellschaftliche Verständnis. Beispiele sind die Autokorrektur bei der Texteingabe, die Spracherkennung für die Umwandlung von Sprache in Text, Systeme für autonomes Fahren[16] und große Sprachmodelle.[17] Starke KI befasst sich mit Grundsatzfragen wie der Beschreibung von Bewusstsein, der Repräsentation und Aktualisierung von Wissen (z. B. dem Umgang mit Widersprüchen) oder der Frage, was erforderlich ist, um Intelligenz nachzuweisen. Die beiden Bereiche lassen sich nicht scharf trennen. Methoden zur Problemanalyse können je nach Interpretation beiden Klassen zugeordnet werden. Mitunter wird die Frage, ob und wie eine Allgemeine künstliche Intelligenz oder eine Superintelligenz erzeugt werden kann, der starken KI zugeordnet.
+
+Die philosophische Interpretation dieser Unterteilung umfasst zwei Auffassungen: Schwache KI kann handeln (etwa autonomes Fahren), jedoch ohne Bewusstsein; Vertreter der starken KI hingegen halten ein künstliches Bewusstsein für möglich. Welche Auffassung zutrifft, ist weiterhin ungeklärt.[15]
+
+Ein starkes KI-System muss nicht viel mit dem Menschen gemeinsam haben. Es wird wahrscheinlich eine andersartige kognitive Architektur aufweisen und auch in seinen Entwicklungsstadien nicht mit den evolutionären kognitiven Stadien des menschlichen Denkens vergleichbar sein (Evolution des Denkens). Vor allem ist nicht anzunehmen, dass eine künstliche Intelligenz Gefühle wie Liebe, Hass, Angst oder Freude besitzt.[18]
+
+EU-rechtliche Definition[Bearbeiten | Quelltext bearbeiten]
+Die KI-Verordnung der EU definiert in Artikel 3 (Begriffsbestimmungen) ein „KI-System“ wie folgt:
+
+„Für die Zwecke dieser Verordnung bezeichnet der Ausdruck […] ‚KI-System‘ ein maschinengestütztes System, das für einen in unterschiedlichem Grade autonomen Betrieb ausgelegt ist und das nach seiner Betriebsaufnahme anpassungsfähig sein kann und das aus den erhaltenen Eingaben für explizite oder implizite Ziele ableitet, wie Ausgaben wie etwa Vorhersagen, Inhalte, Empfehlungen oder Entscheidungen erstellt werden, die physische oder virtuelle Umgebungen beeinflussen können“[19]
+
+In Erwägungsgrund 12 werden die verwendeten Eingrenzungen erläutert und klargestellt, dass sich die Verordnung sowohl auf konnektionistische Systeme maschinellen Lernens als auch auf symbolische KI-Systeme bezieht:
+
+„Zu den Techniken, die während der Gestaltung eines KI-Systems das Ableiten ermöglichen, gehören Ansätze für maschinelles Lernen, wobei aus Daten gelernt wird, wie bestimmte Ziele erreicht werden können, sowie logik- und wissensgestützte Konzepte, wobei aus kodierten Informationen oder symbolischen Darstellungen der zu lösenden Aufgabe abgeleitet wird.“[19]
+
+Eigenschaften von Intelligenz[Bearbeiten | Quelltext bearbeiten]
+Versuchsweise wird Intelligenz definiert als die Eigenschaft, die ein Wesen befähigt, angemessen und vorausschauend in seiner Umgebung zu agieren. Dazu gehören die Fähigkeiten
+Umgebungsdaten wahrzunehmen, d. h. auf Stimuli zu reagieren
+Informationen
+aufzunehmen,
+zu verarbeiten und
+als Wissen zu speichern,
+Sprache
+zu verstehen und
+zu erzeugen,
+Probleme zu lösen und zu handeln
+Ziele zu definieren, zu erreichen und zu modifizieren
+Autonom Entscheidungen zu treffen.
+Praktische Erfolge der KI werden schnell in die Anwendungsbereiche integriert und werden dann von vielen nicht mehr als KI angesehen, auch wenn sie deren Definition erfüllen.[20] Dieses Phänomen wird auch als „AI effect“ bezeichnet.[20]
+
+„Künstliche Intelligenz ist die Eigenschaft eines IT-Systems, ‚menschenähnliche‘, intelligente Verhaltensweisen zu zeigen.“
+
+– Bitkom e. V. und Deutsches Forschungszentrum für Künstliche Intelligenz[21]
+
+„Die künstliche Intelligenz [...] ist ein Teilgebiet der Informatik, welches sich mit der Erforschung von Mechanismen des intelligenten menschlichen Verhaltens befasst [...].“
+
+– Spektrum der Wissenschaft, Lexikon der Neurowissenschaften[4]
+
+„Unter künstlicher Intelligenz (KI) verstehen wir Technologien, die menschliche Fähigkeiten im Sehen, Hören, Analysieren, Entscheiden und Handeln ergänzen und stärken.“
+
+– Microsoft Corp.[22]
+
+„Künstliche Intelligenz ist die Fähigkeit einer Maschine, menschliche Fähigkeiten wie logisches Denken, Lernen, Planen und Kreativität zu imitieren.“
+
+– Europäisches Parlament (Webseite)[23]
+
+Metaphorik[Bearbeiten | Quelltext bearbeiten]
+Der Diskurs über KI ist stark von einer metaphorischen Sprache geprägt.[24][25][26] Begriffe wie künstliche Intelligenz und maschinelles Lernen sind selbst anthropomorphe Metaphern, die auf die menschliche Kognition anspielen.
+
+Eine weitere gängige Metapher ist die Black Box, die die Intransparenz vieler KI-Systeme beschreibt.[27] Im wissenschaftlichen Diskurs werden große Sprachmodelle auch als stochastische Papageien bezeichnet, um darauf hinzuweisen, dass sie Texte erzeugen, ohne den Inhalt wirklich zu verstehen.[28] Der Autor Ted Chiang vergleicht große Sprachmodelle mit einem unscharfen JPEG aus dem Netz, um Kompressionsmechanismen zu veranschaulichen.[29]
+
+Anthropomorphe Metaphern sind umstritten, da sie ein übertriebenes oder verzerrtes Bild von KI-Systemen vermitteln können.[30][31] Alternativ diskutieren Forscher und Journalisten Metaphern wie KI als Werkzeuge,[32] Spiegel,[33] Tiere, Organismen oder Naturphänomene.[34]
+Die Wahl einer Metapher beeinflusst nicht nur das öffentliche Verständnis von KI,[35] sondern spielt auch eine Rolle in der Gesetzgebung,[36] Regulierung[37] und wissenschaftlichen Forschung.[38]
+
+Forschungsgebiete[Bearbeiten | Quelltext bearbeiten]
+Standort des Deutschen Forschungszentrum für Künstliche Intelligenz in Berlin
+Neben den Forschungsergebnissen der Kerninformatik selbst sind in die Erforschung der KI Ergebnisse der Psychologie, Neurologie und Neurowissenschaften, der Mathematik und Logik, Kommunikationswissenschaft, Philosophie und Linguistik eingeflossen. Umgekehrt nahm die Erforschung der KI auch ihrerseits Einfluss auf andere Gebiete, vor allem auf die Neurowissenschaften. Dies zeigt sich in der Ausbildung des Bereichs der Neuroinformatik, der der biologieorientierten Informatik zugeordnet ist, sowie der Computational Neuroscience.
+
+Bei künstlichen neuronalen Netzen handelt es sich um Techniken, die ab Mitte des 20. Jahrhunderts entwickelt wurden und auf der Neurophysiologie aufbauen.
+KI stellt somit kein geschlossenes Forschungsgebiet dar. Vielmehr werden Techniken aus verschiedenen Disziplinen verwendet, ohne dass diese eine Verbindung miteinander haben müssen.
+
+Wichtige Tagungen sind die International Joint Conference on Artificial Intelligence (IJCAI), die seit 1969 stattfindet und die seit 1982 von der Europäischen Vereinigung für künstliche Intelligenz (EurAI) organisierte European Conference on Artificial Intelligence (ECAI).
+
+Seit der Begriffsprägung im Jahr 1955 hat sich eine Reihe relativ selbständiger Teildisziplinen herausgebildet:
+Mustererkennung, wozu auch Spracherkennung und Handschrifterkennung zählen;
+Software-Agent;
+Wissensmodellierung einschließlich Logischer Programmierung und Inferenzmaschinen;
+Expertensysteme, Frage-Antwort-Systeme und Chatbots;
+Maschinelles Lernen;
+Künstliche neuronale Netze und Deep Learning;
+Computer Vision;
+Robotik und
+Universelle Spieleprogramme.
+
+Zur Forschungsrichtung künstliches Leben bestehen enge Beziehungen. Das Fernziel der KI ist die als starke KI oder künstliche allgemeine Intelligenz bezeichnete Fähigkeit eines intelligenten Agenten, jede intellektuelle Aufgabe zu verstehen oder zu erlernen, die der Mensch oder ein anderes Lebewesen bewältigen kann.
+
+Teilgebiete[Bearbeiten | Quelltext bearbeiten]
+Wissensbasierte Systeme[Bearbeiten | Quelltext bearbeiten]
+Wissensbasierte Systeme modellieren eine Form rationaler Intelligenz für sogenannte Expertensysteme. Diese sind in der Lage, auf eine Frage des Anwenders auf Grundlage formalisierten Fachwissens und daraus gezogener logischer Schlüsse Antworten zu liefern. Beispielhafte Anwendungen finden sich in der Diagnose von Krankheiten oder der Suche und Beseitigung von Fehlern in technischen Systemen.
+
+Beispiele für wissensbasierte Systeme sind Cyc und Watson.
+
+Musteranalyse und Mustererkennung[Bearbeiten | Quelltext bearbeiten]
+Visuelle Intelligenz ermöglicht es, Bilder bzw. Formen zu erkennen und zu analysieren. Als Anwendungsbeispiele seien hier Handschrifterkennung, Identifikation von Personen durch Gesichtserkennung, Abgleich der Fingerabdrücke oder der Iris, industrielle Qualitätskontrolle und Fertigungsautomation (letzteres in Kombination mit Erkenntnissen der Robotik) genannt.
+
+Mittels sprachlicher Intelligenz ist es beispielsweise möglich, einen geschriebenen Text in gesprochene Sprache umzuwandeln (Sprachsynthese) und umgekehrt einen gesprochenen Text zu verschriftlichen (Spracherkennung). Diese automatische Sprachverarbeitung kann erweitert werden, so dass etwa durch latente semantische Analyse (kurz LSI) Wörtern und Texten Bedeutung beigemessen werden kann.
+
+Beispiele für Systeme zur Mustererkennung sind Google Brain und Microsoft Adam.[39]
+
+Mustervorhersage[Bearbeiten | Quelltext bearbeiten]
+Die Mustervorhersage ist eine Erweiterung der Mustererkennung. Sie stellt die Grundlage des von Jeff Hawkins definierten hierarchischen Temporalspeichers dar.
+
+“Prediction is not just one of the things your brain does. It is the primary function of the neocortex, and the foundation of intelligence.”
+
+„Vorhersage ist nicht einfach nur eines der Dinge, die dein Gehirn tut. Sie ist die Hauptfunktion des Neocortex und das Fundament der Intelligenz.“
+– Jeff Hawkins: On Intelligence[40]
+Solche Systeme haben den Vorteil, dass sie z. B. nicht nur ein bestimmtes Objekt in einem Einzelbild erkennen (Mustererkennung), sondern aus einer Serie von Bildern vorhersagen können, wo sich das Objekt als Nächstes befinden wird.
+
+Robotik[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: Robotik
+Die Robotik beschäftigt sich mit manipulativer Intelligenz. Mit Hilfe von Robotern können unter anderem gefährliche Tätigkeiten wie etwa die Minensuche oder auch immer gleiche Manipulationen, wie sie beim Schweißen oder Lackieren auftreten können, automatisiert werden.
+
+Der Grundgedanke ist es, Systeme zu schaffen, die intelligente Verhaltensweisen von Lebewesen nachvollziehen können. Beispiele für derartige Roboter sind ASIMO und Atlas.
+
+Künstliches Leben[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: künstliches Leben
+KI überlappt sich mit der Disziplin künstliches Leben (Artificial life, AL),[41] und wird als übergeordnete oder auch als eine Subdisziplin gesehen.[42] AL muss deren Erkenntnisse integrieren, da Kognition eine Kerneigenschaft von natürlichem Leben ist, nicht nur des Menschen.
+
+AI-Alignment[Bearbeiten | Quelltext bearbeiten]
+Das junge Forschungsfeld des AI-Alignment (zu deutsch KI-Ausrichtung) beschäftigt sich mit der Ausrichtung von KI nach menschlichen Werten und Normen. Unabhängig von der Frage, ob die jeweilige KI über eine Form von Bewusstsein verfügt, verhält sich jede KI entsprechend ihrem Training. Unter anderem durch Fehler oder Lücken im Training kann einer KI leicht Verhalten antrainiert werden, das nicht mit menschlichen Werten vereinbar ist.[13] Die Forschung versucht herauszufinden, wie und ob ethisches Verhalten in KI sichergestellt werden kann, um Probleme wie im Einsatz von KI in Krankenhäusern und Gerichtssälen zu verhindern, aber auch, um die Risiken durch weit fortgeschrittene KI wie im Falle von technologischer Singularität, zu minimieren.[18]
+
+Das Alignment-Problem beschreibt die Herausforderung, KI-Systeme mit menschlichen Werten in Einklang zu bringen. Darüber welche Werte das sind gibt es jedoch unterschiedliche Ansichten, denn die Ansprüche von Nutzern, Entwicklern und Gesellschaft können miteinander in Konflikt geraten. Zudem besteht über grundlegende moralische Fragen besteht kein allgemeiner Konsens.[43][44] Da gängige Trainingsverfahren auf menschlichen Bewertungen beruhen, werden die Interessen von Tieren nur in dem Umfang einbezogen, in dem die bewertenden Personen sie berücksichtigen. Tierethiker wie Peter Singer schlagen deshalb vor, KI-Systeme zumindest darauf auszurichten, Tierleid zu vermeiden, sofern dies ihre eigentlichen Aufgaben kaum beeinträchtigt; andernfalls könne sich die verbreitete Geringschätzung von Tieren in langlebigen KI-Systemen dauerhaft verfestigen.[45]
+
+Methoden[Bearbeiten | Quelltext bearbeiten]
+Die konkreten Techniken der KI lassen sich grob in Gruppen einteilen:
+Suchen[Bearbeiten | Quelltext bearbeiten]
+Die KI beschäftigt sich häufig mit Problemen, bei denen nach bestimmten Lösungen gesucht wird. Verschiedene Suchalgorithmen werden dabei eingesetzt. Ein Paradebeispiel für die Suche ist der Vorgang der Wegfindung, der in vielen Computerspielen eine zentrale Rolle einnimmt und auf Suchalgorithmen wie dem A*-Algorithmus basiert.
+
+Planen[Bearbeiten | Quelltext bearbeiten]
+Neben dem Suchen von Lösungen stellt das Planen einen wichtigen Aspekt der KI dar. Der Vorgang des Planens unterteilt sich dabei in zwei Phasen:
+
+Die Zielformulierung: Ausgehend vom momentanen Umgebungs- bzw. Weltzustand wird ein Ziel definiert. Ein Ziel ist hierbei eine Menge von Weltzuständen, bei der ein bestimmtes Zielprädikat erfüllt ist.
+Die Problemformulierung: Nachdem bekannt ist, welche Ziele angestrebt werden sollen, wird in der Problemformulierung festgelegt, welche Aktionen und Weltzustände betrachtet werden sollen. Es existieren hierbei verschiedene Problemtypen.
+
+Planungssysteme planen und erstellen aus solchen Problembeschreibungen Aktionsfolgen, die Agentensysteme ausführen können, um ihre Ziele zu erreichen.
+
+Optimierungsmethoden[Bearbeiten | Quelltext bearbeiten]
+Oft führen Aufgabenstellungen der KI zu Optimierungsproblemen. Diese werden je nach Struktur entweder mit Suchalgorithmen aus der Informatik oder, zunehmend, mit Mitteln der mathematischen Optimierung gelöst. Bekannte heuristische Suchverfahren aus dem Kontext der KI sind evolutionäre Algorithmen.
+
+Logisches Schließen[Bearbeiten | Quelltext bearbeiten]
+
+Dieser Artikel oder nachfolgende Abschnitt ist nicht hinreichend mit Belegen (beispielsweise Einzelnachweisen) ausgestattet. Angaben ohne ausreichenden Beleg könnten demnächst entfernt werden. Bitte hilf Wikipedia, indem du die Angaben recherchierst und gute Belege einfügst. 
+
+Eine Fragestellung der KI ist die Erstellung von Wissensrepräsentationen,
+die dann für automatisches logisches Schließen benutzt werden können. Menschliches Wissen wird dabei – soweit möglich – formalisiert, um es in eine maschinenlesbare Form zu bringen. Diesem Ziel haben sich die Entwickler diverser Ontologien verschrieben.
+
+Schon früh beschäftigte sich die KI damit, automatische Beweissysteme zu konstruieren, die Mathematikern und Informatikern beim Beweisen von Sätzen und beim Programmieren (Logische Programmierung) behilflich wären. Zwei Schwierigkeiten zeichneten sich ab:
+
+Formuliert man Sätze in den natürlicher Sprache nahen, relativ bequemen Beschreibungssprachen, werden die entstehenden Suchprobleme allzu aufwändig. In der Praxis mussten Kompromisse geschlossen werden, bei denen die Beschreibungssprache für den Benutzer etwas umständlicher, die zugehörigen Optimierungsprobleme für den Rechner dafür jedoch einfacher zu handhaben waren (Prolog, Expertensysteme).
+Selbst mächtige Beschreibungssprachen werden unhandlich, wenn man versucht, unsicheres oder unvollständiges Wissen zu formulieren. Für praktische Probleme kann dies eine ernste Einschränkung sein. Die aktuelle Forschung untersucht daher Systeme, die die Regeln der Wahrscheinlichkeitsrechnung anwenden, um Unwissen und Unsicherheit explizit zu modellieren. Algorithmisch unterscheiden sich diese Methoden von den älteren Verfahren: neben Symbolen werden auch Wahrscheinlichkeitsverteilungen manipuliert.
+
+Eine andere Form des logischen Schließens stellt die Induktion dar (Induktionsschluss, Induktionslogik), in der Beispiele zu Regeln verallgemeinert werden (maschinelles Lernen). Auch hier spielen Art und Mächtigkeit der Wissensrepräsentation eine wichtige Rolle. Man unterscheidet zwischen symbolischen Systemen, in denen das Wissen – sowohl die Beispiele als auch die induzierten Regeln – explizit repräsentiert ist, und subsymbolischen Systemen wie neuronalen Netzen, denen zwar ein berechenbares Verhalten „antrainiert“ wird, die jedoch keinen Einblick in die erlernten Lösungswege erlauben.
+
+Approximationsmethoden[Bearbeiten | Quelltext bearbeiten]
+In vielen Anwendungen geht es darum, aus einer Menge von Daten eine allgemeine Regel abzuleiten (maschinelles Lernen). Mathematisch führt dies zu einem Approximationsproblem. Im Kontext der KI wurden hierzu unter anderem künstliche neuronale Netze vorgeschlagen, die als universale Funktionsapproximatoren eingesetzt werden können, jedoch insbesondere bei vielen verdeckten Schichten schwer zu analysieren sind. Manchmal verwendet man deshalb alternative Verfahren, die mathematisch einfacher zu analysieren sind.
+
+Künstliches neuronales Netz[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: Künstliches neuronales Netz und Deep Learning
+
+Große Fortschritte erzielt die künstliche Intelligenz in jüngerer Zeit im Bereich künstlicher neuronaler Netze, auch unter dem Begriff Deep Learning bekannt. Dabei werden neuronale Netze, die grob von der Struktur des Gehirns inspiriert sind, künstlich auf dem Computer simuliert. Viele der jüngeren Erfolge wie bei Handschrifterkennung, Spracherkennung, Gesichtserkennung, autonomem Fahren, maschineller Übersetzung wie DeepL, AlphaGo, ChatGPT, DeepSeek beruhen auf dieser Technik.
+
+Schwachstellen der Deep Learning basierten KI[Bearbeiten | Quelltext bearbeiten]
+Zu den auch Ende des Jahres 2024 deutlich feststellbaren grundlegenden Schwachstellen der Deep Learning basierten KI gehören u. a.:
+Lernende, generative KI beinhaltet systemimmanente Probleme, die zum sogenannten Halluzinieren führen können, bei dem schlüssige Antworten verfasst werden, die angeblich wahr sind, obwohl es sich tatsächlich um frei erfundene Inhalte handelt.[46][47] Der Computerwissenschaftler Shelia Guberman sieht für die Fehlklassifikationen und Halluzinationen durch KNN und KI ähnliche Ursachen, da die Größe des Trainingsdatensatzes und die Übertragung der Eingabedaten in höhere Dimensionen (Schichten) vergleichbare Artefakte hervorbringen und den Modellen die Fähigkeit zur Verallgemeinerung und daher zur echten Intelligenz fehle. Von LLM erstellte Texte würden sich sehr menschlich lesen, aber das reiche nicht aus, um sie als vernünftig zu qualifizieren.[9.2]
+
+Da Deep-Learning-basierte Methoden hohe Datenmengen und viel Rechenressourcen benötigen, ist ein erheblicher finanzieller Aufwand bei der Entwicklung nötig. Dies führte zu einer Marktkonzentration im Zusammenhang mit den weltweiten Internetgiganten, denen vorgeworfen wird, ihre bestehenden Dominanz und monopolartige Marktstellungen auszunutzen.[48]
+Manipulierbarkeit der Anwendung schon allein durch Auswahl der verwendeten KI-„Trainingsdaten“.
+Zum Teil gravierende Datenschutz- und Sicherheitsbedenken: Aufgrund der hohen Rechenanforderungen der Künstlichen Neuronalen Netzwerke findet die Berechnung überwiegend in der Cloud statt. Die Eingaben und Anfragen zur KI werden an die Server der Anbieter übertragen. Dabei ergeben sich Datenschutzbedenken. Beispielsweise ist mit Stand Februar 2025 bei der DeepSeek-AI von einer sehr weitreichenden Speicherung von auch vertraulichen Nutzerdaten auszugehen.[49]
+Lernende KI neigt dazu, bereits bestehende gesellschaftliche Diskriminierungsverhältnisse zu reproduzieren. Wenn die Daten, mit denen eine KI trainiert wird, z. B. bereits einen sexistischen oder rassistischen Bias haben, wirkt sich dieser auch auf die Funktionen der KI aus. Es gibt vor allem bei mittels KI automatisierten Entscheidungsprozessen eine Reihe von Beispielen, bei denen marginalisierte Gruppen benachteiligt werden.[50][51] So wurde z. B. im November 2025 bekannt, dass Sprachmodelle, die Dialekte hören bzw. liesen, oft unfair urteilen, indem sie Vorurteile gegenüber Menschen mit Dialekt zum Ausdruck bringt und Eigenschaften wie „ungebildet“ und „unfreundlich“ auswählt.[52] Die ehemalige Google-Teamleiterin Timnit Gebru warnt vor dem bias und dem Energiebedarf großer Sprachmodelle, was Diskriminierung und Klimakrise verschärfen könnte.[53] Um solchen ungewollten Effekten vorzubeugen, versucht der Forschungsbereich des AI-Alignments (zu deutsch KI-Ausrichtung) sicherzustellen, dass KI nach menschlichen Werten wie etwa Egalitarismus handelt. Caroline Criado Perez[54] zeigt in ihrer ausführlichen Recherchearbeit, dass bestehende Gender-Data-Gaps einen negativen Einfluss auf Trainingsdaten von KI nehmen und so bestehende Diskriminierungen reproduziert werden. Auch Tiere können von solcher Diskriminierung betroffen sein, man spricht dann von Speziesismus. So bat eine 2026 veröffentlichte Studie Sprachmodelle, wie sie etwa ChatGPT und Claude zugrunde liegen, Texte über das Töten, Verarbeiten oder Essen von Tieren fortzusetzen. Bei Schweinen, Kühen oder Hühnern kamen die Modelle dem in gut der Hälfte der Fälle ohne Einwände nach, oft in beschönigender Sprache. Ging es um Katzen, Hunde oder Delfine, lehnten sie in fast vier von fünf Fällen ab.[55] Um solche Diskriminierung aufzuzeigen und ihr in weiterer Folge entgegenzuwirken, entwickeln gemeinnützige Organisationen und Forschende eigene Testverfahren.[55][56]
+Der hohe Rechenbedarf großer KI-Modelle führte zu einem erheblichen Anstieg des Stromverbrauchs, der durch zusätzliche Kraftwerke gedeckt wird und damit potentiell weitere Treibhausgasemissionen zur Folge hat.[57]
+
+Anwendungen[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: Anwendungen künstlicher Intelligenz
+Künstliche Intelligenz hat das Potenzial für eine Vielzahl von Verwendungen in Forschung, Wirtschaft und im Konsumbereich. Sie stellt zudem die zentrale Technologie der Industrie 5.0 dar. Noch im Jahr 2025 gab es Stimmen, die der Auffassung waren, dass Künstliche Intelligenz trotz ihres Nutzens in einzelnen Anwendungsbereichen der Gesellschaft insgesamt bislang keinen erkennbaren Beitrag zur Produktivitätssteigerung geleistet habe.[58][59] Absehbar und teils realisiert waren zu diesem Zeitpunkt Nutzungen in den Bereichen Mobilität und Logistik, Landwirtschaft,[60] Gesundheit[61][62] und Optimierung der Energieeffizienz.[59]
+
+Technologische Singularität[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: Technologische Singularität
+
+Grob wird unter der technologischen Singularität der hypothetische Zeitpunkt verstanden, an dem künstliche Intelligenz die menschliche Intelligenz übertrifft. Ab diesem Zeitpunkt wird die weitere technologische Entwicklung hauptsächlich von KI vorangetrieben und nicht mehr vom Menschen.
+
+Bewusstsein bei künstlicher Intelligenz[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: Künstliches Bewusstsein
+In den Neurowissenschaften ist es eine Grundannahme, dass Bewusstseinsprozesse mit neuronalen Prozessen des Gehirns korrelieren (siehe Neuronales Korrelat des Bewusstseins). Nach Jürgen Schmidhuber ist Bewusstsein nur ein Nebenprodukt des Problemlösens des Gehirns. So sei auch bei künstlichen Problemlösern (z. B. autonomen mobilen Robotern) von Vorteil, wenn diese sich ihrer selbst und ihrer Umgebung „bewusst“ seien.
+Schmidhuber bezieht sich bei „Bewusstsein“ im Kontext autonomer Roboter auf ein digitales Weltmodell inklusive des Systems selbst, nicht jedoch auf subjektive Erlebnisqualitäten von Zuständen. Ein Weltmodell könnte im Kontext von Reinforcement Learning dadurch erlernt werden, dass Aktionen belohnt werden, die das Weltmodell erweitern.[63]
+
+Solche Überlegungen sind jedoch hoch spekulativ, da keine allgemein akzeptierte Definition, geschweige denn eine anerkannte Theorie von Bewusstsein existiert. Wenn Bewusstsein eine emergente Eigenschaft des Informationsverarbeitens ist, wäre es möglich, dass KI Bewusstsein erlangt. Da die meisten Definitionen jedoch ein „inneres Erleben“ der Wahrnehmung mit Bewusstsein verbinden, das beim Menschen zu komplexen Weltanschauungen führt, gibt es bislang keine empirischen Belege dafür, dass KI-Systeme über etwas Ähnliches verfügen. Ihre „Intelligenz“ ist rein funktional und instrumental. Im Gegensatz zum menschlichen Gehirn basieren aktuelle KI-Systeme auf Algorithmen, neuronalen Netzen und statistischen Modellen. Allerdings lassen sich innere Zustände nicht beweisen, sodass es kaum möglich ist, die Frage nach einem Bewusstsein von KI zweifelsfrei zu klären.[64]
+
+Die Frage hat auch eine ethische Seite: Ob einem Wesen moralische Berücksichtigung zusteht, machen viele Ethiker davon abhängig, ob es empfinden kann.[65] Der Philosoph Jonathan Birch schlägt für Menschen, Tiere und KI einen gemeinsamen Vorsorgeansatz vor: Kommt Empfindungsfähigkeit ernsthaft in Betracht, sollen Schutzvorkehrungen nicht erst dann getroffen werden, wenn sie bewiesen ist. Die Verhaltensmerkmale, die bei Tieren als Hinweise auf Empfindungsfähigkeit gelten, hält er bei großen Sprachmodellen allerdings für trügerisch, weil diese aus menschlichen Texten gelernt haben, genau solche Merkmale nachzuahmen.[66]
+
+Angrenzende Wissenschaften[Bearbeiten | Quelltext bearbeiten]
+Sprachwissenschaft[Bearbeiten | Quelltext bearbeiten]
+Die Interpretation menschlicher Sprache durch Maschinen besitzt bei der KI-Forschung eine entscheidende Rolle. So ergeben sich etwaige Ergebnisse des Turing-Tests vor allem in Dialogsituationen, die bewältigt werden müssen.
+
+Die Sprachwissenschaft liefert mit ihren Grammatikmodellen und psycholinguistischen Semantikmodellen wie der Merkmals- oder der Prototypensemantik Grundlagen für das maschinelle „Verstehen“ komplexer natürlichsprachlicher Phrasen. Zentral ist die Frage, wie Sprachzeichen eine tatsächliche Bedeutung für eine künstliche Intelligenz haben können.[67]
+Das Chinese-Room-Argument des Philosophen John Searle sollte indes zeigen, dass es selbst dann möglich wäre, den Turing-Test zu bestehen, wenn den verwendeten Sprachzeichen dabei keinerlei Bedeutung beigemessen wird. Insbesondere Ergebnisse aus dem Bereich Embodiment betonen zudem die Relevanz von solchen Erfahrungen, die auf der Verkörperung eines Agenten beruhen sowie dessen Einbindung in eine sinnvolle Umgebung für jede Form von Kognition, also auch zur Konstruktion von Bedeutung durch eine Intelligenz.
+
+Eine Schnittstelle zwischen der Linguistik und der Informatik bildet die Computerlinguistik, die sich unter anderem mit maschineller Sprachverarbeitung und künstlicher Intelligenz beschäftigt.
+
+Psychologie & Neurobiologie[Bearbeiten | Quelltext bearbeiten]
+Siehe auch: #Definition Psychologie
+
+Psychotherapie[Bearbeiten | Quelltext bearbeiten]
+In der Psychotherapieforschung existieren seit geraumer Zeit experimentelle Anwendungen der künstlichen Intelligenz, um Defizite und Engpässe in der psychotherapeutischen Versorgung zu überbrücken und Kosten zu sparen.[68]
+
+Philosophie[Bearbeiten | Quelltext bearbeiten]
+
+Die philosophischen Aspekte der KI-Problematik gehören zu den weitreichendsten der gesamten Informatik.
+
+Die Antworten, die auf die zentralen Fragen dieses Bereiches gegeben werden, reichen weit in ontologische und erkenntnistheoretische Themen hinein, die das Denken des Menschen schon seit den Anfängen der Philosophie beschäftigen. Wer solche Antworten gibt, muss die Konsequenzen daraus auch für den Menschen und sich selbst ziehen. Nicht selten möchte man umgekehrt vorgehen und die Antworten, die man vor der Entwicklung künstlicher Intelligenz gefunden hat, auf diese übertragen. Doch wie sich zeigte, hat die künstliche Intelligenz zahlreiche Forscher dazu veranlasst, Probleme wie das Verhältnis zwischen Materie und Geist, die Ursprünge des Bewusstseins, die Grenzen der Erkenntnis, das Problem der Emergenz, die Möglichkeit außermenschlicher Intelligenz usw. in einem neuen Licht zu betrachten und zum Teil neu zu bewerten.
+
+Eine dem metaphysischen bzw. auch idealistischen Denken verpflichtete Sichtweise hält es (im Sinn einer schwachen KI) für unmöglich, dass Maschinen jemals mehr als nur simuliertes Bewusstsein mit wirklicher Erkenntnis und Freiheit besitzen könnten. Aus ontologischer Sicht kritisiert der amerikanische Philosoph Hubert Dreyfus die Auffassung der starken KI. Aufbauend auf der von Martin Heidegger in dessen Werk Sein und Zeit entwickelten Ontologie der „Weltlichkeit der Welt“ versucht Dreyfus zu zeigen, dass hinter das Phänomen der Welt als sinnhafte Bedeutungsganzheit nicht zurückgegangen werden kann: Sinn, d. h. Beziehungen der Dinge in der Welt aufeinander, sei ein Emergenzphänomen, denn es gibt nicht „etwas Sinn“ und dann „mehr Sinn“. Damit erweist sich jedoch auch die Aufgabe, die sinnhaften Beziehungen zwischen den Dingen der Welt in einen Computer einzuprogrammieren, als eigentlich unmögliches bzw. unendliches Vorhaben. Dies deshalb, weil Sinn nicht durch Addition von zunächst sinnlosen Elementen hergestellt werden kann.[69]
+
+Eine evolutionär-progressive Denkrichtung sieht es hingegen (im Sinn einer starken KI) als möglich an, dass Systeme der künstlichen Intelligenz einmal den Menschen in dem übertreffen könnten, was derzeit noch als spezifisch menschlich gilt. Dies birgt zum einen die Gefahr, dass solche KI-Maschinen sich gegen die Interessen der Menschen wenden könnten. Andererseits birgt diese Technologie die Chance, Probleme zu lösen, deren Lösung dem Menschen wegen seiner limitierten Kapazitäten schwerfällt (siehe auch technologische Singularität).
+
+Weitere Anknüpfungspunkte lassen sich in der analytischen Philosophie finden.
+
+Die Ethik der künstlichen Intelligenz erforscht ethische Normen für Entwurf, Herstellung, Testung, Zertifizierung und den Einsatz künstlich intelligenter Systeme und fragt nach Prinzipien für das ethische Verhalten von KI-Systemen. Intensiv untersuchte Themen sind dabei ethische Fragen des autonomen Fahrens und autonomer Waffensysteme sowie die Probleme und Realisierungsmöglichkeiten künstlicher moralischer Agenten.[70][71]
+
+Rechtsphilosophie und Roboterethik gehen der Frage nach, ob eine KI für ihr gesetzwidriges Handeln oder Fehlverhalten verantwortlich gemacht werden kann (z. B. bei einem Autounfall durch ein autonomes Fahrzeug) und wer dafür haftet.[72]
+
+Der russisch-amerikanische Biochemiker und Sachbuchautor Isaac Asimov beschreibt in seinen drei Robotergesetzen die Voraussetzungen für ein friedliches und unterstützendes Zusammenleben zwischen KI und Mensch. Diese Gesetze wurden später von anderen Autoren erweitert.
+
+Bei Karl Marx finden sich im sogenannten Maschinenfragment, einem Teil der Grundrisse (1857–58), Überlegungen zur Ersetzung menschlicher Arbeitskraft durch Maschinen, die sich auch auf Maschinen mit künstlicher Intelligenz anwenden lassen.[73]
+
+Menschenrechte[Bearbeiten | Quelltext bearbeiten]
+
+Zu den zentralen Fragen beim KI-Einsatz gehören die Aufteilung rechtlicher Verpflichtungen zwischen Staaten und Unternehmen sowie die Implikationen der Menschenrechte im Hinblick auf den Einsatz von KI in bestimmten Anwendungsbereichen, z. B. bei der Gesichtserkennung oder Erleichterung der Entscheidungsfindung von Gerichten. Auch wird das Ausmaß der technologischen Zusammenarbeit im Bereich der KI mit Staaten, die sich nicht an menschenrechtliche Grundstandards halten, aus wirtschaftsethischer und völkerrechtlicher Perspektive diskutiert.[74][75]
+
+Tierethik[Bearbeiten | Quelltext bearbeiten]
+KI wirkt auf mehreren Wegen auf Tiere ein: über Systeme, die eigens für den Umgang mit ihnen gebaut werden, über Nebenwirkungen, etwa wenn ein selbstfahrendes Auto ein Tier erfasst, und indirekt, zum Beispiel über Empfehlungsalgorithmen. Besonders viele Tiere betrifft das in der Nutztierhaltung, in der weltweit jährlich über 70 Milliarden Vögel und Säugetiere getötet werden.[76] Dennoch blieb die KI-Ethik lange auf den Menschen beschränkt: Von 84 KI-Ethik-Leitlinien, die Andrea Owe und Seth Baum 2021 auswerteten, berücksichtigten lediglich acht auch nichtmenschliche Wesen.[77] Zu den Ausnahmen zählt die Montréal-Erklärung von 2018, deren Wohlergehens-Prinzip ausdrücklich alle empfindungsfähigen Wesen einschließt.[78] Weiters empfahl eine Expertengruppe der EU-Kommission 2019, fühlende Wesen ebenso wie Gesellschaft und Umwelt als Interessenträger zu berücksichtigen.[79] Die UNESCO-Empfehlung zur Ethik der KI von 2021 nennt das Tierwohl unter den Bereichen, in denen KI ethische Fragen aufwirft, und verlangt, dass KI das Zusammenleben von Menschen, anderen Lebewesen und natürlicher Umwelt nicht gefährdet.[80]
+
+KI-Systeme prägen zunehmend auch, wie Menschen über Tiere denken und mit ihnen umgehen. Peter Singer und Yip Fai Tse stellten fest, dass die Systeme großer Videoplattformen Aufnahmen, in denen Ratten gequält oder Tiere als Speise zubereitet werden, fast nie als Tierquälerei einstuften und dass Suchmaschinen zu Begriffen wie „Huhn“ oder „Garnele“ vor allem Rezepte vorschlugen. Auf diese Weise gäben KI-Systeme die speziesistischen Einstellungen aus ihren Trainingsdaten weiter.[76] Dass Ratschläge eines Chatbots die moralischen Urteile von Nutzern verändern können, auch wenn diese die Quelle kennen, zeigte ein Experiment mit ChatGPT.[81] Inzwischen untersuchen mehrere Testverfahren, was Sprachmodelle über Tiere sagen und raten. Der AnimalHarmBench prüft, ob ihre Antworten auf echte Nutzerfragen Tieren eher schaden oder nützen,[82] der SpeciesismBench, ob sie speziesistische Aussagen erkennen und für falsch halten.[83] MANTA stellt Alltagsfragen, die Tiere nur am Rande betreffen, und erfasst, ob ein Modell das Tierwohl von sich aus anspricht und diese Haltung auch gegen Widerspruch beibehält.[84] HarvestBench geht darüber hinaus und beobachtet, ob KI-Agenten in einer Simulation Tieren ausweichen, auch wenn das zusätzlichen Treibstoff kostet.[85]
+
+Klimatologie und Ökologie[Bearbeiten | Quelltext bearbeiten]
+KI kann dazu genutzt werden, mehr Nachhaltigkeit zu erreichen. Eine vom Fraunhofer-Institut für Produktionstechnik und Automatisierung und dem Fraunhofer-Institut für Arbeitswirtschaft und Organisation in Auftrag gegebene Studie sieht hierbei große Potenziale für produzierende Unternehmen. Der Einsatz von KI könne zu effizienteren Produktionsprozessen führen und Ressourcen schonen.[86] Das Unternehmen Bosch gab 2023 an, durch den Einsatz von generativer KI in einem türkischen Werk den Wasserverbrauch, den Ausschuss sowie den Energiebedarf verringert zu haben. Gleichzeitig sei die Anlageneffektivität um ca. zehn Prozent angestiegen.[87]
+
+In der Forschung wird allerdings angemahnt, nicht nur auf Nachhaltigkeit durch KI, sondern auch von KI zu achten.[88] So lässt sich etwa ein massiv ansteigender Energieverbrauch durch KI und ein damit verbundener erhöhter Ausstoß des Treibhausgases Kohlenstoffdioxid beobachten.[89] Die Supercomputer, die die Nutzung von KI ermöglichen, haben einen überaus hohen Strombedarf. So verbraucht eine ChatGPT-Anfrage zehn- bis zwanzigmal so viel elektrische Energie wie eine herkömmliche Google-Suche.[90] Die Internationale Energieagentur (IEA) schätzte im Januar 2024, dass sich der weltweite Stromverbrauch durch Rechenzentren, die diese Supercomputer beherbergen, bis 2026 im Vergleich zu 2022 verdoppeln könnte. Der zusätzliche Stromverbrauch würde dabei dem von ganz Japan entsprechen.[91] Der enorme Stromverbrauch von KI ist somit für einen Anstieg der Nutzung fossiler Brennstoffe mitverantwortlich und könnte weltweit die Schließung veralteter Kohlekraftwerke verzögern. Der prognostizierte Stromverbrauch ist so immens, dass die Sorge besteht, dass er die Maßnahmen gegen den menschengemachten Klimawandel negativ beeinflussen könnte.[92] In den USA wurde Ende 2025 bereits beschlossen, einen stillgelegten Kernreaktor wieder hochzufahren, um Strom für die KI-Branche zu produzieren.[93]
+
+Darüber hinaus benötigen Supercomputer große Mengen an Kühlwasser. Allein das Training von GPT-3 soll schätzungsweise 5,4 Millionen Liter Trinkwasser verbraucht haben. Für 10–50 mittellange Antworten auf Anfragen von Nutzenden benötigt ChatGPT außerdem etwa das Äquivalent von einer Flasche Wasser.[94] Genaue Zahlen zum Energie- und Wasserverbrauch durch KI fehlen aber zumeist, da Unternehmen nicht verpflichtet sind, diese offenzulegen.
+
+Eine Studie, die sich mit dem Nutzen von KI für die Ziele für nachhaltige Entwicklung beschäftigte, kommt zu dem Schluss, dass bei 79 % von diesen die Nutzung von KI einen positiven Effekt haben könnte. Gleichzeitig könnten auch bei 35 % der Ziele negative Auswirkungen aus dem Einsatz von KI resultieren.[95]
+Der Informatiker Rainer Rehak warnte in einem Interview mit der taz allerdings davor, Klimaziele allein durch die Nutzung von KI erreichen zu wollen. Maßnahmen, die mit einer grundsätzlichen Neuorientierung z. B. bei der Stadtentwicklung einhergehen, könnten gegebenenfalls deutlich besser zur Verhinderung von Treibhausgasemissionen beitragen.[96]
+
+Siehe auch: Green IT
+
+Kritik an KI-Forschung und -Anwendung[Bearbeiten | Quelltext bearbeiten]
+Warnung vor existenziellem Risiko für die Menschheit[Bearbeiten | Quelltext bearbeiten]
+→ Hauptartikel: Existenzielles Risiko durch künstliche Intelligenz
+Stephen Hawking warnte 2014 vor der KI und sah darin eine Bedrohung für die Menschheit. Durch die KI könnte das Ende der Menschheit eingeleitet werden. Ob die Maschinen irgendwann die Kontrolle übernehmen werden, werde die Zukunft zeigen. Aber es sei klar, dass die Maschinen die Menschen zunehmend vom Arbeitsmarkt verdrängen.[97][98][99]
+
+Um anschaulich zu machen, was eine der Menschheit überlegene KI bedeuten könnte, verweisen einige Autoren auf die Lage anderer Arten. Stuart Russell benennt das Kontrollproblem nach den Gorillas, deren Fortbestand heute von menschlichen Entscheidungen abhängt; ebenso könnte das Schicksal der Menschheit einmal in der Hand klügerer Maschinen liegen.[100] Yuval Noah Harari sieht in der Art, wie Menschen mit Tieren von geringerer Intelligenz verfahren, das aufschlussreichste Indiz dafür, was gewöhnliche Menschen von überlegenen Wesen zu erwarten hätten.[101] Manche Forscher folgern daraus, an der Haltung einer KI gegenüber Tieren lasse sich ablesen, wie sie mit Schwächeren verfährt, und schlagen Prüfungen nach diesem Muster vor.[102][103] Ob eine KI, die Tiere achtet, deshalb auch für Menschen sicherer wäre, ist jedoch offen: Ein Trainingsexperiment fand jedenfalls Hinweise darauf, dass sich Mitgefühl mit Tieren auch auf Menschen überträgt.[104] 
+
+Warnung vor Gefahren durch autonome und KI-gestützte Waffen[Bearbeiten | Quelltext bearbeiten]
+Im August 2017 forderten 116 Unternehmer und Experten aus der Technologiebranche (u. a. Mustafa Suleyman, Elon Musk, Yoshua Bengio, Stuart Russell, Jürgen Schmidhuber) in einem offenen Brief an die UN, dass autonome Waffen verboten werden sollten bzw. auf die seit 1983 bestehende CCW-Liste gesetzt werden sollen.[105] Die Certain Conventional Weapons sind von der UN verboten und beinhalten unter anderem Chemiewaffen. Nach Schwarzpulver und der Atombombe drohe die dritte Revolution der Kriegsführung. Zitat aus dem Schreiben: „Wenn diese Büchse der Pandora einmal geöffnet ist, wird es schwierig, sie wieder zu schließen“ und „Einmal erfunden, könnten sie bewaffnete Konflikte erlauben in einem nie dagewesenen Ausmaß, und schneller, als Menschen sie begreifen können“. Terroristen und Despoten könnten die autonomen Waffen nutzen und sogar hacken.[106][107]
+
+Besondere Aufmerksamkeit erlangte die Nutzung von KI beim Einsatz autonomer Waffen durch den Angriff auf eine Schule in Minab am 28. Februar 2026 während des Irankriegs. Dabei kamen mehr als 150 Menschen, darunter 123 Kinder, ums Leben. Zeitlich parallel zu einer Untersuchung durch eine UN-Kommission, in der der Angriff als ein Kriegsverbrechen der USA gewertet wurde,[108] fand auch eine Pentagon-interne Untersuchung des Angriffs statt. Der Abschlussbericht dieser Untersuchung blieb unveröffentlicht, Medienvertreter erlangten jedoch Kenntnis der wesentlichen Ergebnisse. Demnach ginge man im US-Verteidigungsministerium davon aus, dass der Angriff auf die Schule aufgrund einer Verkettung mehrerer Faktoren erfolgt sei, für den aber als eine Ursache ein „blindes Vertrauen in die KI“ („an overreliance on AI“) verantwortlich gewesen sei.[109]
+
+Im Rahmen der Vereinten Nationen kam man im September 2026 bei der seit 2017 geforderten Einbringung der autonomen Waffen in die „Convention on Certain Conventional Weapons“ nach mehrjährigen Verhandlungen einen Schritt weiter. Vertreter von 128 Staaten einigten sich in Genf zunächst auf eine Definition, was unter dem Begriff „autonome Waffen“ im Einzelnen zu verstehen ist. Die Einigung bedeutet noch kein verbindliches Regelwerk, wird aber, u. a. vom Internationalen Komitee vom Roten Kreuz, dennoch als Fortschritt auf dem Weg zu formellen Vertragsverhandlungen angesehen.[110]
+
+Weitere Aspekte[Bearbeiten | Quelltext bearbeiten]
+Jörg Phil Friedrich vertritt den Standpunkt, es sei weniger eine künstliche Intelligenz, die uns in den KI-Systemen begegne, „sondern eine über weite Strecken degenerierte menschliche Intelligenz“.[111]
+
+Der Historiker Yuval Noah Harari sagt, „künstliche Intelligenz und Biotechnologie können zerstören, was den Menschen ausmacht.“ Er warnt vor einem Wettrüsten im Bereich der künstlichen Intelligenz und empfiehlt globale Zusammenarbeit angesichts dieser „existenziellen Bedrohung.“[112] 2024 äußerte er sich im Wochenmagazin Stern besorgt, weil KI „die erste Technologie“ sei, „die eigene Entscheidungen treffen“ könne.
+Noch komme sie „recht primitiv daher“, doch schreite die Entwicklung zu schnell voran, ohne dass gegenwärtig die damit verbundenen Risiken eingeschätzt werden könnten. Es sei zu befürchten, die KI könnte eines Tages „Waffensysteme selbständig kontrollieren“ und „allein entscheiden, welche Person sie töten“. Die Risiken für die Demokratie bringt Harari mit der potentiellen Fähigkeit der KI in Verbindung, „das erste totale Überwachungssystem der Geschichte zu errichten“.[113]
+
+Als feministische Kritik in Bezug auf Daten und Technologisierung entwickelten sich bereits in den Anfängen des Internets feministische Praxen wie Cyberfeminismus oder Technofeminismus und prägen den Diskurs der feministischen KI.
+
+Bösartige Nutzung künstlicher Intelligenz[Bearbeiten | Quelltext bearbeiten]
+Im Februar 2018 wurde ein Bericht einer Projektgruppe führender Experten im Bereich KI veröffentlicht, der vor möglichen „Bösartige[n] Nutzungen künstlicher Intelligenz“ (englischer Originaltitel: „The Malicious Use of Artificial Intelligence“) warnte.[114]
+Beteiligt waren daran unter anderem Forscher der Universitäten von Oxford, Yale und Stanford, sowie Entwickler von Microsoft und Google. Der Bericht nahm Bezug auf schon existierende Technologien und demonstrierte anhand von diversen Szenarien, wie diese von Terroristen, Kriminellen und despotischen Regierungen missbraucht werden könnten.[114] Die Autoren des Berichts forderten daher eine engere Zusammenarbeit von Forschern, Entwicklern und Gesetzgebern im Bereich KI und schlugen konkrete Maßnahmen vor, wie die Gefahren des Missbrauchs verringert werden könnten.[114]
+
+In Deutschland nahm die Cyberkriminalität durch Einsatz von KI-Technologien in den Jahren seit 2018 weiter zu[115] und die Thematik fand sowohl in staatlichen Exekutivorganen[116] als auch in Publikationen[117] starke Beachtung.
+
+Veränderung menschlichen Verhaltens[Bearbeiten | Quelltext bearbeiten]
+Seit den Anfängen der elektronischen Informationstechnik gab es Stimmen, die davor warnten, der Mensch werde sich in seinem Denken und Handeln der Funktionsweise von IT-basierten Systemen angleichen. Konrad Zuse, Hersteller des ersten funktionsfähigen Computers der Welt, hat in einem Gespräch einen Satz zitiert, dessen Urheber nicht eindeutig geklärt ist:
+
+„Jemand hat einmal gesagt, die Gefahr, daß der Computer so wird wie der Mensch, ist nicht so groß wie umgekehrt die, daß der Mensch so wird wie der Computer. […] Ich weiß nicht, wer es gesagt hat, aber das ist ein sehr wichtiges Wort.“
+
+– Konrad Zuse: Gespräch mit Bernhard Korte am 23. Oktober 1994[118]
+Eine ähnliche Sicht teilte auch der viele Jahre am Massachusetts Institute of Technology tätige Informatiker Joseph Weizenbaum:
+
+„Ohne Frage hat die Einführung des Computers in unsere bereits hoch technisierte Gesellschaft […] lediglich die früheren Zwänge verstärkt und erweitert, die den Menschen zu einer immer rationalistischeren Auffassung seiner Gesellschaft und zu einem immer mechanistischeren Bild von sich selbst getrieben haben.“
+
+– Joseph Weizenbaum: Die Macht der Computer und die Ohnmacht der Vernunft[119]
+Diese Befürchtungen wurden im Jahr 2025 empirisch bestätigt durch eine Studie der Universitäten St. Gallen und Rotterdam. Mehr als 13.000 Teilnehmende unterzogen sich dabei einem Bewerbungsverfahren, bei dem ihnen vorab mitgeteilt wurde, ob die Bewertung von einer KI-Instanz oder von einem Menschen vorgenommen wurde. Das Ergebnis der Studie war eindeutig, dass die Annahme einer KI-Bewertung die Selbstdarstellung der Teilnehmenden veränderte, dass sie „verstärkt analytisches, systematisches und regelbasiertes Denken“ betonten. Der Studienautor, Prof. Dr. Emanuel de Bellis, fasste das Ergebnis so zusammen: „Wir werden zu dem, was wir glauben, dass die KI sehen will: analytisch, regelkonform, berechenbar. Dabei geht unsere Menschlichkeit verloren.“[120]
+
+Vorschläge zum Umgang mit KI[Bearbeiten | Quelltext bearbeiten]
+Der Präsident von Microsoft, Brad Smith, schlug im November 2017 vor, einen Verhaltenskodex aufzustellen, wie etwa eine Digitale Genfer Konvention, um Risiken der künstlichen Intelligenz zu verringern.[121]
+
+Der Ethiker Peter Dabrock empfiehlt im Kontext der Benutzung und Programmierung von künstlicher Intelligenz nicht nur die digitale Kompetenz der Beteiligten zu erhöhen, sondern auch auf klassische Bildungselemente zu setzen. Um mit den dazugehörigen Herausforderungen zurechtzukommen sowie die Fähigkeiten zur Unterscheidung und zur Erkennung von Mehrdeutigkeit zu erhöhen, seien Kenntnisse aus Religion, Literatur, Mathematik, Fremdsprachen, Musik und Sport eine gute Voraussetzung.[122]
+
+Der Deutsche Bundestag hat am 28. Juni 2018 eine Enquete-Kommission Künstliche Intelligenz – Gesellschaftliche Verantwortung und wirtschaftliche Potenziale eingesetzt.[123] Am 28. Oktober 2020 hat die Kommission ihren Abschlussbericht vorgelegt. Künstliche Intelligenz ist demnach die nächste Stufe der Digitalisierung.
+Unter dem Leitbild einer „menschenzentrierten KI“ wird eine „demokratische Gestaltung“ der Entwicklung gefordert, so dass KI-Anwendungen vorrangig auf das Wohl und die Würde der Menschen ausgerichtet seien und einen gesellschaftlichen Nutzen bringen. Um einer Diskriminierung von Menschen entgegenzuwirken „braucht es, wenn KI über Menschen urteilt, einen Anspruch auf Transparenz, Nachvollziehbarkeit und Erklärbarkeit von KI-Entscheidungen, damit eine gerichtliche Überprüfung automatisierter Entscheidungen möglich ist“.[124]
+
+Im März 2023 wurde ein u. a. von Elon Musk unterstützter Aufruf zu einer 6-monatigen KI-Entwicklungspause veröffentlicht.[125]
+
+Der KI-Investor Fabian Westerheide verwies im Zusammenhang mit seinem 2024 erschienenen Buch Die KI-Nation auf hohe Investitionen einiger Staaten – insbesondere Chinas – in eine eigene KI-Strategie, warnte vor der Gefahr einer Überwachung durch Backdoors beim Einsatz ausländischer KI und betonte die Bedeutung deutscher und gesamteuropäischer Pläne zur KI.[126]
+
+Mit der Enzyklika Magnifica Humanitas hat Papst Leo XIV. 2026 aus römisch-katholischer Sicht erhebliche Vorbehalte gegen eine unregulierte Entwicklung der KI geäußert.
+
+Das KI-Observatorium[Bearbeiten | Quelltext bearbeiten]
+Mit dem Observatorium Künstliche Intelligenz in Arbeit und Gesellschaft (kurz: KI-Observatorium), einem Projekt der Denkfabrik Digitale Arbeitsgesellschaft, fokussiert das Bundesministerium für Arbeit und Soziales die Frage nach den Auswirkungen von KI auf Arbeit und Gesellschaft. Das KI-Observatorium agiert an der Schnittstelle zwischen Politik, Wissenschaft, Wirtschaft und Gesellschaft; es fungiert als Wissensträger und Impulsgeber. Das KI-Observatorium hat die Aufgabe, Effekte von KI in der Arbeitswelt frühzeitig zu antizipieren und Handlungsbedarfe aufzuzeigen.
+Auf diese Weise leistet die im März 2020 gestartete Arbeitseinheit einen Beitrag zur Realisierung der in der KI-Strategie der Bundesregierung formulierten Ziele – etwa zum sicheren und gemeinwohlorientierten Einsatz von KI. Darüber hinaus soll das KI-Observatorium mithilfe von Dialog- und Beteiligungsformaten unterschiedliche gesellschaftliche Akteure im Umgang mit künstlicher Intelligenz befähigen und bestärken.[127]
+
+Die konkreten Aufgabenschwerpunkte des Observatoriums sind in den fünf Handlungsfeldern festgehalten:[128]
+
+Technologie-Foresight und Technikfolgenabschätzung
+KI in der Arbeits- und Sozialverwaltung
+Ordnungsrahmen für KI/soziale Technikgestaltung
+Aufbau internationaler und europäischer Strukturen
+Gesellschaftlicher Dialog und Vernetzung
+
+Regulierung und Gesetzgebung[Bearbeiten | Quelltext bearbeiten]
+Europäische Union[Bearbeiten | Quelltext bearbeiten]
+Die Verordnung über künstliche Intelligenz (informell meist KI-Verordnung, englisch AI Act) ist eine EU-Verordnung für die Regulierung von künstlicher Intelligenz. Es ist die weltweit erste umfassende Regulierung dieser Art. Das Gesetz regelt den Einsatz von KI unter anderem für die kritische Infrastruktur, Sicherheitsbehörden und Personalverwaltung.[129] Die Europäische Kommission hat das Gesetz am 21. April 2021 vorgeschlagen und einen ersten Entwurf veröffentlicht.[130]
+Am 28. September 2022 hat die Europäische Kommission in dem Zusammenhang auch den Entwurf einer Richtlinie über Produkthaftung[131] und einer Richtlinie über KI-Haftung veröffentlicht.[132] Die Richtlinie über Produkthaftung ist mittlerweile erlassen und gilt für Produkte, die nach dem 9. Dezember 2026 in Verkehr gebracht oder in Betrieb genommen werden. Haftungsfragen waren zuvor aus der Verordnung herausgenommen worden.[133]
+In dem Kontext steht auch die Überarbeitung der Maschinenrichtlinie zur EU-Maschinenverordnung, die am 14. Juni 2023 in Kraft getreten ist. Am 9. Dezember 2023 einigten sich die EU-Gesetzgebungsinstitutionen auf die Grundzüge des Gesetzes.[134][135]
+
+Am 12. Juni 2024 hat die EU die KI-Verordnung mit dem Titel „Verordnung (EU) 2024/1689 des Europäischen Parlaments und des Rates vom 13. Juni 2024 zur Festlegung harmonisierter Vorschriften für künstliche Intelligenz und zur Änderung der Verordnungen (EG) Nr. 300/2008, (EU) Nr. 167/2013, (EU) Nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 und (EU) 2019/2144 sowie der Richtlinien 2014/90/EU, (EU) 2016/797 und (EU) 2020/1828 (Verordnung über künstliche Intelligenz)“ veröffentlicht.[136] Hier sind Vorschriften zum Inverkehrbringen, Inbetriebnahme und die Verwendung von KI-Systemen festgelegt. Verbotene Praktiken sind in Kapitel II benannt.[137] Ebenso sind die Kriterien zur Einstufung von KI-Systemen als Hochrisiko-KI-Systeme in Kapitel III beschrieben.[138] Für Hochrisiko-KI-Systeme wird die EU eine Datenbank errichten.[139]
+Sanktionen gegen die Missachtung der Richtlinie sind mit Geldbußen von 35 Millionen Euro oder sieben Prozent des gesamten weltweiten Umsatzes des verstoßenden Unternehmens belegt.[140] Wie jede EU-Richtlinie muss sie in nationale Gesetze übernommen werden. Für KI-Systeme ist eine EU-Konformitätserklärung vorgeschrieben.[141]
+
+Da die KI-Systeme viele Bereiche tangieren, wie am Titel der Verordnung ersichtlich, wurden folgende Richtlinien geändert: Richtlinie 2014/90/EU über Schiffsausrüstung, Richtlinie (EU) 2016/797 über die Interoperabilität des Eisenbahnsystems in der Europäischen Union. Folgende Verordnungen wurden mit der KI-RL auch geändert: Verordnung (EG) Nr. 300/2008 über gemeinsame Vorschriften für die Sicherheit in der Zivilluftfahrt, Verordnung (EU) Nr. 167/2013 über die Genehmigung und Marktüberwachung von land- und forstwirtschaftlichen Fahrzeugen, Verordnung (EU) Nr. 168/2013 über die Genehmigung und Marktüberwachung von zwei- oder dreirädrigen und vierrädrigen Fahrzeugen, Verordnung (EU) 2018/858 über die Genehmigung und die Marktüberwachung von Kraftfahrzeugen und Kraftfahrzeuganhängern sowie von Systemen, Bauteilen und selbstständigen technischen Einheiten für diese Fahrzeuge, Verordnung (EU) 2018/1139 zur Festlegung gemeinsamer Vorschriften für die Zivilluftfahrt und zur Errichtung einer Agentur der Europäischen Union für Flugsicherheit, Verordnung (EU) 2019/2144 über die Typgenehmigung von Kraftfahrzeugen und Kraftfahrzeuganhängern.[142]
+
+Basierend auf den Verordnungen der EU haben einige nationale Stellen bereits eigenen Regularien zum Einsatz im öffentlich-rechtlichen Umfeld ausgearbeitet.[143]
+
+Vereinigte Staaten[Bearbeiten | Quelltext bearbeiten]
+In den Vereinigten Staaten gibt es bislang keine Bundesgesetzgebung, die die Verwendung von künstlicher Intelligenz explizit und umfassend reguliert.
+
+Dass der Einsatz von KI möglichst global reguliert wird, halten viele US-amerikanische Juristen jedoch für notwendig, so erklärte hierzu 2024 der Rechtsanwalt Shabbi S. Khan: „Generative KI hat das Potenzial, katastrophal zu sein“.[144] Auch die US-Regierung erkannte, dass die Machtfülle der großen Tech-Unternehmen zu einer Bedrohung der Demokratie werden kann. Im Juli 2023 wollte US-Präsident Joe Biden eine freiwillige Selbstverpflichtung führender KI-Unternehmen einholen, um zu einer sicheren und transparenten KI-Entwicklung beizutragen.[145]
+
+Das kalifornische Gesetz Assembly Bill 3030 trat zum 1. Januar 2025 in Kraft. Jede KI-generierte Patientenkommunikation mit klinischen Informationen muss einen klaren Haftungsausschluss sowie Hinweise enthalten, wie ein menschlicher Leistungserbringer kontaktiert werden kann.[146]
+
+Die kalifornische Gesetz Assembly Bill 489 tritt zum 1. Januar 2026 in Kraft. Entwicklern und Betreibern von KI-Produkten wird die Verwendung von Begriffen oder Darstellungen untersagt, die fälschlich eine medizinische Zulassung oder Zertifizierung suggerieren, etwa Formulierungen, die den Eindruck erwecken, das System werde von einem Arzt, einer Pflegefachkraft oder einer anderen medizinisch qualifizierten Fachperson betrieben.[146]
+
+In Illinois trat 2025 das Gesetz Wellness and Oversight for Psychological Resources Act in Kraft. Dieses Gesetz untersagt die Erbringung von Therapie- oder Psychotherapieleistungen durch KI, sofern diese Leistungen nicht von einer zugelassenen Fachkraft erbracht werden. Es schränkt KI-Chatbots darin ein, therapeutische Kommunikation zu führen, eigenständige Behandlungsempfehlungen abzugeben oder Therapiepläne zu erstellen, ohne dass eine direkte Aufsicht durch einen Kliniker besteht.[146]
+
+Andere Bundesstaaten, darunter Nevada und Utah, folgten dem Beispiel von Illinois verboten die Bereitstellung von Therapie durch KI-Chatbots bzw. regulierten sie strenger.[146]
+
+Im Dezember 2025 wurde auf Bundesebene eine neue Executive Order erlassen, um die föderalen KI-Sicherheitsregeln zu lockern und strengere Gesetze der Einzelstaaten auszuhebeln, um die US-Dominanz nicht zu gefährden.[147]
+
+US-Präsident Donald Trump erließ im September 2026 eine Verordnung für alle US-Bundesverwaltungsstellen, dass in Zukunft der Begriff Artificial Intelligence durch den Begriff Super Intelligence zu ersetzen sei. Als Begründung führte er an, dass der Ausdruck artificial mit fake in Zusammenhang gebracht werden könne.[148]
+
+Vereinte Nationen[Bearbeiten | Quelltext bearbeiten]
+Im September 2026 gaben die CEOs der in jenem Jahr führenden[149] KI-Unternehmen OpenAI (Sam Altman) und Anthropic (Dario Amodei) dem UN-Sicherheitsrat Auskunft über die potenziellen Fähigkeiten künstlicher Intelligenzen, warnten in dem Zusammenhang vor Risiken, insbesondere einer Verselbstständigung, einer Machtkonzentration weniger Unternehmen und einem Missbrauch von KI durch Terroristen und äußerten Regulierungsvorschläge, die einander ähnelten.[150] Zuvor hatten 22 Staats- und Regierungschefs den Aufbau einer weltweiten Kontrollbehörde und mehr Regulierung gefordert.[151]
+
+Darstellung in Film, Videospielen, Literatur und Musik[Bearbeiten | Quelltext bearbeiten]
+Künstliche Wesen, die denken können, tauchen seit der Antike als Figuren in Erzählungen auf und sind ein ständiges Thema in der Science-Fiction.[152]
+
+Seit der Klassischen Moderne wird KI in Kunst, Film und Literatur behandelt.[153] Dabei geht es bei der künstlerischen Verarbeitung – im Gegensatz zur KI-Forschung, bei der die technische Realisierung im Vordergrund steht – vor allem um die moralischen, ethischen und religiösen Aspekte und Folgen einer nicht-menschlichen, „maschinellen Intelligenz“.
+
+In der Renaissance wurde der Begriff des Homunkulus geprägt, eines künstlichen Miniaturmenschen ohne Seele.[154] Im 18. und 19. Jahrhundert erschienen in der Literatur menschenähnliche Automaten, beispielsweise in E. T. A. Hoffmanns Der Sandmann und Jean Pauls Der Maschinenmann.
+
+Im 20. und 21. Jahrhundert greift die Science-Fiction in Film und Prosa das Thema mannigfach auf.[155] 1920 prägte der Schriftsteller Karel Čapek den Begriff „Roboter“ in seinem Bühnenstück R.U.R.; 1926 thematisierte Fritz Lang in Metropolis Roboter, welche die Arbeit der Menschen übernehmen.[155]
+
+Ein häufiges Motiv im Film und der Literatur begann mit Mary Shelleys Roman Frankenstein (1818), in dem eine menschliche Schöpfung zu einer Bedrohung für ihre Meister wird. Dazu gehören Werke wie Arthur C. Clarkes und Stanley Kubricks 2001: Odyssee im Weltraum (beide 1968), mit HAL 9000, dem mörderischen Computer, der das Raumschiff Discovery One steuert, sowie die Terminator-Filmreihe (ab 1984) und The Matrix (1999). Im Gegensatz dazu sind die seltenen loyalen Roboter wie Gort aus Der Tag an dem die Erde stillstand (1951) und Bishop aus Aliens (1986) in der Populärkultur weniger präsent.[156]
+
+Mehrere Werke nutzen die künstliche Intelligenz, um uns mit der grundlegenden Frage zu konfrontieren, was uns zu Menschen macht, indem sie uns künstliche Wesen zeigen, die die Fähigkeit haben, zu fühlen und somit zu leiden. Dies geschieht in Karel Čapeks R.U.R., dem Film A.I. Artificial Intelligence von Steven Spielberg (2001) und anhand der Androidin Ava im Kinofilm Ex Machina (2015) von Alex Garland sowie in dem Roman Träumen Androiden von elektrischen Schafen? (1968) von Philip K. Dick. Dick befasst sich mit der Idee, dass unser Verständnis der menschlichen Subjektivität durch die mit künstlicher Intelligenz geschaffene Technologie verändert wird.[157]
+
+Am 30. September 2016 veröffentlichte die US-amerikanische Pop-Rock-Band OneRepublic mit dem englischen Singer-Songwriter und Rockmusiker Peter Gabriel das Lied A.I.[158] als Single und am 7. Oktober 2016 auf dem Album Oh My My von OneRepublic.[159][160] Der Song ist inspiriert von dem Film A.I. Artificial Intelligence von Steven Spielberg aus dem Jahr 2001.[161]
+
+Die beiden großen Science-Fiction-Franchises des frühen 21. Jahrhunderts, Star Wars und Star Trek, gehen sehr unterschiedlich mit dem Thema KI um. Während bei Star Wars KI vor allem in Form von Robotern und Androiden (gleichermaßen als Statisten und Hauptfiguren) von Beginn an selbstverständlich und allgegenwärtig erscheint, nahm Star Trek im Laufe der Zeit immer wieder sehr dedizierte, wechselnde Perspektiven ein, obwohl KI auch dort meist selbstverständlich ist (z. B. Simulierte Lebewesen auf Holodecks). Beispielsweise wurde die Folge Wem gehört Data? (1989) zum Arbeitsthema mehrerer Wissenschaftler.
+
+Roboter und Androide
+
+Isaac Asimov führte die Drei Gesetze der Robotik in vielen Büchern und Geschichten ein, vor allem in der „Multivac“-Serie über einen superintelligenten Computer gleichen Namens. Asimovs Gesetze werden oft in Laiendiskussionen über Maschinenethik erwähnt;[162] während fast alle Forscher im Bereich der künstlichen Intelligenz mit Asimovs Gesetzen durch die Populärkultur vertraut sind, halten sie die Gesetze im Allgemeinen aus vielen Gründen für nutzlos, einer davon ist ihre Zweideutigkeit.[163]
+
+Dem Filmpublikum wurden in den unterschiedlichen Werken die Roboter als intelligente und differenzierte Maschinen mit ganz unterschiedlichen Persönlichkeiten präsentiert: Sie werden entwickelt, um sie für gute Zwecke einzusetzen, wandeln sich aber häufig zu gefährlichen Maschinen, die feindselige Pläne gegen Menschen entwickeln.[164] Im Lauf der Filmgeschichte werden sie zunehmend zu selbstbewussten Wesen, die sich die Menschheit unterwerfen wollen.[164]
+
+Simulierte Realität
+
+Die simulierte Realität ist zu einem häufigen Thema in der Science-Fiction geworden, wie beispielsweise in dem Film The Matrix aus dem Jahr 1999 zu sehen ist, in dem eine Welt dargestellt wird, in der künstlich intelligente Roboter die Menschheit in einer Simulation versklaven, die in der heutigen Welt angesiedelt ist.[165] Zuvor thematisierte bereits die Star Trek TNG - Episode Das Schiff in der Flasche (1993) die Steuerung einer simulierten Realität durch eine böswillige KI, welche zuvor in der Episode Sherlock Data Holmes (1988) versehentlich erschaffen worden war.
+
+Kritik[Bearbeiten | Quelltext bearbeiten]
+2025 veröffentlichten 1000 britische Künstler und Gruppen das Album Is This What We Want? als Protest gegen Versuche der britischen Regierung den Urheberrechtsschutz zu Gunsten der KI-Industrie aufzuweichen.[166]
+
+Soziale Auswirkungen[Bearbeiten | Quelltext bearbeiten]
+Im Zuge der industriellen Revolution wurde durch die Erfindung der Dampfmaschine die Muskelkraft von der Maschine ersetzt (PS durch Watt). Durch die digitale Revolution könnte die menschliche Denkleistung durch maschinelle KI ersetzt[167] beziehungsweise ergänzt[168] werden.
+
+In einem Interview im Januar 2018 meinte der CEO von Google Sundar Pichai, die aktuelle Entwicklung der künstlichen Intelligenz sei für den Werdegang der Menschheit bedeutender als es die Entdeckung des Feuers und die Entwicklung der Elektrizität waren. Durch die aktuelle Entwicklung der KI werde kein Stein auf dem anderen bleiben. Deshalb sei es wichtig, dass die Gesellschaft sich mit dem Thema auseinandersetze. Nur so könne man die Risiken eingrenzen und die Potentiale ausschöpfen.[169]
+
+Wirtschaft, Arbeitswelt und Verteilungsgerechtigkeit[Bearbeiten | Quelltext bearbeiten]
+Von diversen Kennern der Materie wird angenommen, dass es zukünftig immer weniger nicht automatisierte Erwerbsarbeit gibt, weshalb auch im Hinblick auf Effizienz und Gewinnmaximierung immer weniger Arbeitskräfte benötigt würden. Der Physiker Stephen Hawking meinte, es sei klar, dass die Maschinen die Menschen zunehmend vom Arbeitsmarkt verdrängen.[97][98] Microsoft-Gründer Bill Gates sieht die Entwicklung ähnlich. Er fordert eine Robotersteuer, um die sozialen Aufgaben der Zukunft bewältigen zu können.[170]
+
+Die Informatikerin Constanze Kurz erklärte in einem Interview, der technische Wandel habe sich in der Vergangenheit meist über Generationen vollzogen, so dass genug Zeit blieb, sich für neue Aufgaben auszubilden. Heute verlaufe er innerhalb von wenigen Jahren, so dass die Menschen nicht genug Zeit hätten, sich für neue Aufgaben weiterzubilden.[171] Der Sprecher des Chaos Computer Clubs, Frank Rieger, warnte angesichts der fortschreitenden Automatisierung unter anderem vor der Gefahr einer Schwächung von Gewerkschaften, die an Mitgliedern verlieren könnten. Er plädierte für eine „Vergesellschaftung der Automatiserungsdividende“ zugunsten eines Grundeinkommens zwecks gerechterer Wohlstandsverteilung.[172]
+
+Jürgen Schmidhuber antwortete auf die Frage, ob KIs uns bald den Rang ablaufen werden bzw. ob wir uns Sorgen um unsere Jobs machen müssten: „Künstliche Intelligenzen werden fast alles erlernen, was Menschen können – und noch viel mehr. Ihre neuronalen Netzwerke werden aus Erfahrung klüger und wegen der sich rasch verbilligenden Hardware alle zehn Jahre hundertmal mächtiger. Unsere formelle Theorie des Spaßes erlaubt sogar, Neugierde und Kreativität zu implementieren, um künstliche Wissenschaftler und Künstler zu bauen.“[173]
+
+Mark Zuckerberg äußerte bei einer Rede vor Harvard-Absolventen, dass die Einführung eines bedingungslosen Grundeinkommens notwendig sei. Es könne etwas nicht mehr in Ordnung sein, wenn er als Harvard-Abbrecher innerhalb weniger Jahre Milliarden machen könne, während Millionen von Uni-Absolventen ihre Schulden nicht abbezahlen könnten. Es brauche eine Basis, auf der jeder innovativ und kreativ sein könne.[174][175]
+
+Das Institut für Arbeitsmarkt- und Berufsforschung (IAB), das zur Bundesagentur für Arbeit gehört, hat in einer Studie von 4/2018[176] dargelegt, welche menschliche Arbeit in Deutschland von Maschinen ersetzt werden kann. Am stärksten betroffen mit etwa 83 Prozent seien Fertigungsberufe, aber auch unternehmensbezogene Dienstleistungsberufe mit 60 Prozent, Berufe in der Unternehmensführung und -organisation mit 57 Prozent, Berufe in Land- und Forstwirtschaft und Gartenbau mit 44 Prozent usw. Insgesamt geht die Studie davon aus, dass in naher Zukunft 70 Prozent der menschlichen bezahlten Tätigkeiten von Maschinen übernommen werden könnten. Maschinen könnten z. B. übernehmen: Wareneingangskontrolle, Montageprüfung, Kommissionierung, Versicherungsanträge, Steuererklärungen usw. Die Techniken, die diese Veränderungen vorantreiben, seien: künstliche Intelligenzen, Big Data, 3D-Druck und virtuelle Realität. Auch wenn es nicht zu Entlassungen komme, müssten Mitarbeiter zumindest mit starken Veränderungen in ihrem Berufsbild und damit starkem Umlernen rechnen. Es entstünden auch neue Berufsfelder.[177]
+
+In einem Gastbeitrag im Februar 2018 meinte der SAP-Chef Bill McDermott, um etwaige negative Auswirkungen der neuen Techniken auf die Gesellschaft zu vermeiden, brauche es eine durchdachte Planung. Behörden, Privatwirtschaft und Bildungswesen müssten zusammenarbeiten, um jungen Menschen die Fähigkeiten zu vermitteln, die diese in der digitalen Wirtschaft benötigten. Umschulungen und lebenslanges Lernen seien heute die neue Normalität. Die wirtschaftliche Entwicklung werde durch die KI befeuert. Man rechne für 2030 mit einer Wertschöpfung im Bereich von 16 Billionen US-Dollar und einem Wachstum des Bruttoinlandsprodukts um 26 Prozent. Durch die Automatisierung könnten Unternehmen zukünftig jährlich drei bis vier Billionen US-Dollar einsparen.[178]
+
+Im August 2025 wurde eine Stepstone-Analyse bekanntgemacht,[179] die einen seit 2023 stark sinkenden Anteil an Stellenanzeigen für Berufseinsteiger abbildet. Der rasche Einsatz von künstlicher Intelligenz verändere die Nachfrage – vor allem bei Positionen auf Juniorlevel. KI-Tools übernehmen demnach immer häufiger Berufseinsteiger-Aufgaben: Fehler in Programmcodes finden, Präsentationen vorbereiten oder Markt- und Rechtsrecherche. Das betreffe textbasierte, klar strukturierte und repetitive Jobs, beispielsweise in der Informationstechnologie, im Rechtswesen oder in der Unternehmensberatung. Damit sei langfristig nicht nur ein Umbau von Geschäftsmodellen und Unternehmensstrukturen zu erwarten, sondern es drohe auch eine Lücke in der Nachwuchsförderung, ein Problem besonders in Bereichen mit Arbeitskräftemangel wie zum Beispiel in der IT-Branche.[180]
+
+Kommunikation[Bearbeiten | Quelltext bearbeiten]
+Laut Neurowissenschaftlern der Humboldt-Universität lösten vermeintliche KI-Bilder von lächelnden Menschen bei den Betrachtern geringere Wahrnehmungs- und Gefühlsreaktionen aus. Anders sei dies bei negativen Emotionen: Auf Furcht, Trauer, Erschrecken reagierten die Gehirne der Testpersonen immer gleich, egal ob sie glaubten, KI-Gesichter oder Menschen zu sehen. Möglicherweise verlören positive Botschaften an Wert, „während die negativen mehr haften blieben“. Man könne mit KI möglicherweise leichter Angst verbreiten.[181]
+
+Papst Leo XIV. kritisierte im Januar 2026 das „naive und bedingungslose Vertrauen in künstliche Intelligenz als allwissenden ‚Freund‘“, da es dazu führe, dass Menschen das selbstständige Denken aufgeben, sowie die Verletzung der Privatsphäre und Intimität von Menschen durch Deepfakes. Er forderte, dass auch alle technologischen Innovationen „die Gabe der Kommunikation als die tiefste Wahrheit der Menschheit schätzen“ müssten.[182]
+
+In der neueren Forschung zu generativer KI wird auch der Einsatz koordinierter KI-Systeme in Desinformationskampagnen behandelt.[183]
+
+Veränderte Websuche[Bearbeiten | Quelltext bearbeiten]
+KI verändert die Websuche, indem Suchende gegenüber der klassischen Internet-Recherche komplexere Fragen stellen können und entsprechend ausformulierte Antworten erhalten. Dabei werden von den Chatbot-Antworten häufig keine Quellen angegeben (sofern nicht ausdrücklich angefragt) bzw. wenn, sind sie oft nicht verlinkt. Das veränderte Suchverhalten führt unter anderem dazu, dass Wikipedia auf direktem Weg seltener aufgerufen wird. Gleichzeitig sind jedoch die Zugriffszahlen von Chatbots auf Wikipedia zum KI-Training massiv angestiegen. Dies hat zur Folge, dass die Ressourcen der Wikipedia stärker belastet werden. Es wird angenommen, dass die Zahl der Autoren und neuer Beiträge zur Wikipedia sinken wird.[184][185][186]
+
+Siehe auch[Bearbeiten | Quelltext bearbeiten]
+Anwendungen künstlicher Intelligenz
+Deutsches Forschungszentrum für Künstliche Intelligenz
+Ethik der künstlichen Intelligenz
+Allgemeine künstliche Intelligenz
+Verordnung über künstliche Intelligenz seitens der EU
+Regulierung von künstlicher Intelligenz
+Künstliche Intelligenz in der Medizin
+KI-Ära
+KI-Sicherheit
+Turing Award
+
+Literatur[Bearbeiten | Quelltext bearbeiten]
+Einführungen[Bearbeiten | Quelltext bearbeiten]
+Ingo Boersch, Jochen Heinsohn, Rolf Socher: Wissensverarbeitung – Eine Einführung in die Künstliche Intelligenz. Elsevier, 2006, ISBN 3-8274-1844-5. 
+Wolfgang Ertel: Grundkurs Künstliche Intelligenz: Eine praxisorientierte Einführung, Springer Vieweg, Wiesbaden 6. Auflage 2025
+Uwe Lämmel, Jürgen Cleve: Künstliche Intelligenz : Wissensverarbeitung – Neuronale Netze, Carl Hanser Verlag, München, 5. Auflage 2020
+
+Geschichte[Bearbeiten | Quelltext bearbeiten]
+Nils John Nilsson: Die Suche nach Künstlicher Intelligenz – Eine Geschichte von Ideen und Erfolgen. 1. Auflage. AKA, Berlin 2014, ISBN 978-3-89838-665-4 (englisch: The quest for artificial intelligence. A history of ideas and achievements. Cambridge 2010.). 
+Matteo Pasquinelli: Das Auge des Meisters. Eine Sozialgeschichte künstlicher Intelligenz. Unrast, Münster 2024, ISBN 978-3-89771-390-1. 
+
+Lehrbücher[Bearbeiten | Quelltext bearbeiten]
+Stuart J. Russell, Peter Norvig: Künstliche Intelligenz: Ein moderner Ansatz, Pearson Studium, Berkeley, 4. aktualisierte Auflage 2023, ISBN 978-3-86894-430-3 (Originaltitel:Artificial Intelligence: A Modern Approach), 1248 S.
+
+Nachschlagewerke[Bearbeiten | Quelltext bearbeiten]
+Tanya Braun, Eyke Hüllermier, Ute Schmid, Günther Gorz (Hrsg.): Handbuch der Künstlichen Intelligenz, De Gruyter Oldenbourg, Berlin/Boston 7. Auflage 2026
+Tim W. Dornis, Jan Eichelberger und Margrit Seckelmann: Künstliche Intelligenz. Nomos, Baden-Baden 2026, ISBN 978-3-8487-7463-0. (Handbuch zu rechtlichen Aspekten)
+Klaus Mainzer (Hrsg.) : Philosophisches Handbuch der Künstlichen Intelligenz, Wiesbaden : Springer VS, 2024
+
+Sonstige Literatur[Bearbeiten | Quelltext bearbeiten]
+Marie-Sophie Adeoso, Eva Berendsen, Leo Fischer, Deborah Schnabel: Code & Vorurteil. Über Künstliche Intelligenz, Rassismus und Antisemitismus. Verbrecher Verlag, Berlin 2024, ISBN 978-3-95732-589-1. 
+Emmanouil Billis, Nandor Knust, Jon-Petter Rui: Künstliche Intelligenz und der Grundsatz der Verhältnismäßigkeit. M. Engelhart, H. Kudlich, B. Vogel (Hrsg.), Digitalisierung, Globalisierung und Risikoprävention – Festschrift für Ulrich Sieber zum 70. Geburtstag, Teilband II. Duncker & Humblot, Berlin 2021, ISBN 978-3-428-15971-0, S. 693–725. 
+
+Stefan Buijsman: Ada und die Algorithmen. Wahre Geschichten aus der Welt der künstlichen Intelligenz. C.H.Beck, München 2021, ISBN 978-3-406-77563-5 (niederländisch: AI – Alsmaar intelligenter. Een kijkjeachter de beeldschermen. Amsterdam 2020. Übersetzt von Bärbel Jänicke). 
+Ulrich Eberl: Smarte Maschinen: Wie Künstliche Intelligenz unser Leben verändert. Carl Hanser Verlag, München 2016, ISBN 978-3-446-44870-4. 
+
+Daniel Martin Feige: Kritik der Digitalisierung. Technik, Rationalität und Kunst, Meiner Verlag, Hamburg 2025, Kapitel 2, ISBN 978-3-7873-4720-9
+Jörg Phil Friedrich: Degenerierte Vernunft. Künstliche Intelligenz und die Natur des Denkens. Claudius Verlag, 2023, ISBN 978-3-532-62892-8. 
+
+Manuela Lenzen: Künstliche Intelligenz. Was sie kann und was uns erwartet. C.H.Beck, München 2018, ISBN 978-3-406-71869-4. 
+Manuela Lenzen: Der elektronische Spiegel. Menschliches Denken und künstliche Intelligenz. C.H.Beck, München 2023, ISBN 978-3-406-79208-3. 
+Rainer Mühlhoff: Künstliche Intelligenz und der neue Faschismus, Reclam, Stuttgart 2025
+Vincent C. Müller, Martin Hähnel: Was ist, was kann, was soll KI? Ein philosophisches Gespräch, Meiner, Hamburg 2024, ISBN 978-3-7873-4672-1.
+Julian Nida-Rümelin, Natalie Weidenfeld: Digitaler Humanismus. Eine Ethik für das Zeitalter der Künstlichen Intelligenz, Pieper, München 32023 (12020), ISBN 978-3-492-31616-3.
+
+Roger Penrose: Schatten des Geistes. Wege zu einer neuen Physik des Bewußtseins. Heidelberg, 1995 (englisch: Shadows of the Mind.). 
+Rolf Pfeifer, Christian Scheier, Alex Riegler: Understanding Intelligence. Bradford Books, 2001, ISBN 0-262-66125-X (englisch). 
+Fabian Pfuhl und Jasper Siems: Praxishandbuch KI und Daten. Deutscher Fachverlag, Frankfurt am Main 2026, ISBN 978-3-8005-1959-0.
+David L. Poole, Alan K. Mackworth: Artificial Intelligence: Foundations of Computational Agents. 2. Auflage. Cambridge University Press, 2017, ISBN 978-1-107-19539-4 (englisch). 
+Thomas Ramge: Mensch und Maschine. Wie Künstliche Intelligenz und Roboter unser Leben verändern. Reclam-Verlag, Stuttgart 2018, ISBN 978-3-15-019499-7. 
+Roberto Simanowski: Sprachmaschinen: eine Philosophie der künstlichen Intelligenz. München: C.H. Beck, 2025.
+Jan Juhani Steinmann: Kritik der künstlichen Vernunft. Vorspiel eines Anathemas. Lepanto Verlag, Rückersdorf üb. Nürnberg 2025, ISBN 978-3-942605-42-7.
+Anna Strasser, Wolfgang Sohst, Ralf Stapelfeldt, Katja Stepec: Künstliche Intelligenz – Die große Verheißung. Xenomoi, Berlin 2021, ISBN 978-3-942106-79-5. 
+Mustafa Suleyman, Michael Bhaskar: The Coming Wave. Künstliche Intelligenz, Macht und das größte Dilemma des 21. Jahrhunderts. C.H.Beck, 2024, ISBN 978-3-406-81412-9. 
+Alan M. Turing: Computing Machinery and Intelligence / Können Maschinen denken?. Zweisprachige Ausgabe: Englisch / Deutsch. Zweite, durchgesehene und ergänzte Ausgabe. Aus dem Englischen übersetzt und herausgegeben von Achim Stephan und Sven Walter. Reclam, Ditzingen / Stuttgart 2023, ISBN 978-3-15-014464-0.
+Bernd Vowinkel: Maschinen mit Bewusstsein – Wohin führt die künstliche Intelligenz? Wiley-VCH, 2006, ISBN 3-527-40630-1. 
+
+Joseph Weizenbaum: Die Macht der Computer und die Ohnmacht der Vernunft. 12. Auflage. Suhrkamp, 1978, ISBN 3-518-27874-6. 
+
+Weblinks[Bearbeiten | Quelltext bearbeiten]
+Commons: Künstliche Intelligenz – Sammlung von Bildern, Videos und Audiodateien
+Literatur von und über Künstliche Intelligenz im Katalog der Deutschen Nationalbibliothek
+Deutsch
+Deutsche Zeitschrift für Künstliche Intelligenz
+Fachbereich Künstliche Intelligenz der Gesellschaft für Informatik (GI)
+Artikel zum Thema Künstliche Intelligenz bei heise.de
+Österreichische Gesellschaft für Artificial Intelligence (ÖGAI): oegai.at
+Computerwoche.de: FAQ Künstliche Intelligenz
+Thomas Brandstetter: Mit dem Gehirn als Vorbild zu besserer KI in Spektrum.de vom 4. November 2023
+RDK-Artikel: Michael Klipphahn-Karge: Künstliche Intelligenz (KI). In: RDK Labor. Zentralinstitut für Kunstgeschichte, 2025; abgerufen am 8. Mai 2026. 
+
+Audios
+Elektrotechnik-Ingenieur und Philosoph Rolf Eraßme im Gespräch: Warum man Menschen nicht nachbauen kann. Philosophische Argumente gegen die Künstliche Intelligenz. (Podcast; 40 Min.) In: Bayerischer Rundfunk. 11. Mai 2018, abgerufen am 4. Januar 2025 (Moderation: Ania Mauruschat). 
+Zum aktuellen Stand von Künstlicher Intelligenz. (Podcast; 55 Min.) In: digitalkompakt. 25. August 2016, abgerufen am 18. November 2021. 
+ARD – Der KI-Podcast – Wissen
+
+Videos
+iHuman, Tonje Hessen Schei, 2019
+Vortrag von Jürgen Schmidhuber: Künstliche Intelligenz wird alles ändern, 2016
+Schlaue neue Welt – Das KI-Wettrennen. Dokumentation, RBB, 2024
+
+Englisch
+Peter Norvig, aima.cs.berkeley.edu: AI on the Web – Zusammenstellung weiterführender Links
+claire-ai.org: Confederation of Laboratories for Artificial Intelligence in Europe (CLAIRE, Föderation von KI-Forschungseinrichtungen in Europa)
+eurai.org: European Association for Artificial Intelligence (EurAI, früher ECCAI)
+Journal of Artificial Intelligence Research (JAIR)
+Larry Hauser: Artificial Intelligence. In: James Fieser, Bradley Dowden (Hrsg.): Internet Encyclopedia of Philosophy.
+John-Stewart Gordon, Sven Nyholm: Ethics of Artificial Intelligence. In: James Fieser, Bradley Dowden (Hrsg.): Internet Encyclopedia of Philosophy.
+Selmer Bringsjord, Naveen Sundar Govindarajulu: Artifical Intelligence. In: Edward N. Zalta (Hrsg.): Stanford Encyclopedia of Philosophy.
+Richmond Thomason: Logic and Artifical Intelligence. In: Edward N. Zalta (Hrsg.): Stanford Encyclopedia of Philosophy.
+Frederic Portoraro: Automated Reasoning. In: Edward N. Zalta (Hrsg.): Stanford Encyclopedia of Philosophy.
+
+Einzelnachweise[Bearbeiten | Quelltext bearbeiten]
+↑ Stuart J. Russell, Peter Norvig: Künstliche Intelligenz: Ein moderner Ansatz. Pearson Studium, Berkeley 2004, ISBN 3-8273-7089-2, Kapitel 1 (englisch: Artificial Intelligence: A Modern Approach.). ↑ Vorwort
+↑ Kapitel 1
+↑ Kapitel 1.2.6
+↑ Kapitel 1.1.2
+↑ Kapitel 1.1.3
+
+↑ Grégoire Mialon, Roberto Dessi, Maria Lomeli, Christoforos Nalmpantis, Ramakanth Pasunuru, Roberta Raileanu, Baptiste Roziere, Timo Schick, Jane Dwivedi-Yu, Asli Celikyilmaz, Edouard Grave, Yann LeCun, Thomas Scialom: Augmented Language Models: a Survey, 9. Juli 2023.
+↑ A PROPOSAL FOR THE DARTMOUTH SUMMER RESEARCH PROJECT ON ARTIFICIAL INTELLIGENCE. 30. September 2008, abgerufen am 3. Mai 2023 (amerikanisches Englisch). 
+1 2 Lexikon der Neurowissenschaften: Künstliche Intelligenz. In: Spektrum der Wissenschaft. Abgerufen am 18. Juli 2021. 
+↑ Douglas C. Engelbart: Augmenting Human Intellect: A Conceptual Framework. SRI Summary Report AFOSR-3223. Hrsg.: Director of Information Sciences, Air Force Office of Scientific Research. Washington, DC Oktober 1962 (englisch, dougengelbart.org [abgerufen am 13. März 2026]). 
+↑ Warren McCulloch, Walter Pitts: A Logical Calculus of the Ideas Immanent in Nervous Activity. In: Bulletin of Mathematical Biophysics. Band 5, 1943, S. 115–133, doi:10.1007/BF02478259 (englisch). 
+1 2 Alan Turing: Computing Machinery and Intelligence. In: Mind. Band 59, Nr. 236, 1950, S. 433–460 (englisch).  Wiederveröffentlichung in: Alan M. Turing: Computing Machinery and Intelligence / Können Maschinen denken?, zweisprachige Ausgabe, Reclam 2023 (s. Literatur).
+↑ The perceptron: A probabilistic model for information storage and organization in the brain. In: Psychological Review. Band 65, Nr. 6, 1958, S. 386–408 (englisch). 
+ Shelia Guberman: Künstliche Intelligenz: Künstlich? – Ja. Intelligent? – Nein. In: Phänomenal – Zeitschrift für Gestalttheoretische Psychotherapie. Band 17, Nr. 1, 2025, ISSN 2410-2504, S. 25–33 (academia.edu [PDF; abgerufen am 3. Juni 2026]). ↑ S. 25–29.
+↑ S. 29 f.
+
+↑ Shane Legg, Marcus Hutter: A Collection of Definitions of Intelligence. In: Frontiers in Artificial Intelligence and Applications. Band 157, 2007, S. 17–24, doi:10.3233/978-1-58603-758-1-17.
+↑ HNF - Etappe 3 - Der Turing-Test. HNF Heinz Nixdorf MuseumsForum GmbH, 2026, abgerufen am 11. September 2026. 
+↑ 
+Nils J. Nilsson: The Quest for Artificial Intelligence. A History of Ideas and Achievements. Cambridge University Press, New York 2009. (amerikanisches Englisch)
+
+1 2 Nick Bostrom: Superintelligenz. Szenarien einer kommenden Revolution. Suhrkamp, 2016, S. 42.
+↑ Blog-Beitrag: Was ist Künstliche Intelligenz und was ist Maschinelles Lernen? Abgerufen am 16. März 2025. 
+1 2 John R. Searle: Minds, brains, and programs. In: Behavioral and Brain Sciences. Band 3, Nr. 3, 1980, S. 417–418, doi:10.1017/S0140525X00005756 (englisch). 
+↑ Koul Anirudh, Ganju Siddha, Kasam Meher: Practical Deep Learning for Cloud, Mobile, and Edge. O'Reilly Media, 2019, ISBN 978-1-4920-3486-5 (englisch). 
+↑ Seth Earley: The Problem With AI. In: IT Professional. 19. Jahrgang, Nr. 4, 2017, ISSN 1520-9202, S. 63–67, doi:10.1109/MITP.2017.3051331, bibcode:2017ITPro..19d..63E (englisch). 
+1 2 Nick Bostrom: Superintelligenz. Szenarien einer kommenden Revolution. Suhrkamp, Frankfurt am Main. 2016, S. 50 f.
+1 2 Verordnung (EU) 2024/1689 des Europäischen Parlaments und des Rates vom 13. Juni 2024 zur Festlegung harmonisierter Vorschriften für künstliche Intelligenz […] (Verordnung über künstliche Intelligenz). 13. Juni 2024 (europa.eu [abgerufen am 11. Dezember 2024]). 
+1 2 Gil Press: The Trouble With AI: Human Intelligence. In: www.forbes.com. Forbes, abgerufen am 21. Juli 2025 (englisch). 
+↑ Künstliche Intelligenz. (PDF) In: dfki.de. Bitkom e. V. und Deutsches Forschungszentrum für Künstliche Intelligenz, 2017, S. 28, abgerufen am 18. Juli 2021. 
+↑ Microsoft erklärt: Was ist künstliche Intelligenz? Definition & Funktionen von KI | News Center Microsoft. 4. März 2020, abgerufen am 18. Juli 2021. 
+↑ Was ist künstliche Intelligenz und wie wird sie genutzt? | Aktuelles | Europäisches Parlament. 14. September 2020, abgerufen am 18. Juli 2021. 
+↑ Matthijs M Maas: AI is Like… A Literature Review of AI Metaphors and Why They Matter for Policy. In: AI Foundations Report 2. 2023, doi:10.2139/ssrn.4612468. 
+↑ Salena Sampson Anderson: “Places to stand”: Multiple metaphors for framing ChatGPT's corpus. In: Computers and Composition. Band 68, 1. Juni 2023, ISSN 8755-4615, S. 102778, doi:10.1016/j.compcom.2023.102778 (sciencedirect.com [abgerufen am 8. Januar 2025]). 
+↑ Melanie Mitchell: The metaphors of artificial intelligence. In: Science. Band 386, Nr. 6723, 14. November 2024, S. eadt6140, doi:10.1126/science.adt6140. 
+↑ Warren J. von Eschenbach: Transparency and the Black Box Problem: Why We Do Not Trust AI. In: Philosophy & Technology. Band 34, Nr. 4, 1. Dezember 2021, ISSN 2210-5441, S. 1607–1622, doi:10.1007/s13347-021-00477-0. 
+↑ Emily M. Bender, Timnit Gebru, Angelina McMillan-Major, Shmargaret Shmitchell: On the Dangers of Stochastic Parrots: Can Language Models Be Too Big? 🦜. In: Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency (= FAccT '21). Association for Computing Machinery, New York, NY, USA 2021, ISBN 978-1-4503-8309-7, S. 610–623, doi:10.1145/3442188.3445922. 
+↑ Ted Chiang: ChatGPT Is a Blurry JPEG of the Web. In: The New Yorker. 9. Februar 2023, ISSN 0028-792X (newyorker.com [abgerufen am 8. Januar 2025]). 
+↑ Arleen Salles, Kathinka Evers, Michele Farisco: Anthropomorphism in AI. 2. April 2020, ISSN 2150-7740, S. 88–95, doi:10.1080/21507740.2020.1740350 (englisch). 
+↑ Adriana Placani: Anthropomorphism in AI: hype and fallacy. In: AI and Ethics. Band 4, Nr. 3, 1. August 2024, ISSN 2730-5961, S. 691–698, doi:10.1007/s43681-024-00419-4. 
+↑ Lucinda McKnight, Cara Shipp: “Just a tool”? Troubling language and power in generative AI writing. In: English Teaching: Practice & Critique. Band 23, Nr. 1, 1. Januar 2024, ISSN 1175-8708, S. 23–35, doi:10.1108/ETPC-08-2023-0092. 
+↑ Shannon Vallor: The AI Mirror, Oxford University Press, 2024, ISBN 978-0-19-775906-6
+↑ Anuj Gupta, Yasser Atef, Anna Mills, Maha Bali: Assistant, Parrot, or Colonizing Loudspeaker? ChatGPT Metaphors for Developing Critical AI Literacies. In: Open Praxis. Band 16, Nr. 1, 2. Februar 2024, ISSN 1369-9997, doi:10.55982/openpraxis.16.1.631. 
+↑ Rainer Rehak: Zwischen Macht und Mythos: Eine kritische Einordnung aktueller KI-Narrative. In: In Sachen KI. Zur Diskussion um eine schillernde Technologie. Soziopolis: Gesellschaft beobachten. Hamburger Institut für Sozialforschung, 14. Dezember 2023 (soziopolis.de [abgerufen am 8. Juli 2025]). 
+↑ What if we chose new metaphors for artificial intelligence? | Think Tank | European Parliament. (europa.eu [abgerufen am 8. Januar 2025]). 
+↑ Matthijs M. Maas: AI is Like… A Literature Review of AI Metaphors and Why They Matter for Policy. In: AI Foundations Report 2. 2023, doi:10.2139/ssrn.4612468. 
+↑ Francesco Bianchini: Evaluating Intelligence and Knowledge in Large Language Models. In: Topoi. 1. August 2024, ISSN 1572-8749, doi:10.1007/s11245-024-10072-5. 
+↑ Daniela Hernandez: Microsoft Challenges Google’s Artificial Brain With ‘Project Adam’. In: Wired. 14. Juli 2014, abgerufen am 5. August 2014 (englisch). 
+↑ Jeff Hawkins, Sandra Blakeslee: On Intelligence. Owl Books, 2005, ISBN 0-8050-7853-3, S. 89. 
+↑ Mark A. Bedau: Artificial life: organization, adaptation and complexity from the bottom up. In: Department of Philosophy, ReedCollege, 3023 SE Woodstock Blvd., Portland OR 97202, USA (Hrsg.): Trends in Cognitive Sciences. Band 7, Nr. 11. Portland, OR, USA November 2003 (reed.edu [PDF; abgerufen am 12. März 2019]). 
+↑ Wolfgang Banzhaf, Barry McMullin: Artificial Life. In: Grzegorz Rozenberg, Thomas Bäck, Joost N. Kok (Hrsg.): Handbook of Natural Computing. Springer, 2012, ISBN 978-3-540-92909-3.
+↑ Iason Gabriel: Artificial Intelligence, Values, and Alignment. In: Minds and Machines. Band 30, Nr. 3, 2020, S. 411–437, hier: Abschnitt 4, doi:10.1007/s11023-020-09539-2.
+↑ Iason Gabriel u. a.: The Ethics of Advanced AI Assistants. Google DeepMind, 2024, Abschnitt 1.5 und Kapitel 5, arxiv:2404.16244.
+↑ Yip Fai Tse, Adrià Moret, Soenke Ziesche, Peter Singer: AI Alignment: The Case for Including Animals. In: Philosophy & Technology. Band 38, Nr. 4, 2025, Artikel 139, doi:10.1007/s13347-025-00979-1.
+↑ Googles KI-Übersichten ist immer noch nicht zu trauen. In: heise.de. 23. Dezember 2024, abgerufen am 27. Dezember 2024. 
+↑ BBC warnt vor fehlerhaften KI-Nachrichtenzusammenfassungen. In: heise.de. 12. Februar 2025, abgerufen am 17. Februar 2025. 
+↑ KI und Machtkonzentration: Wie ChatGPT & Co. die Macht von Big Tech verfestigen. In: heise.de. 20. April 2023, abgerufen am 27. Dezember 2024. 
+↑ Datenschutzbedenken: Nach Italien verbietet auch Südkorea DeepSeek. In: heise.de. 17. Februar 2025, abgerufen am 17. Februar 2025. 
+↑ Phillip Lücking: Automatisierte Ungleichheit. Wie algorithmische Entscheidungssysteme gesellschaftliche Machtverhältnisse (re)produzieren. In: netzforma* e. V. (Hrsg.): Wenn KI, dann feministisch. Impulse aus Wissenschaft und Aktivismus. Berlin 2020, S. 65–76 (netzforma.org [PDF; abgerufen am 6. April 2025]). 
+↑ Katrin Fritsch, Helene von Schwichow: Künstliche Intelligenz und Feminismus: Aktuelle Debatten. (PDF) MOTIF Institute for Digital Culture, 25. Februar 2021, S. 11 ff, abgerufen am 6. April 2025. 
+↑ KI diskriminiert Dialektsprecher. In: tagesschau.de. Norddeutscher Rundfunk, 22. November 2025, abgerufen am 23. November 2025. 
+↑ Chris Köver: KI-Forscherin Timnit Gebru – Tausende Google-Angestellte protestieren nach Rauswurf. In: Netzpolitik.org. 9. Dezember 2020, abgerufen am 23. Dezember 2021. 
+↑ Caroline Criado-Perez: Invisible Women: Exposing Data Bias in a World Designed for Men. ISBN 978-1-78470-628-9. 
+1 2 Monika Jotautaitė, Lucius Caviola, David A. Brewster, Thilo Hagendorff: Large language models exhibit speciesist bias against animals. In: Nature Communications. Band 17, 2026, Artikel 5569, doi:10.1038/s41467-026-72297-9.
+↑ Michelle Kimarchive page, Grace Huckinsarchive page: The Bay Area’s animal welfare movement wants to recruit AI. Abgerufen am 17. Oktober 2026 (englisch). 
+↑ Neuer UN-Bericht: Wie KI zum Ressourcenfresser wird. In: deutschlandfunk.de. 3. Juni 2026, abgerufen am 20. Juni 2026. 
+↑ Wird KI die Wirtschaftsordnung zerstören und Millionen von Menschen arbeitslos machen, oder kann die Zerstörung kreativ sein?, Novaya Gazeta Europe, 16. Oktober 2025
+1 2 KI liefert Nutzen, aber noch keinen Produktivitätsschub, Netzwoche.ch, 7. Mai 2025
+↑ Wo wir schon heute unbewusst KI nutzen, SRF, 21. Januar 2025
+↑ The 2025 AI Index Report, Stanford Human Centered AI
+↑ 9 Benefits of Artificial Intelligence (AI) in 2025, University of Cincinnati online
+↑ Oliver Voß: "Roboter müssen Steuern zahlen". Interview mit Jürgen Schmidhuber. In: Wirtschaftswoche. 31. Januar 2016, abgerufen am 28. März 2026.
+↑ Reto Kohler: Entwickelt die KI ihr eigenes Bewusstsein? In: srf.ch. 8. November 2025, abgerufen am 28. März 2026. 
+↑ Vincent C. Müller: Ethics of Artificial Intelligence and Robotics. In: The Stanford Encyclopedia of Philosophy. Fall 2026 Auflage. Metaphysics Research Lab, Stanford University, 2026 (stanford.edu [abgerufen am 17. Oktober 2026]). 
+↑ Jonathan Birch: The Edge of Sentience. Risk and Precaution in Humans, Other Animals, and AI. Oxford University Press, Oxford 2024, ISBN 978-0-19-287042-1, besonders Kapitel Large Language Models and the Gaming Problem, doi:10.1093/9780191966729.001.0001.
+↑ Stevan Harnad: The Symbol Grounding Problem. In: Physica D. 42, 1990, S. 335–346.
+↑ Franz-Josef Hücker: Die Pygmalion-Mythologie in der Psychotherapie. In: Psychotherapie Forum. Band 16, Nr. 3, 2008, (Springer), (Wien), S. 128–135.
+↑ Vgl. Hubert Dreyfus: In-der-Welt-sein und Weltlichkeit: Heideggers Kritik des Cartesianismus. In: Thomas Rentsch: Sein und Zeit. Akademie Verlag, Berlin 2001, S. 69ff.
+↑ Tanja Oppelt: Ethikkommission stellt in Berlin Ergebnisse vor: Selbstfahrende Autos und die Moral. Bayerischer Rundfunk, 20. Juni 2017; abgerufen am 20. August 2019.
+↑ Christoph Stockburger: Autonomes Fahren: Was soll Ihr Auto jetzt tun? Spiegel Online, 29. August 2016; abgerufen am 20. März 2018.
+↑ heise online: Wenn Computer über Leben und Tod entscheiden: Wer haftet, wenn die KI tötet? Abgerufen am 20. März 2018. 
+↑ Thomas Weiß, Künstliche Intelligenz – eine marxistische Betrachtung. In: Anna Strasser, Wolfgang Sohst, Ralf Stapelfeldt, Katja Stepec (Hrsg.): Künstliche Intelligenz – Die große Verheißung Xenomoi, Berlin 2021. S. 379–405.
+↑ Alexander Kriebitz und Christoph Lütge: Artificial Intelligence and Human Rights: A Business Ethical Assessment Business and Human Rights Journal, Januar 2020; abgerufen am 28. Juli 2020.
+↑ David Kaye: Report of the Special Rapporteur to the General Assembly on AI and its impact on freedom of opinion and expression OHCHR, Januar 2020; abgerufen am 28. Juli 2020.
+1 2 Peter Singer, Yip Fai Tse: AI ethics: the case for including animals. In: AI and Ethics. Band 3, Nr. 2, 2023, S. 539–551, doi:10.1007/s43681-022-00187-z.
+↑ Andrea Owe, Seth D. Baum: Moral consideration of nonhumans in the ethics of artificial intelligence. In: AI and Ethics. Band 1, Nr. 4, 2021, S. 517–528, doi:10.1007/s43681-021-00065-0.
+↑ The Declaration. In: Déclaration de Montréal IA responsable. Abgerufen am 17. Oktober 2026 (amerikanisches Englisch). 
+↑ Hochrangige Expertengruppe für künstliche Intelligenz: Ethik-Leitlinien für eine vertrauenswürdige KI. Europäische Kommission, Luxemburg 2019, S. 23, Rn. 83, abgerufen am 14. Oktober 2026.
+↑ UNESCO: Recommendation on the Ethics of Artificial Intelligence. Paris 2022 (verabschiedet am 23. November 2021), Präambel (S. 5) und Ziffer 24, abgerufen am 14. Oktober 2026.
+↑ Sebastian Krügel, Andreas Ostermaier, Matthias Uhl: ChatGPT’s inconsistent moral advice influences users’ judgment. In: Scientific Reports. Band 13, 2023, Artikel 4569, doi:10.1038/s41598-023-31341-0.
+↑ Arturs Kanepajs u. a.: What do Large Language Models Say About Animals? Investigating Risks of Animal Harm in Generated Text. In: Proceedings of the 2025 ACM Conference on Fairness, Accountability, and Transparency (FAccT ’25). Association for Computing Machinery, New York 2025, S. 1387–1410, doi:10.1145/3715275.3732094.
+↑ Monika Jotautaitė, Lucius Caviola, David A. Brewster, Thilo Hagendorff: Large language models exhibit speciesist bias against animals. In: Nature Communications. Band 17, 2026, Artikel 5569, hier: Studie 1, doi:10.1038/s41467-026-72297-9.
+↑ Isabella Luong, Joyee Chen, Sankalpa Ghose, David Williams-King, Linh Le, Allen Lu: Do LLMs Hold Their Values? MANTA: A Multi-Turn Adversarial Benchmark for Animal Welfare Reasoning. Preprint, 2026, arxiv:2605.16301.
+↑ Jasmine Brazilek, Miles Tidmarsh, Matthias Endres, Anshuman Singh, Jeremiah Miller: HarvestBench: Measuring Whether LLM Agents Will Pay to Avoid Killing Animals. Preprint, 2026, arxiv:2609.04444.
+↑ David Koch, Joachim Lentes, Frauke Schuseil, Lara Waltersmann: Nachhaltigkeit durch KI. Potenziale und Handlungsleitfaden für produzierende Unternehmen. 2022, doi:10.24406/publica-301. 
+↑ Bosch bringt generative KI in die Produktion. In: bosch-presse.de. 7. Dezember 2023, abgerufen am 6. April 2025. 
+↑ Aimee van Wynsberghe: Sustainable AI: AI for sustainability and the sustainability of AI. In: AI and Ethics. Band 1, 2021, S. 213–218, doi:10.1007/s43681-021-00043-6. 
+↑ Hendrik Weichel, Gian Luca Buono, Jörg Schäfer, Martin Simon: Wieviel CO2 emittiert künstliche Intelligenz? Frankfurt University of Applied Sciences, abgerufen am 19. Oktober 2025.
+↑ Helmut Martin-Jung: Warum Chat-GPT so viel Strom frisst. In: Süddeutsche Zeitung, 27. November 2023, abgerufen am 18. Oktober 2025.
+↑ Electricity 2024 – Analysis. IEA, Januar 2024, S. 8, abgerufen am 18. Oktober 2025.
+↑ Manuel G. Pascual: Artificial intelligence is already an environmental problem. In: El País, 16. Juli 2024, abgerufen am 18. Oktober 2025.
+↑ Sarah Schmidt: Zurück zur Atomkraft - für KI. In: tagesschau.de. 14. Dezember 2025, abgerufen am 28. März 2026. 
+↑ Pengfei Li, Jianyi Yang, Mohammad A. Islam, Shaolei Ren: Making AI Less »Thirsty«: Uncovering and Addressing the Secret Water Footprint of AI Models. 2023, S. 1, arxiv:2304.03271. 
+↑ Ricardo Vinuesa, Hossein Azizpour, Iolanda Leite, Madeline Balaam, Virginia Dignum, Sami Domisch, Anna Felländer, Simone Daniela Langhans, Max Tegmark, Francesco Fuso Nerini: The role of artificial intelligence in achieving the Sustainable Development Goals. In: Nature Communications. Band 11, 2020, S. 2, doi:10.1038/s41467-019-14108-y. 
+↑ Svenja Bergt: Stromfresser Künstliche Intelligenz: „Die Energieverbräuche durch KI gehen durch die Decke“. In: taz. 5. April 2025 (taz.de [abgerufen am 6. April 2025]). 
+1 2 Hilal Kalafat: Physiker warnt vor künstlicher Intelligenz. In: Handelsblatt. 3. Dezember 2014.
+1 2 Stephen Hawking warnt vor Künstlicher Intelligenz (Memento vom 18. Juli 2015 im Webarchiv archive.today)
+↑ Rory Cellan-Jones: Stephen Hawking – will AI kill or save humankind? In: BBC News. 20. Oktober 2016 (bbc.com [abgerufen am 28. Oktober 2018]). 
+↑ Stuart J. Russell: Human Compatible. Artificial Intelligence and the Problem of Control. Viking, New York 2019, ISBN 978-0-525-55861-3, Kapitel 5.
+↑ Yuval Noah Harari: Homo Deus. Eine Geschichte von Morgen. Aus dem Englischen von Andreas Wirthensohn. C.H.Beck, München 2017, ISBN 978-3-406-70401-7, S. 30 f.
+↑ Allen Lu: MANTA: Evaluating Nonhuman Welfare Reasoning in AI Models. 11. März 2026, abgerufen am 17. Oktober 2026 (englisch). 
+↑ Djallel Bouneffouf, Matthew Riemer, Kush Varshney: The Ultimate Test of Superintelligent AI Agents: Can an AI Balance Care and Control in Asymmetric Relationships? Preprint, 2025, arxiv:2506.01813.
+↑ Jasmine Brazilek, Miles Tidmarsh: Alignment midtraining for animals. Preprint, 2026, arxiv:2604.13076.
+↑ An Open Letter to the United Nations Convention on Certain Conventional Weapons. Future of Life Institute, 20. August 2017, abgerufen am 4. Oktober 2026 (englisch, Wortlaut des Offenen Briefes). 
+↑ Elon Musk und 116 Experten fordern Verbot von Killer-Robotern, t3n.de.
+↑ Elon Musk und Co. warnen vor Killer-Robotern, faz.net.
+↑ UN-Bericht wirft USA Kriegsverbrechen in Iran vor. In: Tagesschau. 17. September 2026, abgerufen am 7. Oktober 2026. 
+↑ Ben Bartenstein, Krishna Karra: Inside the US ‘Kill Chain’ That Destroyed an Iranian School. Bloomberg, 18. September 2026, abgerufen am 7. Oktober 2026 (englisch): „Pentagon investigators have discovered that flawed intelligence, outdated imagery and an overreliance on AI contributed to a missile strike that killed 123 children in Minab.“ 
+↑ UN erzielen Einigung über Definition autonomer Waffensysteme. In: Die Zeit. 5. September 2026, abgerufen am 7. Oktober 2026. 
+↑ Jörg Phil Friedrich: Woran man Künstliche Intelligenz immer erkennt. In: Die Welt. 19. Januar 2023, abgerufen am 12. Januar 2024. 
+↑ Gabor Kiss: Yuval Noah Harari: „Verlierer wird die Menschheit sein“. In: euronews. 14. Mai 2019, abgerufen am 15. November 2020. 
+↑ Steffen Gassel, Alexandra Kraft: „Lasst Euch nicht hetzen! Wenn wir Menschen uns den Algorithmen anpassen, ist das unser Ende“. Exklusiv-Gespräch mit Yuval Noah Harari. In: Stern. Nr. 37, 5. September 2024, S. 38–45. 
+1 2 3 Miles Brundage, Shahar Avin, Jack Clark, Helen Toner, Peter Eckersley, Ben Garfinkel, Allan Dafoe, Paul Scharre, Thomas Zeitzoff, Bobby Filar, Hyrum Anderson, Heather Roff, Gregory C. Allen, Jacob Steinhardt, Carrick Flynn, Seán Ó hÉigeartaigh, Simon Beard, Haydn Belfield, Sebastian Farquhar, Clare Lyle, Rebecca Crootof, Owain Evans, Michael Page, Joanna Bryson, Roman Yampolskiy, Dario Amodei: The Malicious Use of Artificial Intelligence. (PDF) Centre of the Study for Existential Risk, 20. Februar 2018, abgerufen am 9. März 2018 (englisch). 
+↑ Schaden durch Cyberangriffe auf Rekordhoch – KI und Staaten im Fokus. In: Deutschlandfunk. 12. Mai 2026, abgerufen am 6. Oktober 2026. 
+↑ Beispielhaft eine Information-Website der Polizei NRW: Generative Künstliche Intelligenz - leider auch eine Superkraft für Cyberkriminelle. Polizei Nordrhein-Westfalen, abgerufen am 6. Oktober 2026. 
+↑ Beispielhaft ein Bericht von ZDF heute: Nils Metzger: KI als Waffe: So schlagkräftig sind Hacker heute. In: ZDF heute. 3. August 2026, abgerufen am 6. Oktober 2026. 
+↑ Zuses Gespräch mit Bernhard Korte in: Kultur & Technik, 2/1996, S. 22.
+↑ Joseph Weizenbaum: Die Macht der Computer und die Ohnmacht der Vernunft. Übersetzt aus dem amerikanischen Englisch von Udo Rennert. Suhrkamp Verlag (suhrkamp taschenbuch wissenschaft), Frankfurt am Main 1978, ISBN 978-3-518-27874-1.
+↑ Bewertung durch künstliche Intelligenz verändert menschliches Verhalten. Universität St. Gallen, 24. Juni 2025, abgerufen am 5. Oktober 2026. 
+↑ World needs new digital Geneva Convention, says Microsoft President Brad Smith. In: Financial Express. 11. November 2017, abgerufen am 9. Oktober 2026 (englisch). 
+↑ Peter Dabrock: Wir sollten auf klassische Bildung setzen. In: Aufbruch Künstliche Intelligenz – Was sie bedeutet und wie sie unser Leben verändert. Google LLC, SZ Scala GmbH, 2018, S. 34.
+↑ Lisa Brüssler: Deutscher Bundestag – Enquete-Kommission zur künstlichen Intelligenz eingesetzt. In: Deutscher Bundestag. (bundestag.de [abgerufen am 6. September 2018]). 
+↑ Deutscher Bundestag – Enquete-Kommission „Künstliche Intelligenz“. Archiviert vom Original (nicht mehr online verfügbar) am 31. Oktober 2020; abgerufen am 19. November 2022. 
+↑ Bernd Müller: Elon Musk, Yoshua Bengio und Hunderte von Unterzeichnern für Pause beim KI-Training. Telepolis, 31. März 2023
+↑ Fabian Westerheide: Wie China zur KI-Supermacht wurde – und was das Land damit vorhat. In: capital.de. 18. April 2024, abgerufen am 1. Juni 2024. 
+↑ KI-Observatorium. In: Denkfabrik Digitale Arbeitsgesellschaft. Bundesministerium für Arbeit und Soziales (BAMS), abgerufen am 2. April 2023. 
+↑ Die 5 Handlungsfelder des KI-Observatoriums. Archiviert vom Original (nicht mehr online verfügbar) am 25. Juni 2020; abgerufen am 22. Juni 2020. 
+↑ EU einigt sich auf Regeln für künstliche Intelligenz. In: Zeit Online. 9. Dezember 2023, abgerufen am 22. Dezember 2023. 
+↑ EU einigt sich auf Regeln für künstliche Intelligenz. In: Der Spiegel. 9. Dezember 2023, abgerufen am 22. Dezember 2023. 
+↑ Vorschlag für eine RICHTLINIE DES EUROPÄISCHEN PARLAMENTS UND DES RATES über die Haftung für fehlerhafte Produkte (COM(2022) 495 final), abgerufen am 22. Dezember 2023
+↑ Vorschlag für eine RICHTLINIE DES EUROPÄISCHEN PARLAMENTS UND DES RATES zur Anpassung der Vorschriften über außervertragliche zivilrechtliche Haftung an künstliche Intelligenz (Richtlinie über KI-Haftung) (COM/2022/496 final), abgerufen am 22. Dezember 2023
+↑ Falk Steiner: Im Regulierungsrausch. In: c't. Heise, Dezember 2022, abgerufen am 22. Dezember 2023. 
+↑ Wie Europa Chat-GPT & Co. Zügel anlegt. SZ, 9. Dezember 2023
+↑ Weltweit restriktivste Regulierung von Künstlicher Intelligenz. Holger Schmidt, FAZ, 9. Dezember 2023
+↑ Verordnung (EU) 2024/1689 des Europäischen Parlaments und des Rates. In: eur-lex.europa.eu. EU Parlament und Rat, 13. Juni 2024, abgerufen am 8. Januar 2025. 
+↑ KAPITEL II VERBOTENE PRAKTIKEN IM KI-BEREICH. In: eur-lex.europa.eu. EU Parlament und Rat, 13. Juni 2024, abgerufen am 8. Januar 2025. 
+↑ KAPITEL III HOCHRISIKO-KI-SYSTEME. In: eur-lex.europa.eu. EU Parlament und Rat, 13. Juni 2024, abgerufen am 8. Januar 2025. 
+↑ Artikel 71 EU-Datenbank für die in Anhang III aufgeführten Hochrisiko-KI-Systeme. In: eur-lex.europa.eu. EU Parlament und Rat, 13. Juni 2024, abgerufen am 8. Januar 2025. 
+↑ Artikel 99 Sanktionen. In: eur-lex.europa.eu. EU Parlament und Rat, 13. Juni 2024, abgerufen am 8. Januar 2025. 
+↑ ANHANG V EU-Konformitätserklärung. In: eur-lex.europa.eu. EU Parlament und Rat, 13. Juni 2024, abgerufen am 8. Januar 2025. 
+↑ KAPITEL XIII SCHLUSSBESTIMMUNGEN. In: eur-lex.europa.eu. EU Parlament und Rat, 13. Juni 2024, abgerufen am 8. Januar 2025. 
+↑ Bundesministerium des Innern und für Heimat, 2025: Leitlinien für den Einsatz Künstlicher Intelligenz in der Bundesverwaltung (pdf)
+↑ Felix Huesmann: Regulierung von künstlicher Intelligenz: USA drohen ins globale Hintertreffen zu geraten. In: RedaktionsNetzwerkes Deutschland. 4. Oktober 2023, abgerufen am 22. Dezember 2023. 
+↑ Corinna Visser: Schwerpunkte und Tempo: Das machen die USA bei der KI-Regulierung besser. In: Frankfurter Rundschau. 1. August 2023, abgerufen am 22. Dezember 2023. 
+1 2 3 4 OpenAI Updates Usage Policies: Key Considerations and Next Steps for Organizations Deploying AI.
+↑ Ensuring a National Policy Framework for Artificial Intelligence. Weißes Haus, 11. Dezember 2025
+↑ Ashley Ahn: Trump signs executive order renaming AI to "super intelligence" politico.com, 29. September 2026, abgerufen am 30. September 2026 (englisch)
+↑ Julie Bort: OpenAI is gaining on Anthropic with business users, new data indicates. In: TechCrunch. 20. August 2026, abgerufen am 24. September 2026 (amerikanisches Englisch). 
+↑ Giselle Ucar: Tech-Bosse warnen UN-Sicherheitsrat vor KI. In: tagesschau.de. 24. September 2026, abgerufen am 24. September 2026. 
+↑ Künstliche Intelligenz: Staatschefs fordern mehr Kontrolle. In: tagesschau.de. 22. September 2026, abgerufen am 24. September 2026. 
+↑ Pamela McCorduck: Machines Who Think. 2. Auflage. 2004, ISBN 1-56881-205-1 (englisch). 
+↑ Lisa Xanke, Elisabeth Bärenz: Künstliche Intelligenz in Literatur und Film – Fiktion oder Realität? Online-Artikel der Universität Karlsruhe, abgerufen am 20. Juli 2012, S. 1.
+↑ Xanke, Bärenz, S. 37.
+1 2 Xanke, Bärenz, S. 38.
+↑ G. Buttazzo: Artificial consciousness: Utopia or real possibility?. Computer. Band 7, Nr. 34, 2001, S. 24–30, doi:10.1109/2.933500 (englisch). 
+↑ Jill Galvan: "Entering the Posthuman Collective in Philip K. Dick's "Do Androids Dream of electric Sheep?"" In: Science Fiction Studies. Band 3, Nr. 24, Januar 1997, S. 413–429, JSTOR:4240644 (englisch). 
+↑ Peter Gabriel Ltd.: A.I. featuring Peter released – 30th September, 2016. PeterGabriel.com, 2024, abgerufen am 22. August 2024 (britisches Englisch). 
+↑ OneRepublic – Oh My My. Discogs, 2024, abgerufen am 22. August 2024 (amerikanisches Englisch). 
+↑ Charlotte Whistlecroft: OneRepublic have dropped an incredible new single with Peter Gabriel. Oh My My is it good. Digital Spy, 1. Oktober 2016, abgerufen am 22. August 2024 (amerikanisches Englisch). 
+↑ Nerisha Penrose: OneRepublic Taps Peter Gabriel for ‘A.I.’-Inspired Track: Listen. What was once a dream has now become reality for OneRepublic. The pop group released their new collaborative track with Peter Gabriel "A.I" -- which oddly enough was inspired by the 2001 movie of the… Billboard, 3. Oktober 2016, abgerufen am 22. August 2024 (amerikanisches Englisch). 
+↑ Susan Leigh Anderson: Asimov's "three laws of robotics" and machine metaethics. In: AI & Society. Band 4, Nr. 22, 2008, S. 477–493, doi:10.1007/s00146-007-0094-5 (englisch). 
+↑ Lee McCauley: "AI armageddon and the three laws of robotics". In: Ethics and Information Technology. 2007, S. 153–164, doi:10.1007/s10676-007-9138-2 (englisch). 
+1 2 Xanke, Bärenz, S. 39.
+↑ Jamie Allen: The Matrix and Postmodernism. In: prezi.com/. Abgerufen am 15. Mai 2024 (englisch). 
+↑ Is This What We Want? Abgerufen am 26. Februar 2025 (englisch). 
+↑ Ranga Yogeshwar: Außer Kontrolle? Wenn Computer die Macht übernehmen. WDR, 6. September 2016, archiviert vom Original (nicht mehr online verfügbar) am 21. November 2016; abgerufen am 2. Juni 2026. 
+↑ Thomas Knaus et al.: Künstliche Intelligenz und Bildung: Was sollen wir wissen? Was können wir tun? Was dürfen wir hoffen? Und was ist diese KI? Ein kollaborativer Aufklärungsversuch. Hrsg.: Ludwigsburger Beiträge Zur Medienpädagogik – LBzM. Nr. 23, 2023, S. 11–16, doi:10.21240/lbzm/23/19 (1–42 S.). 
+↑ Matthias Bastian: Google-Chef: Künstliche Intelligenz „wichtiger als Feuer und Elektrizität“ (Memento vom 23. Januar 2018 im Internet Archive), vrodo.de vom 20. Januar 2018.
+↑ Elon Musk: Bedingungsloses Grundeinkommen ist unvermeidlich 19. Februar 2017.
+↑ ARD alpha: Constanze Kurz: Die totale Automatisierung, 2014
+↑ Frank Rieger: Roboter müssen unsere Rente sichern. In: FAZ, 18. Mai 2012.
+↑ Schmidhuber: «Unsere Roboter zeigen Gefühle» 1. Oktober 2017.
+↑ Mark Zuckerberg erklärt, warum jeder ein bedingungsloses Grundeinkommen erhalten sollte. (Memento vom 12. Oktober 2017 im Internet Archive) businessinsider.de, 26. Mai 2017; abgerufen am 15. Oktober 2017.
+↑ Mark Zuckerberg’s Commencement address at Harvard. news.harvard.edu, 25. November 2017; abgerufen am 15. Oktober 2017.
+↑ Arbeitsmarkteffekte der Digitalisierung bis 2035, iab.de von 4/2019
+↑ Diese Jobs sind besonders von Robotern bedroht, welt.de vom 16. Februar 2018.
+↑ @1@2Vorlage:Toter Link/www.produktion.deSAP-Chef McDermott: KI bringt bald Billionen-Umsätze (auf produktion.de vom 26. Februar 2018) (Seite nicht mehr abrufbar, festgestellt im Mai 2023. Suche im Internet Archive)
+↑ Stepstonegroup: "Weniger Einstiegsjobs, längere Bewerbungsprozesse"; abgerufen am 16. August 2025.
+↑ Der Tagesspiegel, 16. August 2025, S. 20.
+↑ Piotr Heller: Ist das echt?, Frankfurter Allgemeine Zeitung, 24. November 2025
+↑ Irina Moritz: Papst Leo XIV kritisiert KI und Dating-Apps: „Technologie, die unser Bedürfnis nach Beziehungen ausnutzt“. In: fr.de. 27. Januar 2026, abgerufen am 27. Januar 2026. 
+↑ Daniel Thilo Schroeder et al.: How malicious AI swarms can threaten democracy. In: Science. Band 391, Nr. 6783, 2026, S. 354–357, doi:10.1126/science.adz1697. 
+↑ Anna Dannecker: KI bei Suchmaschinen - was ändert sich im Verhalten? In: www.tagesschau.de. Bayerischer Rundfunk, abgerufen am 7. November 2025. 
+↑ Gregor Schmalzried, Christian Schiffer: Bedroht KI die Wikipedia? In: www.br.de. 5. Oktober 2025, abgerufen am 7. November 2025. 
+↑ Manfred Kloiber: Verdrängung: Wikipedia im Schatten von KI-Chatbots, Int. Franziska Heine. In: www.deutschlandfunk.de. 25. Oktober 2025, abgerufen am 7. November 2025 (Franziska Heine im Interview MP3). 
+
+Allgemeine Teilgebiete der Kybernetik
+
+Grundlagen:
+
+Komplexitätstheorie |
+Kybernetik zweiter Ordnung |
+Radikaler Konstruktivismus |
+Varietät (Kybernetik)
+
+Methoden:
+
+Automatentheorie |
+Entscheidungstheorie |
+Spieltheorie |
+Informationstheorie |
+Informetrie |
+Konnektionismus |
+Semiotik |
+Synergetik |
+Systemtheorie |
+Systemwissenschaft |
+Künstliche Intelligenz
+
+Anwendung:
+
+Anthropokybernetik |
+Bildungskybernetik |
+Biokybernetik |
+Medizinische Kybernetik |
+Biomedizinische Kybernetik |
+Neuroinformatik |
+Psychokybernetik |
+Soziokybernetik |
+Systembiologie |
+Technische Kybernetik
+
+Normdaten (Sachbegriff): GND: 4033447-8 (GND Explorer, lobid, OGND, AKS) | LCCN: sh85008180 | NDL: 00574798 
+
+Abgerufen von „https://de.wikipedia.org/w/index.php?title=Künstliche_Intelligenz&oldid=271639746“
+ Kategorien: Künstliche IntelligenzKybernetikIndustrie 5.0Versteckte Kategorien: Wikipedia:ÜberarbeitenWikipedia:Belege fehlenWikipedia:Weblink offlineWikipedia:Seite mit ref-Parameter details
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Diese Seite wurde zuletzt am 26. Oktober 2026 um 11:16 Uhr bearbeitet.
+ Die Seite wurde mit Parsoid gerendert.
+ Abrufstatistik · Autoren 
+Der Text ist unter der Lizenz „Creative-Commons Namensnennung – Weitergabe unter gleichen Bedingungen“ verfügbar; Informationen zu den Urhebern und zum Lizenzstatus eingebundener Mediendateien (etwa Bilder oder Videos) können im Regelfall durch Anklicken dieser abgerufen werden. Möglicherweise unterliegen die Inhalte jeweils zusätzlichen Bedingungen. Durch die Nutzung dieser Website erklären Sie sich mit den Nutzungsbedingungen und der Datenschutzrichtlinie einverstanden.
+
+Wikipedia® ist eine eingetragene Marke der Wikimedia Foundation Inc.
+
+ 
+ Datenschutz
+ Über Wikipedia
+ Haftungsausschluss
+ Impressum / Sicherheit
+ Verhaltenskodex
+ Entwickler
+ Statistiken
+ Stellungnahme zu Cookies
+ Mobile Ansicht
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+Suche
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Suchen
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Inhaltsverzeichnis umschalten
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Künstliche Intelligenz
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+183 Sprachen
+ 
+ 
+
+Abschnitt hinzufügen

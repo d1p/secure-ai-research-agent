@@ -1,0 +1,20 @@
+{
+  "bytes_raw": 501552,
+  "capture_method": "http-get",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "Repository license: Other/NOASSERTION (see repo); README excerpt",
+  "page_type": "docs",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "9a591995d0f0cc11a6555d1d71e4d0eab27796b4f88ce3933db6d7ee7cc8ec03",
+  "slug": "github-readme",
+  "source_url": "https://github.com/open-webui/open-webui",
+  "stored_file": "page.html.gz",
+  "synthetic": false,
+  "tags": [
+    "has_code",
+    "github_readme"
+  ]
+}

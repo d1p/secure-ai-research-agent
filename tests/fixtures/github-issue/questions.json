@@ -1,0 +1,34 @@
+[
+  {
+    "id": "removed",
+    "question": "What did v0.12.4 remove from the chat list?",
+    "answer": "Quick actions (Archive, Delete) shown when holding shift",
+    "evidence": "v0.12.4 removed the quick actions (Archive, Delete) in the chat list",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "replacement",
+    "question": "What replaced those quick actions?",
+    "answer": "Multi-selection (#32543)",
+    "evidence": "in favor of multi-selection (#32543)",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "request",
+    "question": "What does the author want instead?",
+    "answer": "Restore the actions under a different, customizable keybinding",
+    "evidence": "restored under a different keybinding - customizable if possible",
+    "kind": "deep",
+    "grading": "semantic"
+  },
+  {
+    "id": "security",
+    "question": "Is this issue reported as a security vulnerability?",
+    "answer": "No",
+    "evidence": "This request is not a security vulnerability",
+    "kind": "comment",
+    "grading": "exact"
+  }
+]

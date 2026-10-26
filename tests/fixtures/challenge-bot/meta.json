@@ -1,0 +1,20 @@
+{
+  "bytes_raw": 567,
+  "capture_method": "synthetic",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "expected_needs_human": true,
+  "innertext_source": "lxml-visible-text",
+  "license": "No source license; synthetic test data",
+  "page_type": "challenge",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "91d5b491464e9df76efb20d4c26f22d65e2bb25ff4a97387b637996752c239e0",
+  "slug": "challenge-bot",
+  "source_url": "https://example.com/challenge-bot",
+  "stored_file": "page.html",
+  "synthetic": true,
+  "tags": [
+    "challenge"
+  ]
+}

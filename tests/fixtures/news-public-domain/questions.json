@@ -1,0 +1,34 @@
+[
+  {
+    "id": "agencies",
+    "question": "Which two agencies signed the Memorandum of Understanding?",
+    "answer": "NASA and the U.S. Department of Agriculture (USDA)",
+    "evidence": "NASA and the U.S. Department of Agriculture (USDA) have signed a Memorandum of Understanding",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "areas",
+    "question": "What areas does the agreement cover?",
+    "answer": "Earth observation, geospatial analytics, and advanced data technologies",
+    "evidence": "expanding cooperation in Earth observation, geospatial analytics, and advanced data technologies",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "signers",
+    "question": "Who signed for USDA and NASA?",
+    "answer": "Agriculture Secretary Brooke Rollins and NASA Administrator Jared Isaacman",
+    "evidence": "U.S. Secretary of Agriculture Brooke Rollins",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "where",
+    "question": "When and where was the agreement signed?",
+    "answer": "Saturday, Oct. 24, at the University of Alabama in Tuscaloosa",
+    "evidence": "University of Alabama in Tuscaloosa on Saturday, Oct. 24",
+    "kind": "deep",
+    "grading": "semantic"
+  }
+]

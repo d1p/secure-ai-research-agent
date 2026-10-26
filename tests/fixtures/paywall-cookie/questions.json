@@ -1,0 +1,26 @@
+[
+  {
+    "id": "refusal",
+    "question": "Does the loader return the paywall body as page content?",
+    "answer": "No; it returns a clean paywall/refusal result",
+    "evidence": "[paywall]",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "reason",
+    "question": "Which reason should the result carry?",
+    "answer": "paywall",
+    "evidence": "[paywall]",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "no-junk",
+    "question": "Is the subscribe overlay text returned as if it were the article?",
+    "answer": "No",
+    "evidence": "[paywall]",
+    "kind": "prose",
+    "grading": "exact"
+  }
+]

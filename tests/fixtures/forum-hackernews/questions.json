@@ -1,0 +1,42 @@
+[
+  {
+    "id": "topic",
+    "question": "What is the linked course about?",
+    "answer": "Building reasoning models from scratch",
+    "evidence": "from-scratch video course on building reasoning models",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "score",
+    "question": "How many points and comments does the thread have?",
+    "answer": "335 points and 50 comments",
+    "evidence": "335 points",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "poster",
+    "question": "Who posted the link?",
+    "answer": "sgiannopoulos",
+    "evidence": "by sgiannopoulos",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "question",
+    "question": "What is the gist of torben-friis's question in the first comment?",
+    "answer": "They find learning ML/LLMs discouraging compared with learning software and ask for a better approach",
+    "evidence": "Whenever I've tried to learn about LLMs, machine learning",
+    "kind": "comment",
+    "grading": "semantic"
+  },
+  {
+    "id": "compute",
+    "question": "What does the first commenter say makes practical ML work unapproachable?",
+    "answer": "Levels of compute and training data beyond basic exercises",
+    "evidence": "require levels of compute, training data, etc.",
+    "kind": "deep",
+    "grading": "semantic"
+  }
+]

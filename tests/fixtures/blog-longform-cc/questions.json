@@ -1,0 +1,34 @@
+[
+  {
+    "id": "lawsuit",
+    "question": "Which companies did Reddit sue?",
+    "answer": "SerpAPI and Perplexity",
+    "evidence": "Reddit’s lawsuit against SerpAPI and Perplexity",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "law",
+    "question": "Which law does the article say is being used against researchers?",
+    "answer": "Section 1201 of the Digital Millennium Copyright Act",
+    "evidence": "Section 1201 of the Digital Millennium Copyright Act",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "problem",
+    "question": "What problem does the article describe for researchers?",
+    "answer": "Companies are blocking access to public web data, making research harder",
+    "evidence": "companies stewarding this public data are looking to cash in and block access to the open web",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "subject",
+    "question": "What does the article say about Reddit's history?",
+    "answer": "It was once a very open platform with alternative apps and extensions",
+    "evidence": "Reddit was once a very open platform, fostering a community of alternative apps",
+    "kind": "prose",
+    "grading": "semantic"
+  }
+]

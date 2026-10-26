@@ -1,0 +1,1 @@
+Search for 'mechanical keyboard' returns 128 results. The top four are QuietType 87 ($89.00, 4.7), ClickyPro TKL ($64.50, 4.3), SplitErgo 65 ($129.00, 4.8) and BudgetBoard 60 ($39.99, 4.0). Page 1 of 13.

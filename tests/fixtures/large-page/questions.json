@@ -1,0 +1,42 @@
+[
+  {
+    "id": "capital",
+    "question": "What is the capital of the United States?",
+    "answer": "Washington, D.C.",
+    "evidence": "Capital Washington, D.C.",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "population",
+    "question": "What is the 2025 population estimate of the United States?",
+    "answer": "341,784,857",
+    "evidence": "2025 estimate 341,784,857",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "independence",
+    "question": "When was the Declaration of Independence signed?",
+    "answer": "July 4, 1776",
+    "evidence": "Declaration July 4, 1776",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "largest-city",
+    "question": "What is the largest city in the United States?",
+    "answer": "New York City",
+    "evidence": "Largest city New York City",
+    "kind": "table",
+    "grading": "semantic"
+  },
+  {
+    "id": "confederation",
+    "question": "When was the Confederation established?",
+    "answer": "March 1, 1781",
+    "evidence": "Confederation March 1, 1781",
+    "kind": "deep",
+    "grading": "exact"
+  }
+]

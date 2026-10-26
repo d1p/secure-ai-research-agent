@@ -1,0 +1,19 @@
+{
+  "bytes_raw": 140178,
+  "capture_method": "http-get",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html",
+  "innertext_source": "lxml-visible-text",
+  "license": "Python Software Foundation license",
+  "page_type": "tutorial",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "6cd811e3980e797d9d5027101e123206f96207f6f4c4f35ed7317f4df3a7538b",
+  "slug": "tutorial-code",
+  "source_url": "https://docs.python.org/3/tutorial/controlflow.html",
+  "stored_file": "page.html",
+  "synthetic": false,
+  "tags": [
+    "has_code"
+  ]
+}

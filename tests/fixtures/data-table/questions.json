@@ -1,0 +1,42 @@
+[
+  {
+    "id": "largest-share",
+    "question": "Which country has the largest share of the world population in the chart?",
+    "answer": "India, 17.3%",
+    "evidence": "India (17.3%)",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "china",
+    "question": "What share of the world population does China have in the chart?",
+    "answer": "17.0%",
+    "evidence": "China (17.0%)",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "us",
+    "question": "What share of the world population does the United States have in the chart?",
+    "answer": "4.10%",
+    "evidence": "United States (4.10%)",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "indonesia",
+    "question": "What share does Indonesia have, and which country follows it in the list?",
+    "answer": "Indonesia 3.50%, followed by Pakistan 2.90%",
+    "evidence": "Indonesia (3.50%) Pakistan (2.90%)",
+    "kind": "table",
+    "grading": "semantic"
+  },
+  {
+    "id": "fallback",
+    "question": "What source is used when official figures are unavailable?",
+    "answer": "estimates and projections from the United Nations",
+    "evidence": "estimates and projections from the United Nations",
+    "kind": "deep",
+    "grading": "semantic"
+  }
+]

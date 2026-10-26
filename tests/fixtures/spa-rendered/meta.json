@@ -1,0 +1,21 @@
+{
+  "bytes_raw": 209,
+  "capture_method": "synthetic raw shell + rendered DOM",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "rendered-lxml",
+  "license": "No source license; synthetic test data",
+  "page_type": "spa",
+  "reference_method": "synthetic content",
+  "reference_scope": "full",
+  "sha256": "d7aea0d8d827f9e75ca6babcf7c74aa154d7483b1aec419106cd6caff7e89ad8",
+  "slug": "spa-rendered",
+  "source_url": "https://example.com/spa-rendered",
+  "stored_file": "page.html",
+  "synthetic": true,
+  "tags": [
+    "spa",
+    "has_tables",
+    "has_code"
+  ]
+}

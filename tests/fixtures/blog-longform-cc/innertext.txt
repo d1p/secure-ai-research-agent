@@ -1,0 +1,507 @@
+Anti-Circumvention Laws Raise the Cost of Knowledge | Electronic Frontier Foundation
+ 
+
+ 
+
+ Skip to main content
+ 
+
+ 
+ 
+ AboutContact
+Press
+People
+Opportunities
+
+IssuesFree Speech
+Privacy
+Creativity and Innovation
+Transparency
+International
+Security
+Artificial Intelligence
+
+Our WorkDeeplinks Blog
+Press Releases
+Events
+Legal Cases
+Whitepapers
+Podcasts
+Annual Reports
+
+Take ActionAction Center
+Volunteer
+Follow EFF
+
+ToolsPrivacy Badger
+Surveillance Self-Defense
+Certbot
+Atlas of Surveillance
+Cover Your Tracks
+Street Level Surveillance
+apkeep
+
+Shop
+DonateDonate to EFF
+Shop
+Giving Societies
+Sponsorships
+Other Ways to Give
+Membership FAQ
+
+ 
+ 
+ 
+ 
+ Email updates on news, actions,
+ and events in your area.
+ 
+ 
+ Join EFF Lists
+ 
+ 
+ 
+ Copyright (CC BY)
+Trademark
+Privacy Policy
+Thanks
+ 
+ 
+
+ 
+ 
+ 
+ Electronic Frontier Foundation 
+ 
+
+ 
+
+ 
+ Donate
+ 
+ 
+
+ 
+ If you use technology, this fight is yours.Donate today
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ Electronic Frontier Foundation 
+ 
+ 
+ 
+ 
+ AboutContact
+Press
+People
+Opportunities
+
+IssuesFree Speech
+Privacy
+Creativity and Innovation
+Transparency
+International
+Security
+Artificial Intelligence
+
+Our WorkDeeplinks Blog
+Press Releases
+Events
+Legal Cases
+Whitepapers
+Podcasts
+Annual Reports
+
+Take ActionAction Center
+Volunteer
+Follow EFF
+
+ToolsPrivacy Badger
+Surveillance Self-Defense
+Certbot
+Atlas of Surveillance
+Cover Your Tracks
+Street Level Surveillance
+apkeep
+
+Shop
+DonateDonate to EFF
+Shop
+Giving Societies
+Sponsorships
+Other Ways to Give
+Membership FAQ
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Anti-Circumvention Laws Raise the Cost of Knowledge
+ 
+
+ DEEPLINKS BLOG 
+
+ By Mitch StoltzOctober 26, 2026 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ Anti-Circumvention Laws Raise the Cost of Knowledge
+ 
+
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ The vast amount of information on the open web requires researchers and journalists to adapt with new tools to make sense of it all. Checking facts, gauging public opinion, and other lines of inquiry depend on being able to analyze the overwhelming amount of material posted online every day. Unfortunately, responding to the AI industry’s voracious appetite for data, companies stewarding this public data are looking to cash in and block access to the open web. This makes the web harder to navigate, and threatens all kinds of important research.
+Reddit’s lawsuit against SerpAPI and Perplexity threatens to do exactly that.
+Reddit was once a very open platform, fostering a community of alternative apps and extensions putting users in control of their experience. Since the rise of AI however, it changed tack. Over the last three years Reddit has closed APIs to users, limited UI features, and otherwise restrained access without login. By making the voices on the platform harder to access, the company has positioned itself as a gatekeeper, and has since struck a lucrative data-sharing arrangement with Google.
+SerpAPI, in contrast, is a tool which offers automated access to Google’s search engine results pages. It’s used by Perplexity, an AI-based search tool. Reddit sued to stop SerpAPI and Perplexity from bypassing Reddit’s own arrangement with Google. (Google brought a similar suit, which was dismissed by another court.)
+It comes as little surprise that the legal weapon Reddit employed in this case is Section 1201 of the Digital Millennium Copyright Act, the same “anti-circumvention” law that has caused so much trouble for artists, innovators, and researchers over the years—and that EFF has fought against from the beginning. Reddit’s suit claimed that SerpAPI’s use of widely used techniques to access Google search results amounted to “circumventing” access controls on copyrighted works. 
+There are major problems with this argument. 
+First, Reddit doesn’t own the copyright in its users’ posts—the users do, and they grant Reddit the right to distribute the posted content freely.
+Second, there’s no meaningful copyright infringement going on here. Perplexity functions like a search engine, responding to users’ queries with relevant links and optionally an AI-generated summary. Crawling and indexing the web to create a search engine was long ago ruled a fair use under copyright law.
+And third, Google’s efforts to put rate limits on search queries and block some kinds of automated querying aren’t the sort of “access controls” that Section 1201 was written for. The law was passed in 1998 and targeted things like breaking the encryption on DVDs and other digital media. In contrast to physical or paywalled media, Reddit posts are visible to everyone, without a paywall and generally without a login. 
+Unfortunately, a federal district judge ruled in July that the suit could proceed, concluding that Section 1201 applied. That’s a dangerous ruling, because it casts a cloud of legal uncertainty over lots of important research, including efforts to study public sentiment through social media and to preserve records of historical events. Without tools that can look at the web at scale, many kinds of research are simply impossible today. But if employing those tools risks Section 1201 liability, only the wealthiest institutions will be able to use them.
+We cannot let the internet be rebuilt such that information is divided up among a handful of gatekeepers and sold back to us like cable subscription packages. If our knowledge of the online world comes only through wealthy institutions, the cost of knowledge will only increase and access to unbiased answers diminishes. 
+
+ 
+
+ 
+ 
+
+ Related Issues
+ DMCA RulemakingOpen Access 
+
+ 
+ Share It
+ 
+ Share on Mastodon
+ Share on Bluesky
+ Share on Facebook
+ Copy link
+ 
+ 
+
+ 
+ 
+
+ 
+
+ Related Updates
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Rory Mir
+ | July 13, 2026
+ Sony Nerfs Videogame Ownership
+ 
+ 
+ 
+ 
+ 
+ Playstation’s decision to kill physical game discs is the latest attack on our diminishing rights to access and engage with culture digitally. Rent-seeking corporations and negligent lawmakers share the blame–and they can do better. Gamers are right to sound the alarm, and we must take this moment to fight for... 
+
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Joe Mullin
+ | June 10, 2026
+ Congress Just Rushed Through a Disastrous Copyright Office Overhaul
+ 
+ 
+ 
+ 
+ 
+ In a voice vote earlier this week, the House of Representatives passed H.R. 6028, the “Legislative Branch Agencies Clarification Act.” The legislation is presented as a technical reorganization of some government agencies, but it’s much more than that. H.R. 6028 would fundamentally change the U.S. Copyright Office, and not... 
+
+ 
+ 
+ 
+ 
+ 
+ Press Release
+ | November 29, 2023
+ Pseudo-Copyright Rules That Block Fair Uses and Other Speech Violate the First Amendment, EFF Argues in Appellate Brief 
+ 
+ 
+ 
+ 
+ 
+ WASHINGTON, DC—A 1998 federal law that criminalizes access to digital works for lawful purposes—chilling free expression and impeding scientific research—is unenforceable because it’s too broad and violates the First Amendment, the Electronic Frontier Foundation (EFF) and co-counsel Wilson Sonsini Goodrich & Rosati argued in an appeals... 
+
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Karen Gullo
+ | February 9, 2022
+ Robots Have No Place Filtering Creative Content, EFF Tells U.S. Copyright Office
+ 
+ 
+ 
+ 
+ 
+ Software robots should not be deciding whether your creative content, whether written words, videos, photos, or music, ought to be pulled off the internet.That’s what we told the U.S. Copyright office in comments we filed February 8 arguing against requiring service providers to embrace “standard technical measures” to address... 
+
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Cara Gagliano, Kit Walsh
+ | December 14, 2020
+ Protecting Your Rights to Understand and Innovate on the Tech in Your Life
+ 
+ 
+ 
+ 
+ 
+ Every three years, the public has an opportunity to chip away at the harm inflicted by an offshoot of copyright law that doesn’t respect traditional safeguards such as fair use. This law, Section 1201 of the Digital Millennium Copyright Act, impedes speech, innovation, and access to knowledge by threatening huge... 
+
+ 
+ 
+ 
+ 
+ 
+ Legal Case
+ 2021 DMCA Rulemaking
+ 
+ 
+ 
+ 
+ 
+ The Digital Millennium Copyright Act (DMCA) limits the circumvention of software that’s designed to restrict access to copyrighted works. Unfortunately, such a blanket restriction can chill competition, free speech, and fair use. In an attempt to mitigate those harms, every three years the U.S. Copyright Office holds a... 
+
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Cara Gagliano
+ | October 29, 2020
+ Tell Us How You Want to Modify and Repair the Devices in Your Life
+ 
+ 
+ 
+ 
+ 
+ Have you tried modifying, repairing, or diagnosing a product but bumped into encryption, a password requirement, or some other technological roadblock that got in the way? EFF wants your stories to help us fight for your right to get around those obstacles.Section 1201 of the Digital Millennium Copyright Act (DMCA)... 
+
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Cory Doctorow
+ | September 9, 2020
+ Human Rights and TPMs: Lessons from 22 Years of the U.S. DMCA
+ 
+ 
+ 
+ 
+ 
+ In 1998, Bill Clinton signed the Digital Millennium Copyright Act (DMCA), a sweeping overhaul of U.S. copyright law notionally designed to update the system for the digital era. Though the DMCA contains many controversial sections, one of the most pernicious and problematic elements of the law is Section 1201,... 
+
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Kit Walsh
+ | October 11, 2019
+ One Weird Law That Interferes With Security Research, Remix Culture, and Even Car Repair
+ 
+ 
+ 
+ 
+ 
+ How can a single, ill-conceived law wreak havoc in so many ways? It prevents you from making remix videos. It blocks computer security research. It keeps those with print disabilities from reading ebooks. It makes it illegal to repair people's cars. It makes it harder to... 
+
+ 
+ 
+ 
+ 
+ 
+ Deeplinks Blog
+ by Keton Hansrajh
+ | November 26, 2018
+ The Expanded DMCA Exemption for Video Game Preservation Grants a Small Victory Amidst the Seventh Triennial Rulemaking 
+ 
+ 
+ 
+ 
+ 
+ Correction 12/4/18: This post has been edited to correct the description of the new exemption, and to acknowledge the contributions of SPN, LCA, and Harvard.Online games have finally found their way into the video game preservation exemption to Section 1201 of the Digital Millennium Copyright Act (DMCA). This is... 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ Share on MastodonShare on BlueskyShare on Facebook 
+
+ Related IssuesDMCA RulemakingOpen Access 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+
+ 
+ 
+ Back to top
+
+ 
+
+ 
+ 
+ 
+
+ Follow EFF:
+ 
+ mastodon
+facebook
+instagram
+Blue Sky
+youtube
+flicker
+linkedin
+tiktok
+threads
+
+ 
+
+ Check out our 4-star rating on Charity Navigator.
+
+ 
+
+ Contact
+ General
+Legal
+Security
+Membership
+Press
+ 
+
+ About
+ Calendar
+Volunteer
+Victories
+History
+Internships
+Jobs
+Staff
+Diversity & Inclusion
+ 
+
+ Issues
+ Free Speech
+Privacy
+Creativity & Innovation
+Transparency
+International
+Security
+ 
+
+ Updates
+ Blog
+Press Releases
+Events
+Legal Cases
+Whitepapers
+EFFector Newsletter
+ 
+
+ Press
+ Press Contact
+ 
+
+ Donate
+ Join or Renew Membership Online
+One-Time Donation Online
+Giving Societies
+Corporate Giving and Sponsorship
+Shop
+Other Ways to Give
+ 
+ 
+ 
+ 
+ Copyright (CC BY)
+Trademark
+Privacy Policy
+Thanks
+ 
+ 
+ JavaScript license information

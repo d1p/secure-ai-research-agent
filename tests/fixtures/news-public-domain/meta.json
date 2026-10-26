@@ -1,0 +1,19 @@
+{
+  "bytes_raw": 274825,
+  "capture_method": "http-get",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=UTF-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "U.S. government work (NASA), public domain",
+  "page_type": "news",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "4383df2f56e526b9fa866c6db34966e201c43fc963ede55b93b384db9b9116f3",
+  "slug": "news-public-domain",
+  "source_url": "https://www.nasa.gov/news-release/nasa-usda-sign-agreement-advancing-earth-science-agriculture/",
+  "stored_file": "page.html.gz",
+  "synthetic": false,
+  "tags": [
+    "news"
+  ]
+}

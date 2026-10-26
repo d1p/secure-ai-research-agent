@@ -1,0 +1,34 @@
+[
+  {
+    "id": "price",
+    "question": "How much does the Aurora Desk Lamp cost?",
+    "answer": "$49.99",
+    "evidence": "$49.99",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "rating",
+    "question": "What is the rating and review count?",
+    "answer": "4.6 out of 5 from 1,284 reviews",
+    "evidence": "4.6/5 rating from 1,284 reviews",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "warranty",
+    "question": "What is the warranty length?",
+    "answer": "2 years",
+    "evidence": "2-year warranty",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "review",
+    "question": "Which reviewer reports a USB-C port failure?",
+    "answer": "Ben",
+    "evidence": "Ben reports a USB-C port failure",
+    "kind": "comment",
+    "grading": "exact"
+  }
+]

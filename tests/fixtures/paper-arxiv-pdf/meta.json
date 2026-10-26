@@ -1,0 +1,21 @@
+{
+  "bytes_raw": 2102672,
+  "capture_method": "http-get + pypdf trim",
+  "captured_at": "2026-10-26",
+  "content_type": "application/pdf",
+  "innertext_source": "pdf-text",
+  "license": "arXiv non-exclusive distribution license 1.0; first 10 pages",
+  "page_type": "pdf",
+  "pages_original": 77,
+  "pages_stored": 10,
+  "reference_method": "pypdf text + manual spot check",
+  "reference_scope": "full",
+  "sha256": "81065b44b9740b713f942d84ad942053529bfd849a9333adf1cda45cffd5276f",
+  "slug": "paper-arxiv-pdf",
+  "source_url": "https://arxiv.org/pdf/2307.09288",
+  "stored_file": "page.pdf",
+  "synthetic": false,
+  "tags": [
+    "pdf"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "bytes_raw": 75782,
+  "capture_method": "http-get",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "User-submitted Hacker News content; excerpt for testing",
+  "page_type": "thread",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "2205e7ceb2a9c5df912a7e98c6c0a25da87850b39046b57ca03dc32fa4177fc2",
+  "slug": "forum-hackernews",
+  "source_url": "https://news.ycombinator.com/item?id=50245138",
+  "stored_file": "page.html",
+  "synthetic": false,
+  "tags": [
+    "has_comments"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "bytes_raw": 1389337,
+  "capture_method": "http-get + oldid permalink",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=UTF-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+  "page_type": "table",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "revid": 1381775320,
+  "sha256": "ac2aa77f48e25a5af28c3963d0b9995a71d80dfa5a5f18a993ac723f2a93631c",
+  "slug": "data-table",
+  "source_url": "https://en.wikipedia.org/w/index.php?title=List%20of%20countries%20and%20dependencies%20by%20population&oldid=1381775320",
+  "stored_file": "page.html.gz",
+  "synthetic": false,
+  "tags": [
+    "has_tables",
+    "data"
+  ],
+  "title": "List of countries and dependencies by population"
+}

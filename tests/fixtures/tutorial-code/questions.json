@@ -1,0 +1,34 @@
+[
+  {
+    "id": "match",
+    "question": "Which statement is useful for matching constants or specific types?",
+    "answer": "the match statement",
+    "evidence": "you may also find the match statement useful",
+    "kind": "code",
+    "grading": "exact"
+  },
+  {
+    "id": "defaults",
+    "question": "What is the most useful form for specifying optional arguments?",
+    "answer": "default argument values",
+    "evidence": "Default Argument Values",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "lambda",
+    "question": "Which keyword creates small anonymous functions?",
+    "answer": "lambda",
+    "evidence": "Small anonymous functions can be created with the lambda keyword",
+    "kind": "code",
+    "grading": "exact"
+  },
+  {
+    "id": "range",
+    "question": "What does the range() function generate?",
+    "answer": "arithmetic progressions",
+    "evidence": "It generates arithmetic progressions",
+    "kind": "prose",
+    "grading": "exact"
+  }
+]

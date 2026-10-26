@@ -1,0 +1,20 @@
+{
+  "bytes_raw": 563,
+  "capture_method": "synthetic",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "expected_needs_human": true,
+  "innertext_source": "lxml-visible-text",
+  "license": "No source license; synthetic test data",
+  "page_type": "paywall",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "1627dd790113e83d43eab784ccaaebc081d027c2d3494ca1e2705388779b37fe",
+  "slug": "paywall-cookie",
+  "source_url": "https://example.com/paywall-cookie",
+  "stored_file": "page.html",
+  "synthetic": true,
+  "tags": [
+    "paywall"
+  ]
+}

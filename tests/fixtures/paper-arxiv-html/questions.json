@@ -1,0 +1,34 @@
+[
+  {
+    "id": "family",
+    "question": "What is the model family presented in the paper?",
+    "answer": "Llama 2",
+    "evidence": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "range",
+    "question": "What parameter range do the models cover?",
+    "answer": "7 billion to 70 billion parameters",
+    "evidence": "ranging in scale from 7 billion to 70 billion parameters",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "changes",
+    "question": "What three changes does the paper mention for the pretraining corpus and architecture?",
+    "answer": "40% larger pretraining corpus, doubled context length, grouped-query attention",
+    "evidence": "increased the size of the pretraining corpus by 40%, doubled the context length",
+    "kind": "list",
+    "grading": "semantic"
+  },
+  {
+    "id": "prompts",
+    "question": "Over how many prompts were the models evaluated against ChatGPT and PaLM?",
+    "answer": "over 4,000 single and multi-turn prompts",
+    "evidence": "over 4,000",
+    "kind": "table",
+    "grading": "exact"
+  }
+]

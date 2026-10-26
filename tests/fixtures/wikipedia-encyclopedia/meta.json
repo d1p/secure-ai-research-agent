@@ -1,0 +1,21 @@
+{
+  "bytes_raw": 1510678,
+  "capture_method": "http-get + oldid permalink",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=UTF-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+  "page_type": "article",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "revid": 1381843935,
+  "sha256": "00c7112d6643e46ae4a2f0a676256ed4b34b59418f621155f37626dacd3b8294",
+  "slug": "wikipedia-encyclopedia",
+  "source_url": "https://en.wikipedia.org/w/index.php?title=Reddit&oldid=1381843935",
+  "stored_file": "page.html.gz",
+  "synthetic": false,
+  "tags": [
+    "has_tables"
+  ],
+  "title": "Reddit"
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "taskgroup",
+    "question": "Which class is described as a modern alternative to create_task()?",
+    "answer": "asyncio.TaskGroup",
+    "evidence": "The asyncio.TaskGroup class provides a more modern alternative to create_task()",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "create-task",
+    "question": "Which function runs coroutines concurrently as asyncio Tasks?",
+    "answer": "asyncio.create_task()",
+    "evidence": "The asyncio.create_task() function to run coroutines concurrently as asyncio Tasks",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "cancel",
+    "question": "How can a task created by create_task() be cancelled?",
+    "answer": "Call task.cancel()",
+    "evidence": "can now be used to cancel",
+    "kind": "code",
+    "grading": "semantic"
+  },
+  {
+    "id": "gather",
+    "question": "What does asyncio.gather() do in the examples?",
+    "answer": "It runs multiple awaitables/coroutines concurrently and returns their results",
+    "evidence": "asyncio.gather(",
+    "kind": "code",
+    "grading": "semantic"
+  }
+]

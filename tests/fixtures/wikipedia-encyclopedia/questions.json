@@ -1,0 +1,34 @@
+[
+  {
+    "id": "founded",
+    "question": "When was Reddit founded?",
+    "answer": "June 23, 2005",
+    "evidence": "Founded June 23, 2005",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "hq",
+    "question": "Where is Reddit headquartered?",
+    "answer": "San Francisco, California, U.S.",
+    "evidence": "Headquarters San Francisco, California",
+    "kind": "table",
+    "grading": "semantic"
+  },
+  {
+    "id": "owner",
+    "question": "Which company owns 30% of Reddit?",
+    "answer": "Advance Publications",
+    "evidence": "Owners Advance Publications (30%)",
+    "kind": "table",
+    "grading": "exact"
+  },
+  {
+    "id": "ceo",
+    "question": "Who is Reddit's CEO?",
+    "answer": "Steve Huffman",
+    "evidence": "Steve Huffman (CEO)",
+    "kind": "prose",
+    "grading": "exact"
+  }
+]

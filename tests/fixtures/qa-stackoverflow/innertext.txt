@@ -1,0 +1,167 @@
+What is the difference between @staticmethod and @classmethod in Python? - Stack OverflowStack OverflowWhat is the difference between @staticmethod and @classmethod in Python?What is the difference between a method decorated with @staticmethod and one decorated with @classmethod?
+Maybe a bit of example code will help: Notice the difference in the call signatures of foo, class_foo and static_foo:
+class A(object):
+ def foo(self, x):
+ print(f"executing foo({self}, {x})")
+
+ @classmethod
+ def class_foo(cls, x):
+ print(f"executing class_foo({cls}, {x})")
+
+ @staticmethod
+ def static_foo(x):
+ print(f"executing static_foo({x})")
+
+a = A()
+
+Below is the usual way an object instance calls a method. The object instance, a, is implicitly passed as the first argument.
+a.foo(1)
+# executing foo(<__main__.A object at 0xb7dbef0c>, 1)
+
+With classmethods, the class of the object instance is implicitly passed as the first argument instead of self.
+a.class_foo(1)
+# executing class_foo(<class '__main__.A'>, 1)
+
+You can also call class_foo using the class. In fact, if you define something to be
+a classmethod, it is probably because you intend to call it from the class rather than from a class instance. A.foo(1) would have raised a TypeError, but A.class_foo(1) works just fine:
+A.class_foo(1)
+# executing class_foo(<class '__main__.A'>, 1)
+
+One use people have found for class methods is to create inheritable alternative constructors.
+
+With staticmethods, neither self (the object instance) nor cls (the class) is implicitly passed as the first argument. They behave like plain functions except that you can call them from an instance or the class:
+a.static_foo(1)
+# executing static_foo(1)
+
+A.static_foo('hi')
+# executing static_foo(hi)
+
+Staticmethods are used to group functions which have some logical connection with a class to the class.
+
+foo is just a function, but when you call a.foo you don't just get the function,
+you get a "partially applied" version of the function with the object instance a bound as the first argument to the function. foo expects 2 arguments, while a.foo only expects 1 argument.
+a is bound to foo. That is what is meant by the term "bound" below:
+print(a.foo)
+# <bound method A.foo of <__main__.A object at 0xb7d52f0c>>
+
+With a.class_foo, a is not bound to class_foo, rather the class A is bound to class_foo.
+print(a.class_foo)
+# <bound method type.class_foo of <class '__main__.A'>>
+
+Here, with a staticmethod, even though it is a method, a.static_foo just returns
+a good 'ole function with no arguments bound. static_foo expects 1 argument, and
+a.static_foo expects 1 argument too.
+print(a.static_foo)
+# <function static_foo at 0xb7d479cc>
+
+And of course the same thing happens when you call static_foo with the class A instead.
+print(A.static_foo)
+# <function static_foo at 0xb7d479cc>
+
+A staticmethod is a method that knows nothing about the class or instance it was called on. It just gets the arguments that were passed, no implicit first argument.
+A classmethod, on the other hand, is a method that gets passed the class it was called on, or the class of the instance it was called on, as first argument. This is useful when you want the method to be a factory for the class: since it gets the actual class it was called on as first argument, you can always instantiate the right class, even when subclasses are involved. Observe for instance how dict.fromkeys(), a classmethod, returns an instance of the subclass when called on a subclass:
+>>> class DictSubclass(dict):
+... def __repr__(self):
+... return "DictSubclass"
+... 
+>>> dict.fromkeys("abc")
+{'a': None, 'c': None, 'b': None}
+>>> DictSubclass.fromkeys("abc")
+DictSubclass
+>>> 
+
+Basically @classmethod makes a method whose first argument is the class it's called from (rather than the class instance), @staticmethod does not have any implicit arguments.
+To determine whether to use @staticmethod or @classmethod, examine the method's behavior. If the method requires access to class-level attributes or methods, employ @classmethod. Conversely, if the method operates independently without interacting with other class components, utilize @staticmethod.
+class Apple:
+
+ _counter = 0
+
+ @staticmethod
+ def about_apple():
+ print('Apple is good for you.')
+
+ # Note: You can still access class members within the staticmethod, 
+ # but you'll need to use the class instance.
+ # This can lead to repetition and less clean code.
+
+ # For example:
+ # @staticmethod
+ # print('Number of apples juiced:', Apple._counter)
+ # vs
+ # @classmethod
+ # print('Number of apples juiced:', cls._counter)
+
+ # Class methods are particularly useful when refactoring, 
+ # as they don't require renaming the referenced class.
+
+ @classmethod
+ def make_apple_juice(cls, number_of_apples):
+ print('Making juice:')
+ for i in range(number_of_apples):
+ cls._juice_this(i)
+
+ @classmethod
+ def _juice_this(cls, apple):
+ print(f'Juicing apple {apple}...')
+ cls._counter += 1
+
+Official python docs:
+
+@classmethod
+
+ A class method receives the class as
+ implicit first argument, just like an
+ instance method receives the instance.
+ To declare a class method, use this
+ idiom:
+
+class C:
+ @classmethod
+ def f(cls, arg1, arg2, ...): ... 
+
+ 
+ The @classmethod form is a function
+ decorator – see the description of
+ function definitions in Function
+ definitions for details.
+ 
+ It can be called either on the class
+ (such as C.f()) or on an instance
+ (such as C().f()). The instance is
+ ignored except for its class. If a
+ class method is called for a derived
+ class, the derived class object is
+ passed as the implied first argument.
+ 
+ Class methods are different than C++
+ or Java static methods. If you want
+ those, see staticmethod() in this
+ section.
+
+@staticmethod
+
+ A static method does not receive an
+ implicit first argument. To declare a
+ static method, use this idiom:
+
+class C:
+ @staticmethod
+ def f(arg1, arg2, ...): ... 
+
+ 
+ The @staticmethod form is a function
+ decorator – see the description of
+ function definitions in Function
+ definitions for details.
+ 
+ It can be called either on the class
+ (such as C.f()) or on an instance
+ (such as C().f()). The instance is
+ ignored except for its class.
+ 
+ Static methods in Python are similar
+ to those found in Java or C++. For a
+ more advanced concept, see
+ classmethod() in this section.
+
+Stack Overflow

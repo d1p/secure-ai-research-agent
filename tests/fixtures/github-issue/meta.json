@@ -1,0 +1,20 @@
+{
+  "bytes_raw": 281656,
+  "capture_method": "http-get",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "Repository license: Other/NOASSERTION (see repo); issue excerpt",
+  "page_type": "thread",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "3e6daf8f19a555581c8d8a594041c024841148777299680019cf550ad8374ebf",
+  "slug": "github-issue",
+  "source_url": "https://github.com/open-webui/open-webui/issues/33229",
+  "stored_file": "page.html.gz",
+  "synthetic": false,
+  "tags": [
+    "has_comments",
+    "has_code"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "bytes_raw": 55537,
+  "capture_method": "http-get",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "CC BY (EFF Deeplinks); excerpt for testing",
+  "page_type": "blog",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "0e395f222406fb60be052f1f1dbace758d16f60e9e1aac9ab585ac8ff27e3fb0",
+  "slug": "blog-longform-cc",
+  "source_url": "https://www.eff.org/deeplinks/2026/10/anti-circumvention-laws-raise-cost-knowledge",
+  "stored_file": "page.html",
+  "synthetic": false,
+  "tags": [
+    "longform"
+  ]
+}

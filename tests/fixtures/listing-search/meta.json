@@ -1,0 +1,19 @@
+{
+  "bytes_raw": 672,
+  "capture_method": "synthetic",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "No source license; synthetic test data",
+  "page_type": "listing",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "c3f34bef422703c30fd1aea9a2353b3551e777407704f765b133bd26b306c7b6",
+  "slug": "listing-search",
+  "source_url": "https://example.com/listing-search",
+  "stored_file": "page.html",
+  "synthetic": true,
+  "tags": [
+    "listing"
+  ]
+}

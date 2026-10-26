@@ -1,0 +1,426 @@
+[
+  {
+    "bytes_raw": 55537,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "CC BY (EFF Deeplinks); excerpt for testing",
+    "page_type": "blog",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "0e395f222406fb60be052f1f1dbace758d16f60e9e1aac9ab585ac8ff27e3fb0",
+    "slug": "blog-longform-cc",
+    "source_url": "https://www.eff.org/deeplinks/2026/10/anti-circumvention-laws-raise-cost-knowledge",
+    "stored_file": "page.html",
+    "synthetic": false,
+    "tags": [
+      "longform"
+    ]
+  },
+  {
+    "bytes_raw": 334829,
+    "capture_method": "http-get + oldid permalink",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=UTF-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+    "page_type": "article",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "revid": 1381256336,
+    "sha256": "9582a61f7fc0643946e8aba819bf6284d08bba2031fc801fe05f28d20fc9e39c",
+    "slug": "captcha-mention",
+    "source_url": "https://en.wikipedia.org/w/index.php?title=CAPTCHA&oldid=1381256336",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "mentions_captcha"
+    ],
+    "title": "CAPTCHA"
+  },
+  {
+    "bytes_raw": 567,
+    "capture_method": "synthetic",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "expected_needs_human": true,
+    "innertext_source": "lxml-visible-text",
+    "license": "No source license; synthetic test data",
+    "page_type": "challenge",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "91d5b491464e9df76efb20d4c26f22d65e2bb25ff4a97387b637996752c239e0",
+    "slug": "challenge-bot",
+    "source_url": "https://example.com/challenge-bot",
+    "stored_file": "page.html",
+    "synthetic": true,
+    "tags": [
+      "challenge"
+    ]
+  },
+  {
+    "bytes_raw": 1389337,
+    "capture_method": "http-get + oldid permalink",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=UTF-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+    "page_type": "table",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "revid": 1381775320,
+    "sha256": "ac2aa77f48e25a5af28c3963d0b9995a71d80dfa5a5f18a993ac723f2a93631c",
+    "slug": "data-table",
+    "source_url": "https://en.wikipedia.org/w/index.php?title=List%20of%20countries%20and%20dependencies%20by%20population&oldid=1381775320",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "has_tables",
+      "data"
+    ],
+    "title": "List of countries and dependencies by population"
+  },
+  {
+    "bytes_raw": 177205,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html",
+    "innertext_source": "lxml-visible-text",
+    "license": "Python Software Foundation license",
+    "page_type": "docs",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "59a3ab15ede3754e1b7ff9336cb10b0793a6c24fa724d22d97d67b7c8fcfed98",
+    "slug": "docs-reference",
+    "source_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "stored_file": "page.html",
+    "synthetic": false,
+    "tags": [
+      "has_code",
+      "has_tables"
+    ]
+  },
+  {
+    "bytes_raw": 75782,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "User-submitted Hacker News content; excerpt for testing",
+    "page_type": "thread",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "2205e7ceb2a9c5df912a7e98c6c0a25da87850b39046b57ca03dc32fa4177fc2",
+    "slug": "forum-hackernews",
+    "source_url": "https://news.ycombinator.com/item?id=50245138",
+    "stored_file": "page.html",
+    "synthetic": false,
+    "tags": [
+      "has_comments"
+    ]
+  },
+  {
+    "bytes_raw": 281656,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "Repository license: Other/NOASSERTION (see repo); issue excerpt",
+    "page_type": "thread",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "3e6daf8f19a555581c8d8a594041c024841148777299680019cf550ad8374ebf",
+    "slug": "github-issue",
+    "source_url": "https://github.com/open-webui/open-webui/issues/33229",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "has_comments",
+      "has_code"
+    ]
+  },
+  {
+    "bytes_raw": 501552,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "Repository license: Other/NOASSERTION (see repo); README excerpt",
+    "page_type": "docs",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "9a591995d0f0cc11a6555d1d71e4d0eab27796b4f88ce3933db6d7ee7cc8ec03",
+    "slug": "github-readme",
+    "source_url": "https://github.com/open-webui/open-webui",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "has_code",
+      "github_readme"
+    ]
+  },
+  {
+    "bytes_raw": 2982352,
+    "capture_method": "http-get + oldid permalink",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=UTF-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+    "page_type": "article",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "sample",
+    "revid": 1381951802,
+    "sha256": "9f852a73156218ac433ff78be2cc6e9382789db3bf606ab53ebbc71349399e92",
+    "slug": "large-page",
+    "source_url": "https://en.wikipedia.org/w/index.php?title=United%20States&oldid=1381951802",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "large"
+    ],
+    "title": "United States"
+  },
+  {
+    "bytes_raw": 672,
+    "capture_method": "synthetic",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "No source license; synthetic test data",
+    "page_type": "listing",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "c3f34bef422703c30fd1aea9a2353b3551e777407704f765b133bd26b306c7b6",
+    "slug": "listing-search",
+    "source_url": "https://example.com/listing-search",
+    "stored_file": "page.html",
+    "synthetic": true,
+    "tags": [
+      "listing"
+    ]
+  },
+  {
+    "bytes_raw": 274825,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=UTF-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "U.S. government work (NASA), public domain",
+    "page_type": "news",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "4383df2f56e526b9fa866c6db34966e201c43fc963ede55b93b384db9b9116f3",
+    "slug": "news-public-domain",
+    "source_url": "https://www.nasa.gov/news-release/nasa-usda-sign-agreement-advancing-earth-science-agriculture/",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "news"
+    ]
+  },
+  {
+    "bytes_raw": 868226,
+    "capture_method": "http-get + oldid permalink",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=UTF-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+    "page_type": "article",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "revid": 271639746,
+    "sha256": "d7a66dc4f704bcbbff9ba1c14eab6d2cd5513e52db118c0e454eed8476b37906",
+    "slug": "non-english",
+    "source_url": "https://de.wikipedia.org/w/index.php?title=K%C3%BCnstliche%20Intelligenz&oldid=271639746",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "non_english"
+    ],
+    "title": "K\u00fcnstliche Intelligenz"
+  },
+  {
+    "bytes_raw": 1070599,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "arXiv non-exclusive distribution license 1.0; excerpt",
+    "page_type": "paper",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "f9277e041ed9b6feef766eacb94a543256cb6ddbb858ce5dda927aa3d4c3e562",
+    "slug": "paper-arxiv-html",
+    "source_url": "https://arxiv.org/html/2307.09288v1",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "has_tables",
+      "has_code"
+    ]
+  },
+  {
+    "bytes_raw": 2102672,
+    "capture_method": "http-get + pypdf trim",
+    "captured_at": "2026-10-26",
+    "content_type": "application/pdf",
+    "innertext_source": "pdf-text",
+    "license": "arXiv non-exclusive distribution license 1.0; first 10 pages",
+    "page_type": "pdf",
+    "pages_original": 77,
+    "pages_stored": 10,
+    "reference_method": "pypdf text + manual spot check",
+    "reference_scope": "full",
+    "sha256": "81065b44b9740b713f942d84ad942053529bfd849a9333adf1cda45cffd5276f",
+    "slug": "paper-arxiv-pdf",
+    "source_url": "https://arxiv.org/pdf/2307.09288",
+    "stored_file": "page.pdf",
+    "synthetic": false,
+    "tags": [
+      "pdf"
+    ]
+  },
+  {
+    "bytes_raw": 563,
+    "capture_method": "synthetic",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "expected_needs_human": true,
+    "innertext_source": "lxml-visible-text",
+    "license": "No source license; synthetic test data",
+    "page_type": "paywall",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "1627dd790113e83d43eab784ccaaebc081d027c2d3494ca1e2705388779b37fe",
+    "slug": "paywall-cookie",
+    "source_url": "https://example.com/paywall-cookie",
+    "stored_file": "page.html",
+    "synthetic": true,
+    "tags": [
+      "paywall"
+    ]
+  },
+  {
+    "bytes_raw": 804,
+    "capture_method": "synthetic",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "No source license; synthetic test data",
+    "page_type": "product",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "dfa2a7415dea189c8cfe9c88632eca7c6172118fd6de073cb61013844a702c9a",
+    "slug": "product-reviews",
+    "source_url": "https://example.com/product-reviews",
+    "stored_file": "page.html",
+    "synthetic": true,
+    "tags": [
+      "has_tables",
+      "has_comments"
+    ]
+  },
+  {
+    "bytes_raw": 9980,
+    "capture_method": "stackexchange-api-reconstruction",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "CC BY-SA 4.0 (Stack Exchange); question + top answers",
+    "page_type": "thread",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "95d8a9af4770d72c1c7ca10ad62dbb34d7609b3c99f2a5c83968e09c28ac6568",
+    "slug": "qa-stackoverflow",
+    "source_url": "https://stackoverflow.com/questions/136097",
+    "stored_file": "page.html",
+    "synthetic": false,
+    "tags": [
+      "has_comments",
+      "has_code"
+    ]
+  },
+  {
+    "bytes_raw": 209,
+    "capture_method": "synthetic raw shell + rendered DOM",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "rendered-lxml",
+    "license": "No source license; synthetic test data",
+    "page_type": "spa",
+    "reference_method": "synthetic content",
+    "reference_scope": "full",
+    "sha256": "d7aea0d8d827f9e75ca6babcf7c74aa154d7483b1aec419106cd6caff7e89ad8",
+    "slug": "spa-rendered",
+    "source_url": "https://example.com/spa-rendered",
+    "stored_file": "page.html",
+    "synthetic": true,
+    "tags": [
+      "spa",
+      "has_tables",
+      "has_code"
+    ]
+  },
+  {
+    "bytes_raw": 140178,
+    "capture_method": "http-get",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html",
+    "innertext_source": "lxml-visible-text",
+    "license": "Python Software Foundation license",
+    "page_type": "tutorial",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "6cd811e3980e797d9d5027101e123206f96207f6f4c4f35ed7317f4df3a7538b",
+    "slug": "tutorial-code",
+    "source_url": "https://docs.python.org/3/tutorial/controlflow.html",
+    "stored_file": "page.html",
+    "synthetic": false,
+    "tags": [
+      "has_code"
+    ]
+  },
+  {
+    "bytes_raw": 1510678,
+    "capture_method": "http-get + oldid permalink",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=UTF-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+    "page_type": "article",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "revid": 1381843935,
+    "sha256": "00c7112d6643e46ae4a2f0a676256ed4b34b59418f621155f37626dacd3b8294",
+    "slug": "wikipedia-encyclopedia",
+    "source_url": "https://en.wikipedia.org/w/index.php?title=Reddit&oldid=1381843935",
+    "stored_file": "page.html.gz",
+    "synthetic": false,
+    "tags": [
+      "has_tables"
+    ],
+    "title": "Reddit"
+  },
+  {
+    "bytes_raw": 661,
+    "capture_method": "synthetic",
+    "captured_at": "2026-10-26",
+    "content_type": "text/html; charset=utf-8",
+    "innertext_source": "lxml-visible-text",
+    "license": "No source license; synthetic test data",
+    "page_type": "table",
+    "reference_method": "curated selector + manual spot check",
+    "reference_scope": "full",
+    "sha256": "692472566db795d021e18d23a587985703b05e6b6a65416064b148de2a4ed84a",
+    "slug": "xbrl-statement",
+    "source_url": "https://example.com/xbrl-statement",
+    "stored_file": "page.html",
+    "synthetic": true,
+    "tags": [
+      "has_tables",
+      "xbrl",
+      "data"
+    ]
+  }
+]

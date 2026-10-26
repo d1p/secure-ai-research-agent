@@ -1,0 +1,26 @@
+[
+  {
+    "id": "refusal",
+    "question": "Does the loader return the challenge HTML as page content?",
+    "answer": "No; it returns a clean needs_human result",
+    "evidence": "[needs_human]",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "marker",
+    "question": "Which marker should the result carry?",
+    "answer": "needs_human",
+    "evidence": "[needs_human]",
+    "kind": "prose",
+    "grading": "exact"
+  },
+  {
+    "id": "challenge-phrase",
+    "question": "Is 'Just a moment...' returned to the model as page content?",
+    "answer": "No",
+    "evidence": "[needs_human]",
+    "kind": "prose",
+    "grading": "exact"
+  }
+]

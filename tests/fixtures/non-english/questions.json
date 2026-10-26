@@ -1,0 +1,34 @@
+[
+  {
+    "id": "definition",
+    "question": "Was ist Künstliche Intelligenz laut Artikel?",
+    "answer": "ein Forschungs- und Anwendungsgebiet der Informatik",
+    "evidence": "ein Forschungs- und Anwendungsgebiet der Informatik",
+    "kind": "prose",
+    "grading": "semantic"
+  },
+  {
+    "id": "ml",
+    "question": "Welche Technik wird in der öffentlichen Wahrnehmung oft mit KI gleichgesetzt?",
+    "answer": "maschinelles Lernen",
+    "evidence": "maschinelles Lernen und die auf diesem Prinzip aufbauenden Chatbots",
+    "kind": "deep",
+    "grading": "exact"
+  },
+  {
+    "id": "speech",
+    "question": "Welches Beispiel für automatische Sprachverarbeitung nennt der Artikel?",
+    "answer": "Spracherkennung",
+    "evidence": "Spracherkennung",
+    "kind": "list",
+    "grading": "exact"
+  },
+  {
+    "id": "abbr",
+    "question": "Wofür steht die Abkürzung KI?",
+    "answer": "Künstliche Intelligenz",
+    "evidence": "Künstliche Intelligenz (kurz KI",
+    "kind": "prose",
+    "grading": "exact"
+  }
+]

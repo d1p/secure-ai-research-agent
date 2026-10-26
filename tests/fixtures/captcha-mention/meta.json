@@ -1,0 +1,21 @@
+{
+  "bytes_raw": 334829,
+  "capture_method": "http-get + oldid permalink",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=UTF-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "CC BY-SA 4.0 (Wikipedia); pinned revision excerpt",
+  "page_type": "article",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "revid": 1381256336,
+  "sha256": "9582a61f7fc0643946e8aba819bf6284d08bba2031fc801fe05f28d20fc9e39c",
+  "slug": "captcha-mention",
+  "source_url": "https://en.wikipedia.org/w/index.php?title=CAPTCHA&oldid=1381256336",
+  "stored_file": "page.html.gz",
+  "synthetic": false,
+  "tags": [
+    "mentions_captcha"
+  ],
+  "title": "CAPTCHA"
+}

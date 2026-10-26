@@ -1,0 +1,20 @@
+{
+  "bytes_raw": 804,
+  "capture_method": "synthetic",
+  "captured_at": "2026-10-26",
+  "content_type": "text/html; charset=utf-8",
+  "innertext_source": "lxml-visible-text",
+  "license": "No source license; synthetic test data",
+  "page_type": "product",
+  "reference_method": "curated selector + manual spot check",
+  "reference_scope": "full",
+  "sha256": "dfa2a7415dea189c8cfe9c88632eca7c6172118fd6de073cb61013844a702c9a",
+  "slug": "product-reviews",
+  "source_url": "https://example.com/product-reviews",
+  "stored_file": "page.html",
+  "synthetic": true,
+  "tags": [
+    "has_tables",
+    "has_comments"
+  ]
+}

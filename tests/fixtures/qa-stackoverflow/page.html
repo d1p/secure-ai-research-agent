@@ -1,0 +1,171 @@
+<!doctype html><html><head><meta charset='utf-8'><title>What is the difference between @staticmethod and @classmethod in Python? - Stack Overflow</title></head><body><nav>Stack Overflow</nav><div id='mainbar'><div id='question' class='question'><h1>What is the difference between @staticmethod and @classmethod in Python?</h1><div class='question-body'><p>What is the difference between a method <a href="https://peps.python.org/pep-0318/" rel="noreferrer">decorated</a> with <a href="http://docs.python.org/library/functions.html#staticmethod" rel="noreferrer"><code>@staticmethod</code></a> and one decorated with <a href="http://docs.python.org/library/functions.html#classmethod" rel="noreferrer"><code>@classmethod</code></a>?</p>
+</div></div><div id='answers'><div class='answer' data-score='4025' data-accepted='true'><div class='answer-body'><p>Maybe a bit of example code will help: Notice the difference in the call signatures of <code>foo</code>, <code>class_foo</code> and <code>static_foo</code>:</p>
+<pre><code>class A(object):
+    def foo(self, x):
+        print(f&quot;executing foo({self}, {x})&quot;)
+
+    @classmethod
+    def class_foo(cls, x):
+        print(f&quot;executing class_foo({cls}, {x})&quot;)
+
+    @staticmethod
+    def static_foo(x):
+        print(f&quot;executing static_foo({x})&quot;)
+
+a = A()
+</code></pre>
+<p>Below is the usual way an object instance calls a method. The object instance, <code>a</code>, is implicitly passed as the first argument.</p>
+<pre><code>a.foo(1)
+# executing foo(&lt;__main__.A object at 0xb7dbef0c&gt;, 1)
+</code></pre>
+<hr />
+<p><strong>With classmethods</strong>, the class of the object instance is implicitly passed as the first argument instead of <code>self</code>.</p>
+<pre><code>a.class_foo(1)
+# executing class_foo(&lt;class '__main__.A'&gt;, 1)
+</code></pre>
+<p>You can also call <code>class_foo</code> using the class. In fact, if you define something to be
+a classmethod, it is probably because you intend to call it from the class rather than from a class instance. <code>A.foo(1)</code> would have raised a TypeError, but <code>A.class_foo(1)</code> works just fine:</p>
+<pre><code>A.class_foo(1)
+# executing class_foo(&lt;class '__main__.A'&gt;, 1)
+</code></pre>
+<p>One use people have found for class methods is to create <a href="https://stackoverflow.com/a/1950927/190597">inheritable alternative constructors</a>.</p>
+<hr />
+<p><strong>With staticmethods</strong>, neither <code>self</code> (the object instance) nor  <code>cls</code> (the class) is implicitly passed as the first argument. They behave like plain functions except that you can call them from an instance or the class:</p>
+<pre><code>a.static_foo(1)
+# executing static_foo(1)
+
+A.static_foo('hi')
+# executing static_foo(hi)
+</code></pre>
+<p>Staticmethods are used to group functions which have some logical connection with a class to the class.</p>
+<hr />
+<p><code>foo</code> is just a function, but when you call <code>a.foo</code> you don't just get the function,
+you get a &quot;partially applied&quot; version of the function with the object instance <code>a</code> bound as the first argument to the function. <code>foo</code> expects 2 arguments, while <code>a.foo</code> only expects 1 argument.</p>
+<p><code>a</code> is bound to <code>foo</code>. That is what is meant by the term &quot;bound&quot; below:</p>
+<pre><code>print(a.foo)
+# &lt;bound method A.foo of &lt;__main__.A object at 0xb7d52f0c&gt;&gt;
+</code></pre>
+<p>With <code>a.class_foo</code>, <code>a</code> is not bound to <code>class_foo</code>, rather the class <code>A</code> is bound to <code>class_foo</code>.</p>
+<pre><code>print(a.class_foo)
+# &lt;bound method type.class_foo of &lt;class '__main__.A'&gt;&gt;
+</code></pre>
+<p>Here, with a staticmethod, even though it is a method, <code>a.static_foo</code> just returns
+a good 'ole function with no arguments bound. <code>static_foo</code> expects 1 argument, and
+<code>a.static_foo</code> expects 1 argument too.</p>
+<pre><code>print(a.static_foo)
+# &lt;function static_foo at 0xb7d479cc&gt;
+</code></pre>
+<p>And of course the same thing happens when you call <code>static_foo</code> with the class <code>A</code> instead.</p>
+<pre><code>print(A.static_foo)
+# &lt;function static_foo at 0xb7d479cc&gt;
+</code></pre>
+</div></div><div class='answer' data-score='990' data-accepted='false'><div class='answer-body'><p>A <strong>staticmethod</strong> is a method that knows nothing about the class or instance it was called on. It just gets the arguments that were passed, no implicit first argument.</p>
+<p>A <strong>classmethod</strong>, on the other hand, is a method that gets passed the class it was called on, or the class of the instance it was called on, as first argument. This is useful when you want the method to be a factory for the class: since it gets the actual class it was called on as first argument, you can always instantiate the right class, even when subclasses are involved. Observe for instance how <code>dict.fromkeys()</code>, a classmethod, returns an instance of the subclass when called on a subclass:</p>
+<pre><code>&gt;&gt;&gt; class DictSubclass(dict):
+...     def __repr__(self):
+...         return &quot;DictSubclass&quot;
+... 
+&gt;&gt;&gt; dict.fromkeys(&quot;abc&quot;)
+{'a': None, 'c': None, 'b': None}
+&gt;&gt;&gt; DictSubclass.fromkeys(&quot;abc&quot;)
+DictSubclass
+&gt;&gt;&gt; 
+</code></pre>
+</div></div><div class='answer' data-score='209' data-accepted='false'><div class='answer-body'><p>Basically <code>@classmethod</code> makes a method whose first argument is the class it's called from (rather than the class instance), <code>@staticmethod</code> does not have any implicit arguments.</p>
+</div></div><div class='answer' data-score='156' data-accepted='false'><div class='answer-body'><p>To determine whether to use <a href="https://docs.python.org/3/library/functions.html?highlight=staticmethod#staticmethod" rel="noreferrer">@staticmethod</a> or <a href="https://docs.python.org/3.5/library/functions.html?highlight=classmethod#classmethod" rel="noreferrer">@classmethod</a>, examine the method's behavior. <strong>If the method requires access to class-level attributes or methods, employ @classmethod</strong>. Conversely, if the method operates independently without interacting with other class components, utilize @staticmethod.</p>
+<pre><code>class Apple:
+
+    _counter = 0
+
+    @staticmethod
+    def about_apple():
+        print('Apple is good for you.')
+
+        # Note: You can still access class members within the staticmethod, 
+        # but you'll need to use the class instance.
+        # This can lead to repetition and less clean code.
+
+        # For example:
+        # @staticmethod
+        #     print('Number of apples juiced:', Apple._counter)
+        #       vs
+        # @classmethod
+        #     print('Number of apples juiced:', cls._counter)
+
+        # Class methods are particularly useful when refactoring, 
+        # as they don't require renaming the referenced class.
+
+    @classmethod
+    def make_apple_juice(cls, number_of_apples):
+        print('Making juice:')
+        for i in range(number_of_apples):
+            cls._juice_this(i)
+
+    @classmethod
+    def _juice_this(cls, apple):
+        print(f'Juicing apple {apple}...')
+        cls._counter += 1
+</code></pre>
+</div></div><div class='answer' data-score='131' data-accepted='false'><div class='answer-body'><p><strong>Official python docs:</strong></p>
+
+<p><a href="http://docs.python.org/library/functions.html#classmethod" rel="noreferrer">@classmethod</a></p>
+
+<blockquote>
+  <p>A class method receives the class as
+  implicit first argument, just like an
+  instance method receives the instance.
+  To declare a class method, use this
+  idiom:</p>
+
+<pre><code>class C:
+    @classmethod
+    def f(cls, arg1, arg2, ...): ... 
+</code></pre>
+  
+  <p>The <code>@classmethod</code> form is a function
+  <a href="http://docs.python.org/2/glossary.html#term-decorator" rel="noreferrer"><em>decorator</em></a> – see the description of
+  function definitions in <a href="http://docs.python.org/2/reference/compound_stmts.html#function" rel="noreferrer"><em>Function
+  definitions</em></a> for details.</p>
+  
+  <p>It can be called either on the class
+  (such as <code>C.f()</code>) or on an instance
+  (such as <code>C().f()</code>). The instance is
+  ignored except for its class. If a
+  class method is called for a derived
+  class, the derived class object is
+  passed as the implied first argument.</p>
+  
+  <p>Class methods are different than C++
+  or Java static methods. If you want
+  those, see <a href="http://docs.python.org/2/library/functions.html#staticmethod" rel="noreferrer"><code>staticmethod()</code></a> in this
+  section.</p>
+</blockquote>
+
+<p><a href="http://docs.python.org/library/functions.html#staticmethod" rel="noreferrer">@staticmethod</a></p>
+
+<blockquote>
+  <p>A static method does not receive an
+  implicit first argument. To declare a
+  static method, use this idiom:</p>
+
+<pre><code>class C:
+    @staticmethod
+    def f(arg1, arg2, ...): ... 
+</code></pre>
+  
+  <p>The <code>@staticmethod</code> form is a function
+  <a href="http://docs.python.org/2/glossary.html#term-decorator" rel="noreferrer"><em>decorator</em></a> – see the description of
+  function definitions in <a href="http://docs.python.org/2/reference/compound_stmts.html#function" rel="noreferrer"><em>Function
+  definitions</em></a> for details.</p>
+  
+  <p>It can be called either on the class
+  (such as <code>C.f()</code>) or on an instance
+  (such as <code>C().f()</code>). The instance is
+  ignored except for its class.</p>
+  
+  <p>Static methods in Python are similar
+  to those found in Java or C++. For a
+  more advanced concept, see
+  <a href="http://docs.python.org/2/library/functions.html#classmethod" rel="noreferrer"><code>classmethod()</code></a> in this section.</p>
+</blockquote>
+</div></div></div></div><footer>Stack Overflow</footer></body></html>
