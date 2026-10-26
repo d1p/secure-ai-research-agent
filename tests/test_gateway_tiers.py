@@ -57,14 +57,25 @@ def test_unknown_tool_denied() -> None:
     assert classify_tool("browser_mystery_tool") == TIER_FORBIDDEN
 
 
-@pytest.mark.parametrize("label", ["password", "Enter password", "credit card number", "CVV", "PIN code"])
+@pytest.mark.parametrize(
+    "label", ["password", "Enter password", "credit card number", "CVV", "PIN code"]
+)
 def test_sensitive_fields_blocked(label: str) -> None:
     assert field_is_sensitive(label) is True
 
 
 @pytest.mark.parametrize(
     "label",
-    ["buy now", "checkout", "place order", "submit", "send message", "delete account", "sign in", "confirm purchase"],
+    [
+        "buy now",
+        "checkout",
+        "place order",
+        "submit",
+        "send message",
+        "delete account",
+        "sign in",
+        "confirm purchase",
+    ],
 )
 def test_sensitive_actions_flagged(label: str) -> None:
     assert action_is_sensitive(label) is True

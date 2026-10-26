@@ -1,10 +1,21 @@
+---
+title: Reader-mode web extraction - token efficiency and reliability
+date: 2026-10-26
+status: superseded
+commit_tested: ba3e799 (app code 3def9e7; reader 0efcdfa/fa6e5b5/9e3dabf/bba5dcf)
+environment: Python 3.13; trafilatura 2.3.1; live pages at the time of the run
+---
+
 # Reader-mode web extraction: token efficiency and reliability
+
+> Historical note. Current behavior/results are in
+> [`reader-loader-final-2026-10-26.md`](reader-loader-final-2026-10-26.md).
 
 - **Date:** 2026-10-26
 - **Original change:** [`0efcdfa`](https://github.com/d1p/secure-ai-research-agent/commit/0efcdfa) — reader-mode extraction and resilient sub-agents
 - **Verified against:** [`ba3e799`](https://github.com/d1p/secure-ai-research-agent/commit/ba3e799) — app code from `3def9e7`: reader core (`fa6e5b5`), table-first XBRL (`9e3dabf`), fetch hardening (`bba5dcf`/`3def9e7`)
 - **Component:** `shared/reader.py`, `gateway/app.py`, `orchestrator/{api,agent}.py`, `browser/stagehand-server.mjs` (`/content`), Open WebUI `smart_web` / sub-agents
-- **Measured on:** AI stack VM (10.0.0.210), live pages, `trafilatura==2.3.1`
+- **Measured on:** AI stack VM (192.0.2.210), live pages, `trafilatura==2.3.1`
 
 ## TL;DR
 
@@ -178,7 +189,7 @@ prompt adherence; the previous estimate was **70-85%** fewer tool-output tokens.
    the sixth call onward. The service would silently fall back to tag-strip,
    losing the reader benefits. `deduplicate=False` is stable across 10 calls.
 2. **SEC User-Agent.** `Mozilla/5.0 (compatible; homelab-ai-stack/1.0)` -> 403;
-   `homelab-ai-stack/1.0 (admin@debashis.xyz)` -> 200.
+   `homelab-ai-stack/1.0 (ops@example.invalid)` -> 200.
 3. **Challenge detection.** Raw HTML and rendered content are checked for
    structural markers/titles; long articles that merely mention “captcha” are
    not flagged.

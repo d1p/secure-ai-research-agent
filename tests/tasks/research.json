@@ -1,0 +1,32 @@
+[
+  {
+    "id": "deep-fact",
+    "prompt": "Using the web, when was Reddit founded and where is it headquartered? Cite the source.",
+    "answer": "June 23, 2005; San Francisco, California",
+    "urls": ["https://en.wikipedia.org/wiki/Reddit"]
+  },
+  {
+    "id": "table-list",
+    "prompt": "Which country has the largest share of world population in the list, and what is its share? Cite the source.",
+    "answer": "India, 17.3%",
+    "urls": ["https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population"]
+  },
+  {
+    "id": "code-docs",
+    "prompt": "In Python asyncio, which class is the modern alternative to create_task()? Cite the docs.",
+    "answer": "asyncio.TaskGroup",
+    "urls": ["https://docs.python.org/3/library/asyncio-task.html"]
+  },
+  {
+    "id": "thread",
+    "prompt": "In this Hacker News thread, what concern does the first commenter raise about learning machine learning? Cite the thread.",
+    "answer": "Practical ML requires compute/training data beyond basic exercises; theory feels like baby steps or a math degree.",
+    "urls": ["https://news.ycombinator.com/item?id=50245138"]
+  },
+  {
+    "id": "pdf",
+    "prompt": "In the Llama 2 paper, what parameter range do the models cover? Cite the paper.",
+    "answer": "7 billion to 70 billion parameters",
+    "urls": ["https://arxiv.org/pdf/2307.09288"]
+  }
+]

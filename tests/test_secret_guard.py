@@ -66,11 +66,15 @@ def test_pem_ec_private_key_detected() -> None:
 
 # --- .env-style assignments ------------------------------------------------
 def test_env_assignment_detected() -> None:
-    assert "env_assignment" in categories("OPENAI_API_KEY=sk-abcdefghijklmnopqrstuvwxyz123456")
+    assert "env_assignment" in categories(
+        "OPENAI_API_KEY=sk-abcdefghijklmnopqrstuvwxyz123456"
+    )
 
 
 def test_env_assignment_quoted_detected() -> None:
-    assert "env_assignment" in categories('AWS_SECRET_ACCESS_KEY="abcdefghijklmnopqrstuvwxyz1234567890"')
+    assert "env_assignment" in categories(
+        'AWS_SECRET_ACCESS_KEY="abcdefghijklmnopqrstuvwxyz1234567890"'
+    )
 
 
 # --- Normal RAG content must NOT be flagged --------------------------------
@@ -90,7 +94,10 @@ def test_short_assignment_not_flagged() -> None:
 def test_detect_secrets_in_nested_request() -> None:
     payload = {
         "messages": [
-            {"role": "user", "content": "here is my key sk-abcdefghijklmnopqrstuvwxyz123456"},
+            {
+                "role": "user",
+                "content": "here is my key sk-abcdefghijklmnopqrstuvwxyz123456",
+            },
         ],
         "nested": {"deep": ["AKIAIOSFODNN7EXAMPLE"]},
     }
@@ -125,7 +132,9 @@ def test_hook_scope_not_flagged_by_injected_api_key() -> None:
         "api_key": "sk-abcdefghijklmnopqrstuvwxyz123456",
         "messages": [{"role": "user", "content": "hello world"}],
     }
-    findings = [f for text in extract_message_texts(payload) for f in detect_secrets(text)]
+    findings = [
+        f for text in extract_message_texts(payload) for f in detect_secrets(text)
+    ]
     assert findings == []
 
 
@@ -135,7 +144,9 @@ def test_hook_scope_still_flags_secret_in_message() -> None:
         "api_key": "sk-abcdefghijklmnopqrstuvwxyz123456",
         "messages": [{"role": "user", "content": "my token is ghp_" + "b" * 36}],
     }
-    findings = [f for text in extract_message_texts(payload) for f in detect_secrets(text)]
+    findings = [
+        f for text in extract_message_texts(payload) for f in detect_secrets(text)
+    ]
     assert {f.category for f in findings} == {"github_token"}
 
 
@@ -146,7 +157,10 @@ def test_extract_message_texts_multimodal_parts() -> None:
                 "role": "user",
                 "content": [
                     {"type": "text", "text": "describe this"},
-                    {"type": "image_url", "image_url": {"url": "data:image/png;base64,AAAA"}},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": "data:image/png;base64,AAAA"},
+                    },
                 ],
             }
         ]

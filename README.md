@@ -9,7 +9,7 @@ is the deployment mechanism.
 - **Open WebUI** — chat/RAG UI (PWA).
 - **LiteLLM** — the *only* route to model providers: cloud (DeepSeek) and the
   LAN LM Studio host.
-- **LM Studio** — external LAN inference host (`10.0.0.20:1234`, OpenAI-compatible),
+- **LM Studio** — external LAN inference host (`192.0.2.20:1234`, OpenAI-compatible),
   fronted by LiteLLM, not deployed by this stack. Serves `google/gemma-4-12b-qat`
   (chat) for local testing only.
 - **Ollama** — local embeddings (`bge-m3`, 1024-dim); no local chat LLM.
@@ -28,12 +28,21 @@ is the deployment mechanism.
   CT 114). An OTel Collector fans application traces out to both Phoenix and
   Tempo.
 
+## Documentation
+
+- `docs/` — living reference: [web loader](docs/web-loader.md),
+  [runbook](docs/runbook.md), [testing](docs/testing.md),
+  [benchmarking](docs/benchmarking.md), [privacy](docs/privacy.md).
+- `notes/` — dated measurement reports and their [index](notes/README.md).
+- `plans/` — approved work plans and the [summary](plans/README.md).
+- `decision.md` — append-only decisions, surprises and rejected options.
+
 ## Intentionally NOT deployed
 
 Tailscale, Caddy, Authentik, Kubernetes, local GPU services. These already
 exist externally or are out of scope. Local chat/embedding models are **not**
 run inside this stack — Ollama runs `bge-m3` for embeddings and the LM Studio
-host at `10.0.0.20` runs `gemma-4-12b-qat` for local testing; LiteLLM fronts
+host at `192.0.2.20` runs `gemma-4-12b-qat` for local testing; LiteLLM fronts
 them as OpenAI-compatible backends.
 
 ## Architecture
@@ -45,7 +54,7 @@ flowchart LR
     end
     caddy[Caddy proxy]
 
-    subgraph vm["AI VM (10.0.0.210)"]
+    subgraph vm["AI VM (192.0.2.210)"]
         webui[Open WebUI]
         browser[Browser + Stagehand + noVNC]
         litellm[LiteLLM]
@@ -66,7 +75,7 @@ flowchart LR
     cloud[Cloud LLMs]
     internet[Internet]
 
-    user -->|ai.debashis.xyz| caddy
+    user -->|ai.example.com| caddy
     caddy -->|:3000| webui
     caddy -->|:3001| grafana
     caddy -->|:3002| phoenix
@@ -185,8 +194,8 @@ and sync committed trees with `scripts/sync-vm.sh` (`git bundle` + fast-forward
 merge). It never touches `.env` or named volumes.
 
 ```bash
-./scripts/sync-vm.sh main
-ssh root@10.0.0.210 'cd /opt/ai-stack && docker compose build gateway orchestrator browser && docker compose up -d'
+VM_HOST=root@192.0.2.210 ./scripts/sync-vm.sh main
+ssh "$VM_HOST" 'cd /opt/ai-stack && docker compose build gateway orchestrator browser && docker compose up -d'
 ```
 
 If the VM should pull/push directly, add a GitHub deploy key with write access
@@ -202,18 +211,18 @@ qm create 119 --name ai-stack-vm --memory 14336 --cores 8 --sockets 1 \
   --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-pci --ostype l26 \
   --agent enabled=1 --serial0 socket --vga serial0 --onboot 1
 # import Ubuntu 24.04 cloud image, resize to 50G, attach as scsi0
-qm set 119 --ipconfig0 ip=10.0.0.210/24,gw=10.0.0.138
-qm set 119 --nameserver 10.0.0.14 --ciuser root --sshkeys /root/.ssh/id_rsa.pub
+qm set 119 --ipconfig0 ip=192.0.2.210/24,gw=192.0.2.138
+qm set 119 --nameserver 192.0.2.14 --ciuser root --sshkeys /root/.ssh/id_rsa.pub
 ```
 
 Inside the VM: Docker data-root is `/fast/docker`; `/data` is an NFS mount of
-`10.0.0.200:/mnt/nasdata/ai`.
+`192.0.2.200:/mnt/nasdata/ai`.
 
 ### Firewall requirement
 
 The VM firewall must allow **only** the published ports — `3000` (Open WebUI),
 `3001` (Grafana) and `3002` (Phoenix) — and only from the Caddy PCT IP
-(`${CADDY_PCT_IP}`, default `10.0.0.28`). `6080` (noVNC) is LAN-only for human
+(`${CADDY_PCT_IP}`, default `192.0.2.28`). `6080` (noVNC) is LAN-only for human
 browser control. No other service may be reachable from the LAN. PostgreSQL,
 Redis, LiteLLM, Ollama, gateway, orchestrator, OTel Collector, Tempo,
 Prometheus and cAdvisor are on `internal` networks and must not be
@@ -225,11 +234,11 @@ Add Caddyfile entries in CT 110 for `ai` (`:3000`), `grafana` (`:3001`) and
 `phoenix` (`:3002`), e.g.:
 
 ```caddy
-ai.debashis.xyz {
-    reverse_proxy 10.0.0.210:3000
+ai.example.com {
+    reverse_proxy 192.0.2.210:3000
 }
-phoenix.debashis.xyz {
-    reverse_proxy 10.0.0.210:3002
+phoenix.example.com {
+    reverse_proxy 192.0.2.210:3002
 }
 ```
 
@@ -298,46 +307,59 @@ listed below, so the DB can be rebuilt from Git.
 Both page-fetch paths return **reader-mode Markdown** through the shared
 extractor (`shared/reader.py`, copied into both images):
 
-- Plain HTTP: `gateway/app.py` calls `read_html(...)`.
+- Plain HTTP: `gateway/app.py` calls `read_html(...)` / `extract_pdf(...)`.
 - Stagehand: `browser/stagehand-server.mjs` exposes `/content` (rendered
   `document.documentElement.outerHTML`), and the orchestrator calls the same
   `read_html(...)` before returning `/web-loader` content.
 
-The extractor keeps the main article body, headings, lists and tables, drops
-navigation/headers/footers/ads/cookie banners/scripts/styles, and additionally:
+The extractor keeps the main article body, headings, lists, tables, code and
+comment threads; drops navigation/headers/footers/ads/cookie banners/scripts/
+styles; removes clearly hidden nodes and HTML comments; and additionally:
 
+- **Adds context.** Title, h1, meta description and canonical URL are prepended
+  (a few tokens); a duplicate leading heading is removed.
 - **Compacts links.** Link labels stay inline; unique external URLs are
-  appended once under `Sources:`. This removes citation URL bloat: Wikipedia's
-  full output drops from 292,854 to 169,049 chars (-42%) while keeping sources.
-- **Uses table-first extraction for data pages.** SEC IDEA/XBRL statement pages
-  (R2/R4/R24) return the statement table directly (R2: 1,120 chars instead of a
-  32k reader blob). Other data pages get a data-dense table recovery when the
-  reader is empty or drops too much.
-- **Falls back to tag-strip** when trafilatura is empty or returns less than
-  35% of the tag-strip length and less than 4k chars. Long articles are not
-  replaced by boilerplate.
-- **Detects challenge pages** in raw HTML and rendered content, returning
-  `needs_human` instead of handing a Cloudflare/CAPTCHA page to the model.
-- **Uses per-domain budgets.** 12,000 chars by default, 24,000 for finance
-  sites, 32,000 for `sec.gov`. `http_fetch(url, max_chars=0)` means "use the
-  domain budget"; explicit values are capped at that domain's ceiling.
-- **Uses a descriptive User-Agent** (`FETCH_USER_AGENT`, with a contact
-  address). `sec.gov` returns 403 to a generic UA and 200 to this one.
+  appended once under `Sources:`, capped by budget with an omitted-link marker.
+  `links=sources|inline|none` is per call. `javascript:`/`mailto:`/`tel:` and
+  fragment links are never sources.
+- **Preserves structure.** Tables become Markdown pipe tables, code fences and
+  lists survive, and XBRL/data pages use table mode. Thread pages use a
+  dedicated HN/Stack Exchange/generic thread mode with author, order, depth,
+  low-signal collapse and quoted-text dedupe.
+- **Detects page type** (article, news, blog, docs, tutorial, thread, listing,
+  table, paper, PDF, product, SPA, paywall, challenge) and uses it for budgets
+  and extraction mode. Detection is heuristic; `unknown` is the safe fallback.
+- **Uses page-type budgets, not domain budgets.** 24k article, 12k news/blog/
+  product/SPA/docs, 40k tutorial, 16k thread, 24k paper/PDF/table, 8k listing,
+  hard max 48k. Ceilings are measured, not targets.
+  `READER_BUDGET_OVERRIDES` is a deployment escape hatch, not a domain rule.
+- **Handles PDFs** with `pypdf`, page markers (`[page N]`), encrypted/no-text/
+  corrupt clean messages, and no OCR. Binary/unknown content is rejected with a
+  short message, never decoded into the model.
+- **Detects challenge/paywall pages** in raw HTML and rendered content and
+  returns a clean refusal (`needs_human`/`[paywall]`) instead of junk.
+- **Caches HTTP fetches** briefly (`WEB_LOADER_CACHE_TTL`, default 300 s),
+  respects `no-store`/`no-cache`, and supports `cache=0`. This saves network and
+  parse cost, not the tokens of text the model reads.
+- **Budgets sub-agent tool output** cumulatively (`[budget_exceeded] ...`) in
+  addition to the iteration cap.
 - **Avoids trafilatura's stateful `deduplicate=True`.** In 2.3.x it keeps
   cross-call state and starts returning empty output after repeated extractions
-  of the same page, which silently forced tag-strip fallback.
-- Runs extraction in a worker thread and retries transient connect/read
-  failures, so a large page cannot block the event loop or turn into a 500.
+  of the same page; the workaround is `deduplicate=False` and a regression test.
+- **Wraps page text as untrusted content** at the service boundary and strips
+  hidden/comment instructions where the extractor allows.
+- Runs extraction in a worker thread, retries transient connect/read failures,
+  and emits structured logs/metrics (`/metrics` on gateway/orchestrator).
 
-Caps: `http_fetch` per-domain (12k/24k/32k), `browse_page` <=32k,
-`/web-loader` <=32k, and Open WebUI `fetch_url` via
-`web.fetch.max_content_length=32000` (the loader applies the real per-domain
-cap; this only prevents a second truncation).
+Caps: page-type ceilings above; `browse_page` and `/web-loader` return the
+loader's page-type budget (hard max 48k); Open WebUI `fetch_url` uses
+`web.fetch.max_content_length=48000` to preserve those ceilings, not to apply a
+second cap.
 
 Fixed-budget token counts are misleading: at a hard cap both methods fill the
 cap. The useful metric is the **minimum budget that keeps all key facts**. See
-`notes/reader-mode-token-savings-2026-10-26 - 0efcdfa.md` and the reproducible
-`scripts/measure_reader.py`.
+`notes/reader-mode-token-savings-2026-10-26.md`,
+`notes/reader-benchmark-2026-10-26.md` and `scripts/bench_reader.py`.
 
 ### Sub-agents
 
@@ -355,7 +377,7 @@ registered runtime config (`scripts/register_smart_web.py`) therefore sets:
 | `subagents.max_iterations`       | 40    | hard bound; <20 calls plus batching fits |
 | `subagents.max_output`           | 30000 | per-sub-agent output ceiling             |
 | `subagents.system_prompt`        | (see script) | prefer `http_fetch`, <20 tool calls |
-| `web.fetch.max_content_length`   | 32000 | preserve loader per-domain budgets       |
+| `web.fetch.max_content_length`   | 48000 | preserve loader page-type ceilings      |
 
 LiteLLM also retries transient provider drops (`num_retries: 3`,
 `request_timeout: 600`) because DeepSeek occasionally closes a long stream.
@@ -399,10 +421,15 @@ rclone) — no always-on off-site service is deployed.
 ## Development
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install pytest ruff
-.venv/bin/ruff check .
-.venv/bin/python -m pytest -q
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-dev.txt
+make verify
+make bench
+pytest -q --run-slow   # opt-in heavy offline tests
 ```
+
+Network/LLM tests are opt-in (`--run-network`, `--run-llm`). See
+`docs/testing.md`, `docs/benchmarking.md` and `docs/runbook.md`.
 
 ## Deviations from the original specification
 
@@ -454,11 +481,19 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
   stream; LiteLLM retries reduce, but do not eliminate, those failures.
 - Stagehand is rate-limited to one page load per 5 s per domain, so bulk
   static-page fetches should stay on `http_fetch`.
-- Raw `sec.gov` XBRL statement pages are not article content; the extractor
-  detects the IDEA/XBRL marker and returns the statement table. Table extraction
-  is heuristic and may drop non-table context. The 32k SEC ceiling still
-  truncates very long narrative filings; it is not a full filing parser.
+- Raw SEC XBRL statement pages are not article content; the extractor detects
+  the IDEA/XBRL marker and returns the statement table. Table extraction is
+  heuristic and may drop non-table context; table mode says so. Long narrative
+  filings are still truncated at the page-type ceiling; this is not a filing
+  parser.
+- PDF extraction does not OCR scanned pages; encrypted PDFs and files with no
+  text return a clean message.
+- Thread detection is heuristic; when structure is not confident the loader
+  falls back to reader mode. Author/time/depth are best-effort.
+- Page-type detection is heuristic; `unknown` falls back to the general budget.
+- Progressive outline/section/query loading exists as an opt-in (`mode=...`),
+  but is not the default; no A/B has shown fewer total tokens yet.
+- The runtime token counter is a tiktoken/char proxy, not DeepSeek usage.
 - `browser/package.json` overrides Stagehand's pinned `zod` with `4.6.7` to
   avoid GHSA-mrhx-c7xc-m3w5 (zod memory exhaustion). This is a patch-compatible
   override; re-check it when Stagehand bumps its own pin.
-

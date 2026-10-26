@@ -46,19 +46,37 @@ def test_blocked_ip_ranges(ip: str) -> None:
     assert is_blocked_ip(ip) is True, f"{ip} should be blocked"
 
 
-@pytest.mark.parametrize("ip", ["93.184.216.34", "8.8.8.8", "1.1.1.1", "2606:4700:4700::1111"])
+@pytest.mark.parametrize(
+    "ip", ["93.184.216.34", "8.8.8.8", "1.1.1.1", "2606:4700:4700::1111"]
+)
 def test_public_ips_allowed(ip: str) -> None:
     assert is_blocked_ip(ip) is False, f"{ip} should not be blocked"
 
 
 # --- Hostname / scheme blocking -------------------------------------------
-@pytest.mark.parametrize("url", ["http://localhost/", "http://localhost:8080/x", "http://metadata.google.internal/"])
+@pytest.mark.parametrize(
+    "url",
+    [
+        "http://localhost/",
+        "http://localhost:8080/x",
+        "http://metadata.google.internal/",
+    ],
+)
 def test_localhost_and_metadata_blocked(url: str) -> None:
     verdict = validate_url(url, resolver=resolver(["93.184.216.34"]))
     assert not verdict.ok
 
 
-@pytest.mark.parametrize("url", ["file:///etc/passwd", "chrome://settings", "about:config", "javascript:alert(1)", "data:text/html,x"])
+@pytest.mark.parametrize(
+    "url",
+    [
+        "file:///etc/passwd",
+        "chrome://settings",
+        "about:config",
+        "javascript:alert(1)",
+        "data:text/html,x",
+    ],
+)
 def test_local_schemes_blocked(url: str) -> None:
     assert not validate_url(url).ok
 
@@ -110,9 +128,13 @@ def test_url_too_long_blocked() -> None:
 
 def test_long_base64_in_query_blocked() -> None:
     blob = "A" * 80 + "=="
-    assert not validate_url(f"http://example.com/?data={blob}", resolver=resolver(["93.184.216.34"])).ok
+    assert not validate_url(
+        f"http://example.com/?data={blob}", resolver=resolver(["93.184.216.34"])
+    ).ok
 
 
 def test_normal_url_allowed() -> None:
-    verdict = validate_url("https://example.com/page?q=hello", resolver=resolver(["93.184.216.34"]))
+    verdict = validate_url(
+        "https://example.com/page?q=hello", resolver=resolver(["93.184.216.34"])
+    )
     assert verdict.ok

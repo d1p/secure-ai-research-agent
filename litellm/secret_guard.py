@@ -33,9 +33,7 @@ class Finding:
 # ---------------------------------------------------------------------------
 # Patterns
 # ---------------------------------------------------------------------------
-_AWS_ACCESS_KEY = re.compile(
-    r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b"
-)
+_AWS_ACCESS_KEY = re.compile(r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b")
 # Legacy keys are `sk-` + an alphanumeric body; project/service-account (and
 # Anthropic) keys use a known hyphenated prefix.  Do NOT allow arbitrary
 # hyphens in the plain body, otherwise slugs like `sk-hynix-results-...`
@@ -43,12 +41,8 @@ _AWS_ACCESS_KEY = re.compile(
 _OPENAI_KEY = re.compile(
     r"\bsk-(?:proj-[A-Za-z0-9_-]{20,}|svcacct-[A-Za-z0-9_-]{20,}|ant-[A-Za-z0-9_-]{20,}|[A-Za-z0-9]{20,})\b"
 )
-_GITHUB_TOKEN = re.compile(
-    r"\bgh[psuro]_[A-Za-z0-9]{20,}\b"
-)
-_PEM_PRIVATE_KEY = re.compile(
-    r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----"
-)
+_GITHUB_TOKEN = re.compile(r"\bgh[psuro]_[A-Za-z0-9]{20,}\b")
+_PEM_PRIVATE_KEY = re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----")
 # `.env`-style assignment: an uppercase KEY name followed by `=` and a long value.
 _ENV_ASSIGNMENT = re.compile(
     r"\b[A-Z][A-Z0-9_]{2,}\s*=\s*[\"']?[A-Za-z0-9+/_.\-]{24,}[\"']?"
@@ -149,9 +143,7 @@ class SecretGuardHandler(CustomLogger):  # type: ignore[misc]
         for text in extract_message_texts(data):
             findings.extend(detect_secrets(text))
         if findings:
-            detail = "; ".join(
-                f"{f.category}: {f.value[:24]}" for f in findings[:3]
-            )
+            detail = "; ".join(f"{f.category}: {f.value[:24]}" for f in findings[:3])
             raise SecretGuardError(
                 f"SecretGuard blocked request: detected {len(findings)} "
                 f"secret(s) — {detail}"

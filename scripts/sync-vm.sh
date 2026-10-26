@@ -7,7 +7,7 @@
 set -euo pipefail
 
 BRANCH="${1:-main}"
-VM_HOST="${VM_HOST:-root@10.0.0.210}"
+VM_HOST="${VM_HOST:?set VM_HOST, e.g. root@192.0.2.210}"
 VM_DIR="${VM_DIR:-/opt/ai-stack}"
 
 REPO_DIR="$(git rev-parse --show-toplevel)"

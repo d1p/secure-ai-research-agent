@@ -29,9 +29,11 @@ def run_aider(task: str, model: str, worktree_path: str) -> dict[str, Any]:
     name = f"runner-aider-{uuid.uuid4().hex[:8]}"
     command = [
         "aider",
-        "--model", f"litellm_proxy/{model}",
+        "--model",
+        f"litellm_proxy/{model}",
         "--no-auto-commits",
-        "--message", task,
+        "--message",
+        task,
     ]
     env = {
         "LITELLM_PROXY_API_BASE": LITELLM_URL,

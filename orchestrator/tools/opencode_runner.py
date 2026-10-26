@@ -28,8 +28,10 @@ def run_opencode(task: str, model: str, worktree_path: str) -> dict[str, Any]:
     """Run opencode on a throwaway worktree and return exit code + logs."""
     name = f"runner-opencode-{uuid.uuid4().hex[:8]}"
     command = [
-        "opencode", "run",
-        "--model", f"litellm/{model}",
+        "opencode",
+        "run",
+        "--model",
+        f"litellm/{model}",
         task,
     ]
     env = {
@@ -48,6 +50,10 @@ def run_opencode(task: str, model: str, worktree_path: str) -> dict[str, Any]:
     try:
         start_container(container_id)
         exit_code = wait_container(container_id)
-        return {"tool": "opencode", "exit_code": exit_code, "container_id": container_id}
+        return {
+            "tool": "opencode",
+            "exit_code": exit_code,
+            "container_id": container_id,
+        }
     finally:
         remove_container(container_id)

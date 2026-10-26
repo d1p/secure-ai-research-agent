@@ -17,7 +17,9 @@ AGENTS_NETWORK = os.environ.get("AGENTS_NETWORK", "ai-stack_agents")
 
 
 def _client() -> httpx.Client:
-    return httpx.Client(base_url=DOCKER_PROXY_URL, timeout=httpx.Timeout(120.0, connect=10.0))
+    return httpx.Client(
+        base_url=DOCKER_PROXY_URL, timeout=httpx.Timeout(120.0, connect=10.0)
+    )
 
 
 def runner_container_spec(

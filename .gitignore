@@ -37,3 +37,6 @@ browser-profile/
 *.bak
 *.bak.*
 *.pre-upgrade-*
+
+# Offline benchmark grade cache
+.bench-cache/

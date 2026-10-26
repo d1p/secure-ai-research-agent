@@ -42,6 +42,7 @@ try:
 
     TOKENIZER = "cl100k_base"
 except ImportError:  # pragma: no cover - benchmark still works without tiktoken
+
     def token_count(text: str) -> int:
         return len(text) // 4
 
@@ -61,7 +62,7 @@ def _load(source: str) -> tuple[str, str]:
     if source.startswith(("http://", "https://")):
         request = urllib.request.Request(
             source,
-            headers={"User-Agent": "homelab-ai-stack/1.0 (admin@debashis.xyz)"},
+            headers={"User-Agent": "homelab-ai-stack/1.0 (ops@example.invalid)"},
         )
         with urllib.request.urlopen(request, timeout=60) as response:
             raw = response.read()
@@ -89,8 +90,12 @@ def _row(html: str, url: str, facts: list[str], budget: int) -> Row:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--html", action="append", default=[], help="local HTML file (repeatable)")
-    parser.add_argument("--url", action="append", default=[], help="URL to fetch (repeatable)")
+    parser.add_argument(
+        "--html", action="append", default=[], help="local HTML file (repeatable)"
+    )
+    parser.add_argument(
+        "--url", action="append", default=[], help="URL to fetch (repeatable)"
+    )
     parser.add_argument(
         "--facts",
         default="",
@@ -119,7 +124,9 @@ def main() -> int:
         html, url = _load(source)
         if url:
             print(f"\n## {url}")
-            print(f"per-domain budget: {content_budget(url)} chars (default {DEFAULT_MAX_CHARS})")
+            print(
+                f"per-domain budget: {content_budget(url)} chars (default {DEFAULT_MAX_CHARS})"
+            )
         else:
             print(f"\n## {source}")
         full = read_html(html, url, max_chars=None)

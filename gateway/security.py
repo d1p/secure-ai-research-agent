@@ -90,7 +90,9 @@ def check_exfiltration(url: str) -> UrlVerdict:
     parts = urlsplit(url)
     query = parts.query
     if len(query) > MAX_QUERY_LENGTH:
-        return UrlVerdict(False, f"query length {len(query)} exceeds {MAX_QUERY_LENGTH}")
+        return UrlVerdict(
+            False, f"query length {len(query)} exceeds {MAX_QUERY_LENGTH}"
+        )
     if _BASE64_PAYLOAD.search(query):
         return UrlVerdict(False, "query contains a long base64/blob payload")
     return UrlVerdict(True)
@@ -139,11 +141,15 @@ def validate_url(
     except socket.gaierror as exc:
         return UrlVerdict(False, f"dns resolution failed for '{hostname}': {exc}")
     if not addrinfos:
-        return UrlVerdict(False, f"dns resolution returned no addresses for '{hostname}'")
+        return UrlVerdict(
+            False, f"dns resolution returned no addresses for '{hostname}'"
+        )
 
     for _family, ip in addrinfos:
         if is_blocked_ip(ip):
-            return UrlVerdict(False, f"hostname '{hostname}' resolves to blocked ip {ip}")
+            return UrlVerdict(
+                False, f"hostname '{hostname}' resolves to blocked ip {ip}"
+            )
     return UrlVerdict(True)
 
 
