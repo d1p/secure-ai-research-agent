@@ -47,6 +47,7 @@ BACKUP="pre-sync-$(date +%Y%m%d%H%M%S)"
 git branch -f "$BACKUP" HEAD
 git fetch /tmp/ai-stack-sync.bundle "$BRANCH"
 git merge --ff-only FETCH_HEAD
+git update-ref "refs/remotes/origin/$BRANCH" FETCH_HEAD
 rm -f /tmp/ai-stack-sync.bundle
 echo "VM $VM_DIR now at $(git rev-parse --short HEAD) (backup branch $BACKUP)"
 REMOTE
