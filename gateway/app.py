@@ -15,7 +15,6 @@ Responsibilities (project spec section 13):
 
 from __future__ import annotations
 
-import html as html_lib
 import json
 import os
 import re
@@ -26,7 +25,6 @@ import httpx
 import yaml
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
-from reader import html_to_reader
 from security import (
     TIER_APPROVAL,
     TIER_FORBIDDEN,
@@ -35,6 +33,13 @@ from security import (
     classify_tool,
     is_sensitive_element,
     validate_url,
+)
+
+from shared.reader import (
+    content_budget,
+    detect_challenge_html,
+    detect_challenge_text,
+    read_html,
 )
 
 GATEWAY_TOKEN = os.environ.get("GATEWAY_TOKEN", "")
@@ -134,6 +139,13 @@ async def _run_stagehand(agent_id: str, tool: str, args: dict[str, Any]) -> dict
         raise HTTPException(status_code=502, detail="stagehand service unreachable") from exc
     if status >= 400:
         raise HTTPException(status_code=502, detail=data.get("error", f"stagehand returned {status}"))
+    if action == "content" and detect_challenge_html(data.get("html", "")):
+        message = _challenge_message()
+        return {
+            "result": {"content": [{"type": "text", "text": f"[needs_human] {message}"}]},
+            "needs_human": True,
+            "message": message,
+        }
     return _stagehand_result(action, data)
 
 
@@ -143,20 +155,13 @@ async def _run_stagehand(agent_id: str, tool: str, args: dict[str, Any]) -> dict
 # ---------------------------------------------------------------------------
 MAX_FETCH_REDIRECTS = 5
 MAX_FETCH_BYTES = 2_000_000
-MAX_FETCH_CHARS = 20000
-_FETCH_UA = "Mozilla/5.0 (compatible; homelab-ai-stack/1.0)"
-_TAG_RE = re.compile(r"<[^>]+>")
-_SCRIPT_RE = re.compile(r"<(script|style|noscript|template)\b.*?</\1>", re.IGNORECASE | re.DOTALL)
+_FETCH_UA = os.environ.get(
+    "FETCH_USER_AGENT",
+    "homelab-ai-stack/1.0 (admin@debashis.xyz)",
+)
 
 
-def _html_to_text(raw: str) -> str:
-    text = _SCRIPT_RE.sub(" ", raw)
-    text = _TAG_RE.sub(" ", text)
-    text = html_lib.unescape(text)
-    return re.sub(r"[ \t\r\f\v]+", " ", text).strip()
-
-
-async def _http_fetch(url: str, max_chars: int = MAX_FETCH_CHARS) -> dict[str, Any]:
+async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
     current = url
     resp: httpx.Response | None = None
     async with httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=10.0), follow_redirects=False) as client:
@@ -174,12 +179,23 @@ async def _http_fetch(url: str, max_chars: int = MAX_FETCH_CHARS) -> dict[str, A
             break
     content_type = resp.headers.get("content-type", "")
     raw = resp.content[:MAX_FETCH_BYTES].decode(resp.encoding or "utf-8", errors="replace")
+    budget = content_budget(current, max_chars)
+
     if "html" in content_type.lower() or raw.lstrip()[:15].lower().startswith("<!doctype html"):
-        # Reader mode: extract the main article, drop nav/ads/scripts/styles.
-        raw = html_to_reader(raw, current, max_chars=None) or _html_to_text(raw)
-    raw = re.sub(r"\n{3,}", "\n\n", raw)
-    if max_chars > 0 and len(raw) > max_chars:
-        raw = raw[:max_chars] + "\n\n[content truncated]"
+        extracted = read_html(raw, current, max_chars=budget, include_links="sources")
+        if extracted.challenge:
+            message = _challenge_message()
+            return {
+                "result": {"content": [{"type": "text", "text": f"[needs_human] {message}"}]},
+                "needs_human": True,
+                "message": message,
+            }
+        raw = extracted.text
+    else:
+        raw = re.sub(r"\n{3,}", "\n\n", raw)
+        if len(raw) > budget:
+            raw = raw[:budget] + "\n\n[content truncated]"
+
     text = json.dumps(
         {"url": current, "status": resp.status_code, "content_type": content_type, "text": raw},
         default=str,
@@ -340,11 +356,12 @@ async def execute(
         if not url:
             raise HTTPException(status_code=400, detail="missing url")
         try:
-            max_chars = int(req.args.get("max_chars", MAX_FETCH_CHARS))
+            max_chars = int(req.args.get("max_chars", 0))
         except (TypeError, ValueError):
-            max_chars = MAX_FETCH_CHARS
+            max_chars = 0
         result = await _http_fetch(url, max_chars)
-        await _audit(agent_id, url, tool, "allowed", str(tier))
+        status = "challenge" if result.get("needs_human") else "allowed"
+        await _audit(agent_id, url, tool, status, str(tier))
         return result
 
     # Execute via Stagehand
@@ -429,16 +446,12 @@ def _extract_text(result: dict[str, Any]) -> str:
 
 
 def _detect_challenge(result: dict[str, Any]) -> bool:
-    text = _extract_text(result).lower()
-    indicators = (
-        "captcha",
-        "verify you are human",
-        "are you a robot",
-        "attention required",
-        "cloudflare",
-        "just a moment",
-        "access denied",
-        "challenge",
-        "complete the security check",
+    return detect_challenge_text(_extract_text(result))
+
+
+def _challenge_message() -> str:
+    return str(
+        (POLICY.get("challenge_response") or {}).get(
+            "message", "Challenge detected; human intervention required via noVNC."
+        )
     )
-    return any(ind in text for ind in indicators)

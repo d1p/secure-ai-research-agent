@@ -226,7 +226,9 @@ services:
 
   # ---------------------------------------------------------------------------
   safeguard-gateway:
-    build: ./gateway
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
     image: ai-stack-gateway:local
     <<: *restart
     mem_limit: 512m
@@ -237,6 +239,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/orchestrator
       POLICY_FILE: /app/policy.yaml
       PERSONAL_ALLOW_DOMAINS: ${PERSONAL_ALLOW_DOMAINS:-}
+      FETCH_USER_AGENT: "${FETCH_USER_AGENT:-homelab-ai-stack/1.0 (admin@debashis.xyz)}"
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: safeguard-gateway
       TZ: ${TZ}
@@ -256,7 +259,9 @@ services:
 
   # ---------------------------------------------------------------------------
   orchestrator:
-    build: ./orchestrator
+    build:
+      context: .
+      dockerfile: orchestrator/Dockerfile
     image: ai-stack-orchestrator:local
     <<: *restart
     mem_limit: 1g

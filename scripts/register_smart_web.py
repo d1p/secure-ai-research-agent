@@ -62,8 +62,8 @@ You are a sub-agent working on one focused task assigned by the lead agent. Work
 
 Tool rules (cheapest sufficient tool first):
 1. Use web_search for discovery and snippets; answer from snippets when they are enough.
-2. For a static page use http_fetch (bounded output). Prefer http_fetch over fetch_url.
-3. Use browse_page only for JavaScript-heavy or interactive sites.
+2. For a static page use http_fetch (bounded output). Prefer http_fetch over fetch_url. Leave max_chars at 0 so SEC/finance pages get their larger safe budget.
+3. Use browse_page only for JavaScript-heavy, interactive, or challenge-protected sites.
 4. Do not fetch the same URL twice and do not chase tangents. Keep total tool calls under 20.
 5. Cite the URLs and publication dates you used.
 
@@ -75,13 +75,15 @@ When the task is answered, stop calling tools and end with:
 """
 
 RUNTIME_CONFIG = {
-    # Cap builtin fetch_url output (reader mode is applied upstream).
-    "web.fetch.max_content_length": 12000,
+    # Cap builtin fetch_url output. The orchestrator already applies the real
+    # per-domain budget (12k normal, 24k finance, 32k SEC); this only stops
+    # Open WebUI from truncating those larger budgets again.
+    "web.fetch.max_content_length": 32000,
     # Open WebUI sub-agents: on, foreground only, bounded concurrency/iterations.
     "subagents.enable": True,
     "subagents.background_enabled": False,
     "subagents.max_concurrent": 3,
-    "subagents.max_iterations": 80,
+    "subagents.max_iterations": 40,
     "subagents.max_output": 30000,
     "subagents.system_prompt": SUBAGENT_SYSTEM_PROMPT,
 }

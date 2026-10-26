@@ -66,7 +66,7 @@ class Tools:
             )
         return "\n".join(lines)
 
-    async def http_fetch(self, url: str, max_chars: int = 12000) -> str:
+    async def http_fetch(self, url: str, max_chars: int = 0) -> str:
         """Fetch a URL over plain HTTP(S) and return its text content.
 
         Use for static pages, documentation, articles, sitemaps or direct files.
@@ -74,7 +74,8 @@ class Tools:
         sites will return little or nothing - use browse_page for those.
 
         :param url: absolute http:// or https:// URL
-        :param max_chars: maximum characters of text to return (default 12000)
+        :param max_chars: maximum characters to return; 0 uses the gateway's
+            per-domain default (12k, 32k for sec.gov, 24k for finance sites)
         """
         if not url.lower().startswith(("http://", "https://")):
             return "http_fetch error: url must start with http:// or https://"
@@ -114,7 +115,6 @@ class Tools:
         except Exception as exc:  # noqa: BLE001
             return f"browse_page error: {exc}"
         if isinstance(data, list) and data:
-            # Cap browser output as well; /web-loader already returns
-            # reader-mode text, but long pages still need a token budget.
-            return (data[0].get("page_content") or "")[:12000]
+            # /web-loader already applies the per-domain reader budget.
+            return (data[0].get("page_content") or "")[:32000]
         return json.dumps(data)

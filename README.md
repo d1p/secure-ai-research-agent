@@ -143,7 +143,7 @@ enforces each service cap independently. See `docker-compose.yml` for per-servic
 | postgres | 2 GB |
 | redis | 256 MB |
 | browser | 2.5 GB |
-| safeguard-gateway | 256 MB |
+| safeguard-gateway | 512 MB |
 | orchestrator | 1 GB |
 | docker-socket-proxy | 64 MB |
 | proxy-web / proxy-dev | 64 MB each |
@@ -171,11 +171,27 @@ security-relevant ones: `POSTGRES_PASSWORD`, `REDIS_PASSWORD`,
 `WEBUI_SECRET_KEY`, `LITELLM_MASTER_KEY`, `GATEWAY_TOKEN`,
 `ORCHESTRATOR_TOKEN`, `VNC_PASSWORD`, `PHOENIX_SECRET`,
 `PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD`, `PHOENIX_API_KEY`, and the cloud
-provider keys. Cloud credentials live **only** in `.env`.
+provider keys. `FETCH_USER_AGENT` must include a contact address: `sec.gov`
+returns 403 to generic user agents. Cloud credentials live **only** in `.env`.
 
 After the first Phoenix login, create a system API key (Settings → API Keys),
 set it as `PHOENIX_API_KEY` in `.env`, and restart `otel-collector` so Phoenix
 accepts traces.
+
+### Deployment from the host
+
+The VM has no GitHub credentials. Keep the canonical clone on the Proxmox host
+and sync committed trees with `scripts/sync-vm.sh` (`git bundle` + fast-forward
+merge). It never touches `.env` or named volumes.
+
+```bash
+./scripts/sync-vm.sh main
+ssh root@10.0.0.210 'cd /opt/ai-stack && docker compose build gateway orchestrator browser && docker compose up -d'
+```
+
+If the VM should pull/push directly, add a GitHub deploy key with write access
+to `/root/.ssh/` on the VM and keep `origin` as an SSH remote; otherwise treat
+the VM as a deployment mirror.
 
 ### VM provisioning
 
@@ -277,24 +293,45 @@ Register (or update) the tool + model once per database with
 keep them. The script also applies the sub-agent and web-fetch runtime settings
 listed below, so the DB can be rebuilt from Git.
 
-### Reader mode (token reduction)
+### Reader mode (information per token)
 
-Both page-fetch paths return **reader-mode Markdown** instead of raw HTML:
+Both page-fetch paths return **reader-mode Markdown** through the shared
+extractor (`shared/reader.py`, copied into both images):
 
-- Plain HTTP: `gateway/app.py` passes HTML through `trafilatura`
-  (`gateway/reader.py`).
+- Plain HTTP: `gateway/app.py` calls `read_html(...)`.
 - Stagehand: `browser/stagehand-server.mjs` exposes `/content` (rendered
-  `document.documentElement.outerHTML`), and the orchestrator runs the same
-  `trafilatura` extraction (`orchestrator/reader.py`) before returning
-  `/web-loader` content.
+  `document.documentElement.outerHTML`), and the orchestrator calls the same
+  `read_html(...)` before returning `/web-loader` content.
 
-The extractor keeps the main article body, headings, lists, tables and links,
-and drops navigation, headers/footers, ads, cookie banners, scripts, styles and
-other boilerplate. Failures degrade to a conservative tag-strip (plain HTTP) or
-`body.innerText` (Stagehand), never to an error. Output is then capped:
-`http_fetch` at 12,000 chars (caller default), `browse_page` at 12,000,
-Open WebUI `fetch_url` via `web.fetch.max_content_length=12000`, and
-`/web-loader` at 60,000 as a hard ceiling.
+The extractor keeps the main article body, headings, lists and tables, drops
+navigation/headers/footers/ads/cookie banners/scripts/styles, and additionally:
+
+- **Compacts links.** Link labels stay inline; unique external URLs are
+  appended once under `Sources:`. This removes citation URL bloat: Wikipedia's
+  full output drops from 292,854 to 169,049 chars (-42%) while keeping sources.
+- **Falls back to tag-strip** when trafilatura is empty or returns less than
+  35% of the tag-strip length. This fixes SEC raw-XBRL and
+  StockAnalysis-style JS/data pages where readability extraction loses data.
+- **Detects challenge pages** in raw HTML and rendered content, returning
+  `needs_human` instead of handing a Cloudflare/CAPTCHA page to the model.
+- **Uses per-domain budgets.** 12,000 chars by default, 24,000 for finance
+  sites, 32,000 for `sec.gov`. `http_fetch(url, max_chars=0)` means "use the
+  domain budget"; explicit values are capped at that domain's ceiling.
+- **Uses a descriptive User-Agent** (`FETCH_USER_AGENT`, with a contact
+  address). `sec.gov` returns 403 to a generic UA and 200 to this one.
+- **Avoids trafilatura's stateful `deduplicate=True`.** In 2.3.x it keeps
+  cross-call state and starts returning empty output after repeated extractions
+  of the same page, which silently forced tag-strip fallback.
+
+Caps: `http_fetch` per-domain (12k/24k/32k), `browse_page` <=32k,
+`/web-loader` <=32k, and Open WebUI `fetch_url` via
+`web.fetch.max_content_length=32000` (the loader applies the real per-domain
+cap; this only prevents a second truncation).
+
+Fixed-budget token counts are misleading: at a hard cap both methods fill the
+cap. The useful metric is the **minimum budget that keeps all key facts**. See
+`notes/reader-mode-token-savings-2026-10-26 - 0efcdfa.md` and the reproducible
+`scripts/measure_reader.py`.
 
 ### Sub-agents
 
@@ -309,10 +346,10 @@ registered runtime config (`scripts/register_smart_web.py`) therefore sets:
 | `subagents.enable`               | true  | expose `delegate_task`                   |
 | `subagents.background_enabled`   | false | foreground only (no orphaned tasks)      |
 | `subagents.max_concurrent`       | 3     | limit parallel upstream streams          |
-| `subagents.max_iterations`       | 80    | research tasks need > 30 tool calls      |
+| `subagents.max_iterations`       | 40    | hard bound; <20 calls plus batching fits |
 | `subagents.max_output`           | 30000 | per-sub-agent output ceiling             |
 | `subagents.system_prompt`        | (see script) | prefer `http_fetch`, <20 tool calls |
-| `web.fetch.max_content_length`   | 12000 | cap builtin `fetch_url` output           |
+| `web.fetch.max_content_length`   | 32000 | preserve loader per-domain budgets       |
 
 LiteLLM also retries transient provider drops (`num_retries: 3`,
 `request_timeout: 600`) because DeepSeek occasionally closes a long stream.
@@ -411,4 +448,11 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
   stream; LiteLLM retries reduce, but do not eliminate, those failures.
 - Stagehand is rate-limited to one page load per 5 s per domain, so bulk
   static-page fetches should stay on `http_fetch`.
+- Raw `sec.gov` XBRL HTML is not article content: trafilatura returns empty and
+  the reader falls back to tag-strip. Use the rendered path (`browse_page`) for
+  filings; it preserves the statement table. The 32k SEC budget still truncates
+  very long statements; it is a compromise, not a full table extractor.
+- `browser/package.json` overrides Stagehand's pinned `zod` with `4.6.7` to
+  avoid GHSA-mrhx-c7xc-m3w5 (zod memory exhaustion). This is a patch-compatible
+  override; re-check it when Stagehand bumps its own pin.
 

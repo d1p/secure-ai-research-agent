@@ -19,15 +19,14 @@ from agent import (
 )
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
-from reader import html_to_reader
 from tools.aider_runner import run_aider
+
+from shared.reader import content_budget, detect_challenge_text, read_html
 
 ORCHESTRATOR_TOKEN = os.environ.get("ORCHESTRATOR_TOKEN", "")
 WEB_LOADER_API_KEY = os.environ.get("WEB_LOADER_API_KEY", "")
 WORKSPACE = os.environ.get("WORKSPACE", "/workspace")
 DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "deepseek-flash")
-
-MAX_PAGE_CONTENT_CHARS = 60000
 
 app = FastAPI(title="orchestrator")
 
@@ -86,7 +85,7 @@ class WebLoaderRequest(BaseModel):
 
 class FetchRequest(BaseModel):
     url: str = ""
-    max_chars: int = MAX_PAGE_CONTENT_CHARS
+    max_chars: int = 0
 
 
 def _extract_mcp_text(payload: dict[str, Any]) -> str:
@@ -98,6 +97,22 @@ def _extract_mcp_text(payload: dict[str, Any]) -> str:
         if isinstance(item, dict) and item.get("type") == "text"
     ]
     return "\n".join(chunks).strip()
+
+
+def _unwrap_fetch_payload(envelope: str) -> str:
+    """Return page text, not the gateway's JSON metadata/escaping wrapper.
+
+    `http_fetch` returns ``{"url", "status", "content_type", "text"}`` as its
+    MCP text chunk.  Passing that JSON through to a model adds escaping and
+    metadata tokens for no benefit.
+    """
+    try:
+        payload = json.loads(envelope)
+    except (TypeError, json.JSONDecodeError):
+        return envelope
+    if isinstance(payload, dict) and isinstance(payload.get("text"), str):
+        return payload["text"]
+    return envelope
 
 
 async def _fetch_page_text(agent_id: str, url: str) -> str:
@@ -116,24 +131,34 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
     if isinstance(nav, dict) and nav.get("needs_approval"):
         return "[needs_approval] navigation requires approval"
 
+    budget = content_budget(url)
     text = ""
     page = await call_browser(agent_id, "stagehand_content", {})
+    if isinstance(page, dict) and page.get("needs_human"):
+        return f"[needs_human] {page.get('message', 'challenge detected')}"
     if isinstance(page, dict) and not page.get("error"):
         html = _extract_mcp_text(page)
         if html:
-            text = html_to_reader(html, url, max_chars=MAX_PAGE_CONTENT_CHARS)
+            extracted = read_html(html, url, max_chars=budget, include_links="sources")
+            if extracted.challenge:
+                return "[needs_human] Challenge detected; human intervention required via noVNC."
+            text = extracted.text
 
     if not text:
         # Fallback: plain visible text (already tag-free) when readability fails.
         snap = await call_browser(agent_id, "stagehand_read", {})
         if isinstance(snap, dict) and snap.get("error"):
             return f"[browser error {snap['error']}] {snap.get('detail', '')}"
+        if isinstance(snap, dict) and snap.get("needs_human"):
+            return f"[needs_human] {snap.get('message', 'challenge detected')}"
         text = _extract_mcp_text(snap) if isinstance(snap, dict) else ""
+        if text and detect_challenge_text(text):
+            return "[needs_human] Challenge detected; human intervention required via noVNC."
+        if len(text) > budget:
+            text = text[:budget] + "\n\n[content truncated]"
 
     if not text:
         return "[no text content]"
-    if len(text) > MAX_PAGE_CONTENT_CHARS:
-        text = text[:MAX_PAGE_CONTENT_CHARS] + "\n\n[content truncated]"
     return text
 
 
@@ -207,8 +232,8 @@ async def fetch(req: FetchRequest, authorization: str | None = Header(default=No
     result = await call_browser("openwebui", "http_fetch", {"url": req.url, "max_chars": req.max_chars})
     if isinstance(result, dict) and result.get("error"):
         raise HTTPException(int(result["error"]), result.get("detail", "fetch failed"))
-    text = _extract_mcp_text(result) if isinstance(result, dict) else ""
-    return {"text": text}
+    envelope = _extract_mcp_text(result) if isinstance(result, dict) else ""
+    return {"text": _unwrap_fetch_payload(envelope)}
 
 
 @app.get("/approvals/{approval_id}")

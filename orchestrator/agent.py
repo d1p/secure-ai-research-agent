@@ -18,7 +18,8 @@ from typing import Annotated, Any, TypedDict
 
 import httpx
 from langgraph.graph import END, StateGraph
-from reader import html_to_reader
+
+from shared.reader import content_budget, detect_challenge_text, read_html
 
 LITELLM_URL = os.environ.get("LITELLM_URL", "http://litellm:4000")
 LITELLM_MASTER_KEY = os.environ.get("LITELLM_MASTER_KEY", "")
@@ -181,28 +182,45 @@ async def node_research(state: AgentState) -> AgentState:
     """Research mode: browse (Tier 0-1) without approval and persist notes."""
     messages = state.get("messages", [])
     query = next((m["content"] for m in reversed(messages) if m.get("content")), "")
+    url = _research_url(query)
+    budget = content_budget(url)
 
-    nav = await call_browser(state["agent_id"], "stagehand_navigate", {"url": _research_url(query)})
+    nav = await call_browser(state["agent_id"], "stagehand_navigate", {"url": url})
     if isinstance(nav, dict) and nav.get("error"):
         state["result"] = f"[browser error {nav['error']}] {nav.get('detail', '')}"
+        return state
+    if isinstance(nav, dict) and nav.get("needs_human"):
+        state["result"] = f"[needs_human] {nav.get('message', 'challenge detected')}"
         return state
 
     text = ""
     page = await call_browser(state["agent_id"], "stagehand_content", {})
+    if isinstance(page, dict) and page.get("needs_human"):
+        state["result"] = f"[needs_human] {page.get('message', 'challenge detected')}"
+        return state
     if isinstance(page, dict) and not page.get("error"):
         html = _extract_text(page)
         if html:
-            text = html_to_reader(html, _research_url(query), max_chars=20000)
+            extracted = read_html(html, url, max_chars=budget, include_links="sources")
+            if extracted.challenge:
+                state["result"] = "[needs_human] Challenge detected; human intervention required via noVNC."
+                return state
+            text = extracted.text
 
     if not text:
         snap = await call_browser(state["agent_id"], "stagehand_read", {})
         text = _extract_text(snap) if isinstance(snap, dict) else str(snap)
+        if text and detect_challenge_text(text):
+            state["result"] = "[needs_human] Challenge detected; human intervention required via noVNC."
+            return state
+        if len(text) > budget:
+            text = text[:budget] + "\n\n[content truncated]"
     if not text:
         text = str(page if isinstance(page, dict) else "")
     summary = await call_litellm(
         [{"role": "user", "content": f"Summarize research for query '{query}' from page: {text}"}]
     )
-    await persist_research(state["agent_id"], query, [str(_research_url(query))], summary)
+    await persist_research(state["agent_id"], query, [url], summary)
     state["result"] = summary
     return state
 
