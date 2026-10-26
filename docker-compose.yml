@@ -40,7 +40,7 @@ services:
       retries: 5
 
   redis:
-    image: redis:7.4.11-alpine
+    image: redis:8.10.2-alpine
     <<: *restart
     mem_limit: 256m
     logging: *logging
@@ -97,7 +97,7 @@ services:
 
   # ---------------------------------------------------------------------------
   ollama:
-    image: ollama/ollama:0.35.1
+    image: ollama/ollama:0.40.11
     <<: *restart
     mem_limit: 4g
     logging: *logging
@@ -117,7 +117,7 @@ services:
 
   # ---------------------------------------------------------------------------
   open-webui:
-    image: ghcr.io/open-webui/open-webui:v0.11.4
+    image: ghcr.io/open-webui/open-webui:v0.12.4
     <<: *restart
     mem_limit: 2g
     logging: *logging
@@ -380,7 +380,7 @@ services:
   # cAdvisor and Grafana.
   # ---------------------------------------------------------------------------
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.163.1
+    image: otel/opentelemetry-collector-contrib:0.163.2
     <<: *restart
     mem_limit: 256m
     logging: *logging
@@ -398,7 +398,7 @@ services:
 
   # Phoenix UI + OTLP collector. SQLite state lives in the phoenix-data volume.
   phoenix:
-    image: arizephoenix/phoenix:20.23.0
+    image: arizephoenix/phoenix:20.26.1
     <<: *restart
     mem_limit: 1g
     logging: *logging
@@ -426,7 +426,7 @@ services:
       start_period: 60s
 
   tempo:
-    image: grafana/tempo:2.7.1
+    image: grafana/tempo:3.1.1
     <<: *restart
     mem_limit: 1g
     logging: *logging
@@ -436,14 +436,14 @@ services:
       - tempo-data:/var/tempo
     networks: [internal]
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3200/ready"]
+      test: ["CMD", "/tempo", "-health"]
       interval: 15s
       timeout: 5s
       retries: 5
       start_period: 30s
 
   prometheus:
-    image: prom/prometheus:v3.2.1
+    image: prom/prometheus:v3.15.1
     <<: *restart
     mem_limit: 256m
     logging: *logging
@@ -461,7 +461,7 @@ services:
       retries: 5
 
   grafana:
-    image: grafana/grafana:11.4.0
+    image: grafana/grafana:13.2.4
     <<: *restart
     mem_limit: 512m
     logging: *logging
@@ -491,7 +491,7 @@ services:
       start_period: 30s
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    image: gcr.io/cadvisor/cadvisor:v0.55.1
     <<: *restart
     privileged: true
     mem_limit: 256m
@@ -513,7 +513,7 @@ services:
   # token, so no pre-provisioned system entry is needed.
   # ---------------------------------------------------------------------------
   beszel-agent:
-    image: henrygd/beszel-agent:0.18.7
+    image: henrygd/beszel-agent:0.21.1
     <<: *restart
     mem_limit: 128m
     logging: *logging
