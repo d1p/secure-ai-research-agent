@@ -15,6 +15,7 @@ Responsibilities (project spec section 13):
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import re
@@ -164,18 +165,31 @@ _FETCH_UA = os.environ.get(
 async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
     current = url
     resp: httpx.Response | None = None
-    async with httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=10.0), follow_redirects=False) as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(60.0, connect=15.0), follow_redirects=False) as client:
         for _ in range(MAX_FETCH_REDIRECTS + 1):
             verdict = validate_url(current)
             if not verdict.ok:
                 raise HTTPException(status_code=403, detail=verdict.reason)
-            try:
-                resp = await client.get(
-                    current,
-                    headers={"User-Agent": _FETCH_UA, "Accept": "text/html,application/xhtml+xml,text/plain,application/json,*/*"},
-                )
-            except httpx.HTTPError as exc:
-                raise HTTPException(status_code=502, detail=f"fetch failed: {exc}") from exc
+            for attempt in range(2):
+                try:
+                    resp = await client.get(
+                        current,
+                        headers={"User-Agent": _FETCH_UA, "Accept": "text/html,application/xhtml+xml,text/plain,application/json,*/*"},
+                    )
+                    break
+                except (httpx.ConnectTimeout, httpx.ConnectError, httpx.ReadTimeout) as exc:
+                    if attempt == 0:
+                        await asyncio.sleep(0.25)
+                        continue
+                    raise HTTPException(
+                        status_code=502,
+                        detail=f"fetch failed after retry: {type(exc).__name__}: {exc}",
+                    ) from exc
+                except httpx.HTTPError as exc:
+                    raise HTTPException(
+                        status_code=502,
+                        detail=f"fetch failed: {type(exc).__name__}: {exc}",
+                    ) from exc
             if resp.is_redirect and "location" in resp.headers:
                 current = str(httpx.URL(current).join(resp.headers["location"]))
                 continue
