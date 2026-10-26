@@ -20,7 +20,7 @@ receivers:
 processors:
   memory_limiter:
     check_interval: 1s
-    limit_mib: 192
+    limit_mib: 384
     spike_limit_mib: 64
   resource:
     attributes:

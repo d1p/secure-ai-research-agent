@@ -18,6 +18,18 @@ backend_worker:
   compaction:
     block_retention: 168h
 
+# Tempo 3.x "new" overrides format. These caps protect the single-binary
+# instance from oversized traces and runaway Traces Drilldown tag scans.
+overrides:
+  defaults:
+    global:
+      max_bytes_per_trace: 2000000
+    read:
+      # Traces Drilldown asks for tag values with limit=5000; cap the block scan
+      # so one filter query cannot read every block and saturate disk I/O.
+      max_blocks_per_tag_values_query: 50
+      max_bytes_per_tag_values_query: 1000000
+
 storage:
   trace:
     backend: local

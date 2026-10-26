@@ -15,3 +15,8 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets: ["litellm:4001"]
+
+  # Tempo query/compaction metrics (query latency, block churn, memory pressure).
+  - job_name: tempo
+    static_configs:
+      - targets: ["tempo:3200"]
