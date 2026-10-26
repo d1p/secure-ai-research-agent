@@ -25,6 +25,7 @@ from typing import Any, ClassVar
 import httpx
 import yaml
 from fastapi import FastAPI, Header, HTTPException
+from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 from security import (
     TIER_APPROVAL,
@@ -36,12 +37,20 @@ from security import (
     validate_url,
 )
 
+from shared import metrics
+from shared.budget import OutputBudget
+from shared.cache import TTLCache, env_ttl
 from shared.reader import (
     content_budget,
     detect_challenge_html,
     detect_challenge_text,
+    detect_page_type,
+    extract_pdf,
     read_html,
 )
+from shared.telemetry import alert_large_empty, host_from_url, record_load
+from shared.tokens import count_tokens
+from shared.untrusted import wrap_untrusted
 
 GATEWAY_TOKEN = os.environ.get("GATEWAY_TOKEN", "")
 STAGEHAND_ENDPOINT = os.environ.get("STAGEHAND_ENDPOINT", "http://browser:8931")
@@ -69,7 +78,9 @@ def _setup_otel(app: FastAPI) -> None:
     except ImportError:
         return
 
-    resource = Resource.create({"service.name": os.environ.get("OTEL_SERVICE_NAME", "safeguard-gateway")})
+    resource = Resource.create(
+        {"service.name": os.environ.get("OTEL_SERVICE_NAME", "safeguard-gateway")}
+    )
     provider = TracerProvider(resource=resource)
     provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
     trace.set_tracer_provider(provider)
@@ -97,7 +108,9 @@ class StagehandClient:
         self.base_url = base_url.rstrip("/")
         self._client = httpx.AsyncClient(timeout=httpx.Timeout(180.0, connect=10.0))
 
-    async def call(self, action: str, args: dict[str, Any]) -> tuple[int, dict[str, Any]]:
+    async def call(
+        self, action: str, args: dict[str, Any]
+    ) -> tuple[int, dict[str, Any]]:
         endpoint, key = self._ENDPOINTS.get(action, ("/" + action, None))
         body: dict[str, Any] = dict(args)
         if key and key not in body:
@@ -123,27 +136,41 @@ def _stagehand_result(action: str, data: dict[str, Any]) -> dict[str, Any]:
         # reader-mode Markdown before handing it to an agent.
         text = data.get("html", "")
     elif action == "navigate":
-        text = json.dumps({"ok": True, "url": data.get("url", ""), "title": data.get("title", "")})
+        text = json.dumps(
+            {"ok": True, "url": data.get("url", ""), "title": data.get("title", "")}
+        )
     elif action == "screenshot":
-        text = json.dumps({"screenshot": data.get("screenshot", "")[:200]}) if data.get("screenshot") else ""
+        text = (
+            json.dumps({"screenshot": data.get("screenshot", "")[:200]})
+            if data.get("screenshot")
+            else ""
+        )
     else:
         payload = data.get("data", data.get("result", data))
         text = json.dumps(payload, default=str) if payload not in (None, "") else ""
     return {"result": {"content": [{"type": "text", "text": text}]}}
 
 
-async def _run_stagehand(agent_id: str, tool: str, args: dict[str, Any]) -> dict[str, Any]:
+async def _run_stagehand(
+    agent_id: str, tool: str, args: dict[str, Any]
+) -> dict[str, Any]:
     action = tool.removeprefix("stagehand_")
     try:
         status, data = await stagehand.call(action, args)
     except httpx.HTTPError as exc:
-        raise HTTPException(status_code=502, detail="stagehand service unreachable") from exc
+        raise HTTPException(
+            status_code=502, detail="stagehand service unreachable"
+        ) from exc
     if status >= 400:
-        raise HTTPException(status_code=502, detail=data.get("error", f"stagehand returned {status}"))
+        raise HTTPException(
+            status_code=502, detail=data.get("error", f"stagehand returned {status}")
+        )
     if action == "content" and detect_challenge_html(data.get("html", "")):
         message = _challenge_message()
         return {
-            "result": {"content": [{"type": "text", "text": f"[needs_human] {message}"}]},
+            "result": {
+                "content": [{"type": "text", "text": f"[needs_human] {message}"}]
+            },
             "needs_human": True,
             "message": message,
         }
@@ -155,17 +182,55 @@ async def _run_stagehand(agent_id: str, tool: str, args: dict[str, Any]) -> dict
 # reserved for JS-heavy / interactive sites.  Same SSRF + audit boundary.
 # ---------------------------------------------------------------------------
 MAX_FETCH_REDIRECTS = 5
-MAX_FETCH_BYTES = 2_000_000
+MAX_FETCH_BYTES = 8_000_000
+_HTTP_CACHE = TTLCache(
+    maxsize=int(os.environ.get("WEB_LOADER_CACHE_SIZE", "128")),
+    ttl=env_ttl("WEB_LOADER_CACHE_TTL", 300.0),
+)
+_OUTPUT_BUDGET = OutputBudget()
 _FETCH_UA = os.environ.get(
     "FETCH_USER_AGENT",
-    "homelab-ai-stack/1.0 (admin@debashis.xyz)",
+    "homelab-ai-stack/1.0 (ops@example.invalid)",
 )
 
 
-async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
+async def _http_fetch(
+    url: str,
+    max_chars: int | None = None,
+    *,
+    transport: httpx.AsyncBaseTransport | None = None,
+    cache: bool = True,
+    links: str = "sources",
+    mode: str = "full",
+    offset: int = 0,
+    length: int | None = None,
+    query: str | None = None,
+) -> dict[str, Any]:
+    started = time.perf_counter()
+    cache_key = f"{url}|{max_chars or 0}|{links}|{mode}|{offset}|{length}|{query or ''}"
+    if cache:
+        cached = _HTTP_CACHE.get(cache_key)
+        if cached:
+            record_load(
+                service="gateway",
+                reason="cache_hit",
+                method=cached.get("method", "text"),
+                page_type=cached.get("page_type", "unknown"),
+                chars_out=cached.get("chars_out", 0),
+                tokens_out=cached.get("tokens_out", 0),
+                truncated=cached.get("truncated", False),
+                source_count=cached.get("source_count", 0),
+                cache_hit=True,
+                host=host_from_url(url),
+            )
+            return cached["result"]
+        metrics.inc(
+            "web_loader_cache_lookups_total",
+            {"service": "gateway", "result": "miss"},
+        )
     current = url
     resp: httpx.Response | None = None
-    transport = httpx.AsyncHTTPTransport(retries=2)
+    transport = transport or httpx.AsyncHTTPTransport(retries=2)
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(60.0, connect=15.0),
         follow_redirects=False,
@@ -179,10 +244,17 @@ async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
                 try:
                     resp = await client.get(
                         current,
-                        headers={"User-Agent": _FETCH_UA, "Accept": "text/html,application/xhtml+xml,text/plain,application/json,*/*"},
+                        headers={
+                            "User-Agent": _FETCH_UA,
+                            "Accept": "text/html,application/xhtml+xml,text/plain,application/json,*/*",
+                        },
                     )
                     break
-                except (httpx.ConnectTimeout, httpx.ConnectError, httpx.ReadTimeout) as exc:
+                except (
+                    httpx.ConnectTimeout,
+                    httpx.ConnectError,
+                    httpx.ReadTimeout,
+                ) as exc:
                     if attempt < 2:
                         await asyncio.sleep(0.25 * (attempt + 1))
                         continue
@@ -200,31 +272,163 @@ async def _http_fetch(url: str, max_chars: int | None = None) -> dict[str, Any]:
                 continue
             break
     content_type = resp.headers.get("content-type", "")
-    raw = resp.content[:MAX_FETCH_BYTES].decode(resp.encoding or "utf-8", errors="replace")
-    budget = content_budget(current, max_chars)
+    body = resp.content[:MAX_FETCH_BYTES]
+    is_pdf = "application/pdf" in content_type.lower() or body.startswith(b"%PDF-")
+    is_html = "html" in content_type.lower() or body.lstrip()[:15].lower().startswith(
+        b"<!doctype html"
+    )
+    host = host_from_url(current)
+    reason = "text_passthrough"
+    method = "text"
+    page_type = "unknown"
+    truncated = False
+    source_count = 0
+    chars_in = len(body)
+    tokens_in = 0
 
-    if "html" in content_type.lower() or raw.lstrip()[:15].lower().startswith("<!doctype html"):
+    if is_pdf:
+        page_type = "pdf"
+        budget = content_budget(current, max_chars, page_type)
+        extracted = await asyncio.to_thread(extract_pdf, body, budget)
+        reason = extracted.reason or "pdf_text"
+        method = extracted.method
+        truncated = extracted.truncated
+        raw = extracted.text
+        tokens_in = count_tokens(raw)
+    elif is_html:
+        raw = body.decode(resp.encoding or "utf-8", errors="replace")
+        page_type = detect_page_type(raw, current)
+        budget = content_budget(current, max_chars, page_type)
+        tokens_in = count_tokens(raw)
         extracted = await asyncio.to_thread(
-            read_html, raw, current, budget, include_links="sources"
+            read_html,
+            raw,
+            current,
+            budget,
+            include_links=links,
+            mode=mode,
+            offset=offset,
+            length=length,
+            query=query,
         )
+        reason = extracted.reason or "reader_ok"
+        method = extracted.method
+        page_type = extracted.page_type
+        truncated = extracted.truncated
+        source_count = extracted.source_count
         if extracted.challenge:
             message = _challenge_message()
-            return {
-                "result": {"content": [{"type": "text", "text": f"[needs_human] {message}"}]},
+            record_load(
+                service="gateway",
+                reason="challenge_needs_human",
+                method=method,
+                page_type=page_type,
+                chars_in=chars_in,
+                chars_out=0,
+                tokens_in=tokens_in,
+                tokens_out=0,
+                truncated=False,
+                duration_ms=(time.perf_counter() - started) * 1000,
+                host=host,
+            )
+            result = {
+                "result": {
+                    "content": [{"type": "text", "text": f"[needs_human] {message}"}]
+                },
                 "needs_human": True,
                 "message": message,
             }
+            cache_control = resp.headers.get("cache-control", "").lower()
+            if (
+                cache
+                and "no-store" not in cache_control
+                and "no-cache" not in cache_control
+            ):
+                _HTTP_CACHE.set(
+                    cache_key,
+                    {
+                        "result": result,
+                        "method": method,
+                        "page_type": page_type,
+                        "chars_out": 0,
+                        "tokens_out": 0,
+                        "truncated": False,
+                        "source_count": 0,
+                    },
+                )
+            return result
+        if not extracted.text:
+            alert_large_empty(
+                service="gateway",
+                host=host,
+                raw_chars=len(raw),
+                content_type=content_type,
+                reason=reason,
+            )
         raw = extracted.text
     else:
-        raw = re.sub(r"\n{3,}", "\n\n", raw)
-        if len(raw) > budget:
-            raw = raw[:budget] + "\n\n[content truncated]"
+        raw = body.decode(resp.encoding or "utf-8", errors="replace")
+        if "\x00" in raw[:4096] or not content_type.lower().startswith(
+            ("text/", "application/json", "application/xml")
+        ):
+            reason = "binary_rejected"
+            method = "binary"
+            raw = f"[binary content not shown: content_type={content_type or 'unknown'} bytes={len(body)}]"
+        else:
+            raw = re.sub(r"\n{3,}", "\n\n", raw)
+            budget = content_budget(current, max_chars, "unknown")
+            if len(raw) > budget:
+                raw = raw[:budget] + "\n\n[content truncated]"
+                truncated = True
+        tokens_in = count_tokens(raw)
 
+    raw = wrap_untrusted(raw, current)
+    chars_out = len(raw)
+    tokens_out = count_tokens(raw)
+    record_load(
+        service="gateway",
+        reason=reason,
+        method=method,
+        page_type=page_type,
+        chars_in=chars_in,
+        chars_out=chars_out,
+        tokens_in=tokens_in,
+        tokens_out=tokens_out,
+        truncated=truncated,
+        source_count=source_count,
+        duration_ms=(time.perf_counter() - started) * 1000,
+        host=host,
+    )
     text = json.dumps(
-        {"url": current, "status": resp.status_code, "content_type": content_type, "text": raw},
+        {
+            "url": current,
+            "status": resp.status_code,
+            "content_type": content_type,
+            "text": raw,
+            "reason": reason,
+            "method": method,
+            "page_type": page_type,
+            "truncated": truncated,
+            "source_count": source_count,
+        },
         default=str,
     )
-    return {"result": {"content": [{"type": "text", "text": text}]}}
+    result = {"result": {"content": [{"type": "text", "text": text}]}}
+    cache_control = resp.headers.get("cache-control", "").lower()
+    if cache and "no-store" not in cache_control and "no-cache" not in cache_control:
+        _HTTP_CACHE.set(
+            cache_key,
+            {
+                "result": result,
+                "method": method,
+                "page_type": page_type,
+                "chars_out": chars_out,
+                "tokens_out": tokens_out,
+                "truncated": truncated,
+                "source_count": source_count,
+            },
+        )
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -236,9 +440,9 @@ def _load_policy() -> dict[str, Any]:
 
 
 POLICY = _load_policy()
-_rate_state: dict[str, list[float]] = {}          # agent_id -> request timestamps
-_page_loads: dict[str, dict[str, float]] = {}     # agent_id -> {domain: last_ts}
-_snapshots: dict[str, str] = {}                   # agent_id -> latest snapshot text
+_rate_state: dict[str, list[float]] = {}  # agent_id -> request timestamps
+_page_loads: dict[str, dict[str, float]] = {}  # agent_id -> {domain: last_ts}
+_snapshots: dict[str, str] = {}  # agent_id -> latest snapshot text
 
 
 def _now() -> float:
@@ -282,7 +486,9 @@ async def _init_db() -> None:
         _pool = None
 
 
-async def _audit(agent_id: str, url: str, tool: str, status: str, tier: str = "", detail: str = "") -> None:
+async def _audit(
+    agent_id: str, url: str, tool: str, status: str, tier: str = "", detail: str = ""
+) -> None:
     if _pool is None:
         return
     try:
@@ -290,7 +496,12 @@ async def _audit(agent_id: str, url: str, tool: str, status: str, tier: str = ""
             await conn.execute(
                 "INSERT INTO orchestrator.browser_audit (agent_id, url, tool, tier, status, detail) "
                 "VALUES ($1,$2,$3,$4,$5,$6)",
-                agent_id, url, tool, tier, status, detail,
+                agent_id,
+                url,
+                tool,
+                tier,
+                status,
+                detail,
             )
     except Exception:  # noqa: BLE001,S110 - best-effort audit, never block browsing
         pass
@@ -331,14 +542,23 @@ async def healthz() -> dict[str, Any]:
     return {"status": "ok"}
 
 
+@app.get("/metrics", response_class=PlainTextResponse)
+async def metrics_endpoint() -> str:
+    from shared import metrics
+
+    return metrics.render()
+
+
 @app.post("/execute")
 async def execute(
     req: ExecuteRequest,
     authorization: str | None = Header(default=None),
     x_agent_id: str | None = Header(default=None),
+    x_run_id: str | None = Header(default=None),
 ) -> dict[str, Any]:
     await require_auth(authorization)
     agent_id = x_agent_id or "anonymous"
+    run_id = x_run_id or f"agent:{agent_id}"
 
     _enforce_rate_limit(agent_id)
 
@@ -366,7 +586,9 @@ async def execute(
             await _audit(agent_id, url, tool, "denied", str(tier), verdict.reason)
             raise HTTPException(status_code=403, detail=verdict.reason)
         if verdict.approval_required:
-            await _audit(agent_id, url, tool, "approval_required", str(tier), "sensitive action")
+            await _audit(
+                agent_id, url, tool, "approval_required", str(tier), "sensitive action"
+            )
             return {"needs_approval": True, "tool": tool, "reason": verdict.reason}
 
     # Approval-required tools
@@ -383,13 +605,56 @@ async def execute(
             max_chars = int(req.args.get("max_chars", 0))
         except (TypeError, ValueError):
             max_chars = 0
-        result = await _http_fetch(url, max_chars)
+        cache = bool(req.args.get("cache", True))
+        links = str(req.args.get("links", "sources"))
+        if links not in {"sources", "inline", "none"}:
+            raise HTTPException(
+                status_code=400, detail="links must be sources|inline|none"
+            )
+        try:
+            result = await _http_fetch(url, max_chars, cache=cache, links=links)
+        except HTTPException as exc:
+            reason = "fetch_failed" if exc.status_code >= 500 else "fetch_blocked"
+            record_load(
+                service="gateway",
+                reason=reason,
+                method="text",
+                page_type="unknown",
+                error_class=str(exc.status_code),
+                host=host_from_url(url),
+            )
+            await _audit(
+                agent_id,
+                url,
+                tool,
+                "denied" if exc.status_code < 500 else "error",
+                str(tier),
+                json.dumps({"reason": reason, "status": exc.status_code}),
+            )
+            raise
+        result = _apply_output_budget(result, run_id)
         status = "challenge" if result.get("needs_human") else "allowed"
-        await _audit(agent_id, url, tool, status, str(tier))
+        await _audit(
+            agent_id,
+            url,
+            tool,
+            status,
+            str(tier),
+            json.dumps(
+                {
+                    "reason": "challenge_needs_human"
+                    if result.get("needs_human")
+                    else "reader_ok"
+                }
+            ),
+        )
         return result
 
     # Execute via Stagehand
     result = await _run_stagehand(agent_id, tool, req.args)
+
+    if tool in {"stagehand_read", "stagehand_content"}:
+        result = _apply_output_budget(result, run_id)
 
     # Cache snapshots for subsequent click/type validation.
     if tool == "stagehand_read":
@@ -421,7 +686,9 @@ class _Verdict:
     reason: str = ""
     approval_required: bool = False
 
-    def __init__(self, ok: bool, reason: str = "", approval_required: bool = False) -> None:
+    def __init__(
+        self, ok: bool, reason: str = "", approval_required: bool = False
+    ) -> None:
         self.ok = ok
         self.reason = reason
         self.approval_required = approval_required
@@ -431,10 +698,15 @@ def _validate_interaction(tool: str, args: dict[str, Any]) -> _Verdict:
     """Block sensitive actions; flag sensitive instructions for approval."""
     if tool == "stagehand_act":
         instruction = str(args.get("instruction", "") or "")
-        target = str(args.get("element") or args.get("ref") or args.get("selector") or "")
+        target = str(
+            args.get("element") or args.get("ref") or args.get("selector") or ""
+        )
         value = str(args.get("text") or args.get("value") or "")
 
-        if target and (is_sensitive_element(target, "", "") or is_sensitive_element(target, "", value)):
+        if target and (
+            is_sensitive_element(target, "", "")
+            or is_sensitive_element(target, "", value)
+        ):
             return _Verdict(False, "sensitive field blocked")
         if value and _looks_like_secret(value):
             return _Verdict(False, "refusing to type a secret")
@@ -467,6 +739,28 @@ def _extract_text(result: dict[str, Any]) -> str:
         if isinstance(item, dict) and item.get("type") == "text":
             chunks.append(item.get("text", ""))
     return "\n".join(chunks)
+
+
+def _apply_output_budget(result: dict[str, Any], run_id: str) -> dict[str, Any]:
+    text = _extract_text(result)
+    if not text:
+        return result
+    allowed, used = _OUTPUT_BUDGET.consume(run_id, len(text))
+    if allowed:
+        return result
+    metrics.inc("web_loader_budget_exceeded_total", {"service": "gateway"})
+    return {
+        "result": {
+            "content": [
+                {
+                    "type": "text",
+                    "text": "[budget_exceeded] Tool-output budget reached; summarize what you have and stop fetching.",
+                }
+            ]
+        },
+        "budget_exceeded": True,
+        "used_chars": used,
+    }
 
 
 def _detect_challenge(result: dict[str, Any]) -> bool:

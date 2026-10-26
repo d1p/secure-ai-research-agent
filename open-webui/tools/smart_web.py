@@ -21,13 +21,25 @@ import os
 
 import httpx
 
-_WEB_LOADER_URL = os.environ.get("EXTERNAL_WEB_LOADER_URL", "http://orchestrator:8080/web-loader")
+_WEB_LOADER_URL = os.environ.get(
+    "EXTERNAL_WEB_LOADER_URL", "http://orchestrator:8080/web-loader"
+)
 _WEB_LOADER_BASE = _WEB_LOADER_URL.rsplit("/", 1)[0]
 _WEB_LOADER_KEY = os.environ.get("EXTERNAL_WEB_LOADER_API_KEY", "")
 
 
 def _auth() -> dict[str, str]:
     return {"Authorization": f"Bearer {_WEB_LOADER_KEY}"}
+
+
+def _run_id(metadata: dict | None) -> str:
+    if not isinstance(metadata, dict):
+        return ""
+    for key in ("session_id", "chat_id", "message_id"):
+        value = metadata.get(key)
+        if value:
+            return f"owui:{value}"
+    return ""
 
 
 class Tools:
@@ -66,7 +78,17 @@ class Tools:
             )
         return "\n".join(lines)
 
-    async def http_fetch(self, url: str, max_chars: int = 0) -> str:
+    async def http_fetch(
+        self,
+        url: str,
+        max_chars: int = 0,
+        links: str = "sources",
+        mode: str = "full",
+        offset: int = 0,
+        length: int = 0,
+        query: str = "",
+        __metadata__: dict | None = None,
+    ) -> str:
         """Fetch a URL over plain HTTP(S) and return its text content.
 
         Use for static pages, documentation, articles, sitemaps or direct files.
@@ -74,17 +96,34 @@ class Tools:
         sites will return little or nothing - use browse_page for those.
 
         :param url: absolute http:// or https:// URL
-        :param max_chars: maximum characters to return; 0 uses the gateway's
-            per-domain default (12k, 32k for sec.gov, 24k for finance sites)
+        :param max_chars: maximum characters to return; 0 uses the page-type
+            ceiling (12k article, 16k docs/thread, 24k paper/table, 8k listing)
+        :param links: citation policy: sources (default), inline, or none
+        :param mode: full (default), outline, section, or query
+        :param offset: section start (with mode=section)
+        :param length: section length (with mode=section)
+        :param query: query terms (with mode=query)
         """
         if not url.lower().startswith(("http://", "https://")):
             return "http_fetch error: url must start with http:// or https://"
         try:
             async with httpx.AsyncClient(timeout=60.0) as client:
+                headers = _auth()
+                run_id = _run_id(__metadata__)
+                if run_id:
+                    headers["X-Run-Id"] = run_id
                 resp = await client.post(
                     f"{_WEB_LOADER_BASE}/fetch",
-                    headers=_auth(),
-                    json={"url": url, "max_chars": int(max_chars)},
+                    headers=headers,
+                    json={
+                        "url": url,
+                        "max_chars": int(max_chars),
+                        "links": links,
+                        "mode": mode,
+                        "offset": int(offset),
+                        "length": int(length),
+                        "query": query or None,
+                    },
                 )
                 resp.raise_for_status()
                 data = resp.json()
@@ -92,7 +131,7 @@ class Tools:
             return f"http_fetch error: {exc}"
         return data.get("text", "")
 
-    async def browse_page(self, url: str) -> str:
+    async def browse_page(self, url: str, __metadata__: dict | None = None) -> str:
         """Open a URL in the real sandboxed browser and return the visible text.
 
         Use for JavaScript-heavy, interactive or shopping sites where
@@ -105,9 +144,13 @@ class Tools:
             return "browse_page error: url must start with http:// or https://"
         try:
             async with httpx.AsyncClient(timeout=180.0) as client:
+                headers = _auth()
+                run_id = _run_id(__metadata__)
+                if run_id:
+                    headers["X-Run-Id"] = run_id
                 resp = await client.post(
                     f"{_WEB_LOADER_BASE}/web-loader",
-                    headers=_auth(),
+                    headers=headers,
                     json={"urls": [url]},
                 )
                 resp.raise_for_status()
@@ -115,6 +158,6 @@ class Tools:
         except Exception as exc:  # noqa: BLE001
             return f"browse_page error: {exc}"
         if isinstance(data, list) and data:
-            # /web-loader already applies the per-domain reader budget.
-            return (data[0].get("page_content") or "")[:32000]
+            # /web-loader already applies the page-type reader budget.
+            return data[0].get("page_content") or ""
         return json.dumps(data)

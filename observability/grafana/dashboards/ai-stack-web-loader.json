@@ -1,0 +1,56 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 1,
+  "panels": [
+    {
+      "type": "row",
+      "title": "Web loader",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0},
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "Loads by reason",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 1},
+      "targets": [{"expr": "sum by (reason) (rate(web_loader_loads_total[5m]))", "legendFormat": "{{reason}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Model-facing tokens (out, proxy tokenizer)",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 1},
+      "targets": [{"expr": "sum by (service) (rate(web_loader_tokens_sum{direction=\"out\"}[5m]))", "legendFormat": "{{service}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Fetch failures",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 9},
+      "targets": [{"expr": "sum by (error_class) (rate(web_loader_fetch_failures_total[5m]))", "legendFormat": "{{error_class}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Empty large pages (alert-worthy)",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 9},
+      "targets": [{"expr": "sum(rate(web_loader_reader_empty_large_total[5m]))", "legendFormat": "empty/large"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Cache lookups",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 9},
+      "targets": [{"expr": "sum by (result) (rate(web_loader_cache_lookups_total[5m]))", "legendFormat": "{{result}}"}]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["ai-stack", "web-loader"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "title": "AI Stack - Web Loader",
+  "uid": "ai-stack-web-loader",
+  "version": 1
+}

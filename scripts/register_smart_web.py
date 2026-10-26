@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Register the ``smart_web`` tool and the ``deepseek-router`` model in Open WebUI.
 
 The tool source lives in this repo (``open-webui/tools/smart_web.py``); Open WebUI
@@ -62,7 +63,7 @@ You are a sub-agent working on one focused task assigned by the lead agent. Work
 
 Tool rules (cheapest sufficient tool first):
 1. Use web_search for discovery and snippets; answer from snippets when they are enough.
-2. For a static page use http_fetch (bounded output). Prefer http_fetch over fetch_url. Leave max_chars at 0 so SEC/finance pages get their larger safe budget.
+2. For a static page use http_fetch (bounded output). Prefer http_fetch over fetch_url. Leave max_chars at 0 so papers/tables/docs get their page-type budget.
 3. Use browse_page only for JavaScript-heavy, interactive, or challenge-protected sites.
 4. Do not fetch the same URL twice and do not chase tangents. Keep total tool calls under 20.
 5. Cite the URLs and publication dates you used.
@@ -76,9 +77,9 @@ When the task is answered, stop calling tools and end with:
 
 RUNTIME_CONFIG = {
     # Cap builtin fetch_url output. The orchestrator already applies the real
-    # per-domain budget (12k normal, 24k finance, 32k SEC); this only stops
+    # page-type budget (8k-40k); this only stops
     # Open WebUI from truncating those larger budgets again.
-    "web.fetch.max_content_length": 32000,
+    "web.fetch.max_content_length": 48000,
     # Open WebUI sub-agents: on, foreground only, bounded concurrency/iterations.
     "subagents.enable": True,
     "subagents.background_enabled": False,
@@ -104,10 +105,14 @@ async def register_tool(user_id: str, content: str) -> None:
     meta = ToolMeta(description=TOOL_DESCRIPTION, manifest={}, has_user_valves=False)
 
     if await Tools.get_tool_by_id(TOOL_ID):
-        await Tools.update_tool_by_id(TOOL_ID, {"content": content, "specs": specs, "meta": meta.model_dump()})
+        await Tools.update_tool_by_id(
+            TOOL_ID, {"content": content, "specs": specs, "meta": meta.model_dump()}
+        )
         print(f"updated tool {TOOL_ID}")
     else:
-        form = ToolForm(id=TOOL_ID, name="Smart Web", content=content, meta=meta, access_grants=None)
+        form = ToolForm(
+            id=TOOL_ID, name="Smart Web", content=content, meta=meta, access_grants=None
+        )
         await Tools.insert_new_tool(user_id, form, specs)
         print(f"created tool {TOOL_ID}")
 

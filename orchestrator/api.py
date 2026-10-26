@@ -19,12 +19,18 @@ from agent import (
     set_approval_status,
 )
 from fastapi import FastAPI, Header, HTTPException
+from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 from tools.aider_runner import run_aider
 
+from shared.budget import OutputBudget
 from shared.reader import content_budget, detect_challenge_text, read_html
+from shared.telemetry import alert_large_empty, host_from_url, record_load
+from shared.tokens import count_tokens
+from shared.untrusted import wrap_untrusted
 
 ORCHESTRATOR_TOKEN = os.environ.get("ORCHESTRATOR_TOKEN", "")
+_OUTPUT_BUDGET = OutputBudget()
 WEB_LOADER_API_KEY = os.environ.get("WEB_LOADER_API_KEY", "")
 WORKSPACE = os.environ.get("WORKSPACE", "/workspace")
 DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "deepseek-flash")
@@ -50,7 +56,9 @@ def _setup_otel(app: FastAPI) -> None:
     except ImportError:
         return
 
-    resource = Resource.create({"service.name": os.environ.get("OTEL_SERVICE_NAME", "orchestrator")})
+    resource = Resource.create(
+        {"service.name": os.environ.get("OTEL_SERVICE_NAME", "orchestrator")}
+    )
     provider = TracerProvider(resource=resource)
     provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
     trace.set_tracer_provider(provider)
@@ -82,11 +90,17 @@ class DecisionRequest(BaseModel):
 
 class WebLoaderRequest(BaseModel):
     urls: list[str] = Field(default_factory=list)
+    links: str = "sources"
 
 
 class FetchRequest(BaseModel):
     url: str = ""
     max_chars: int = 0
+    links: str = "sources"
+    mode: str = "full"
+    offset: int = 0
+    length: int = 0
+    query: str | None = None
 
 
 def _extract_mcp_text(payload: dict[str, Any]) -> str:
@@ -113,10 +127,15 @@ def _unwrap_fetch_payload(envelope: str) -> str:
         return envelope
     if isinstance(payload, dict) and isinstance(payload.get("text"), str):
         return payload["text"]
+    if isinstance(payload, dict) and payload.get("error"):
+        detail = payload.get("detail") or payload.get("message") or ""
+        return f"[fetch error {payload['error']}] {detail}".strip()
     return envelope
 
 
-async def _fetch_page_text(agent_id: str, url: str) -> str:
+async def _fetch_page_text(
+    agent_id: str, url: str, links: str = "sources", run_id: str | None = None
+) -> str:
     """Navigate the browser to `url` and return reader-mode text.
 
     Reuses the safeguard gateway (SSRF/tier/rate-limit/audit) as the security
@@ -124,7 +143,9 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
     is driven by the Stagehand service (navigate + rendered HTML), then the HTML
     is reduced to reader mode so agents only spend tokens on core content.
     """
-    nav = await call_browser(agent_id, "stagehand_navigate", {"url": url})
+    nav = await call_browser(
+        agent_id, "stagehand_navigate", {"url": url}, run_id=run_id
+    )
     if isinstance(nav, dict) and nav.get("error"):
         return f"[browser error {nav['error']}] {nav.get('detail', '')}"
     if isinstance(nav, dict) and nav.get("needs_human"):
@@ -134,18 +155,47 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
 
     budget = content_budget(url)
     text = ""
-    page = await call_browser(agent_id, "stagehand_content", {})
+    page = await call_browser(agent_id, "stagehand_content", {}, run_id=run_id)
     if isinstance(page, dict) and page.get("needs_human"):
         return f"[needs_human] {page.get('message', 'challenge detected')}"
     if isinstance(page, dict) and not page.get("error"):
         html = _extract_mcp_text(page)
         if html:
             extracted = await asyncio.to_thread(
-                read_html, html, url, budget, include_links="sources"
+                read_html, html, url, budget, include_links=links
             )
             if extracted.challenge:
+                record_load(
+                    service="orchestrator",
+                    reason="challenge_needs_human",
+                    method="reader",
+                    chars_in=len(html),
+                    chars_out=0,
+                    tokens_in=count_tokens(html),
+                    tokens_out=0,
+                    host=host_from_url(url),
+                )
                 return "[needs_human] Challenge detected; human intervention required via noVNC."
             text = extracted.text
+            record_load(
+                service="orchestrator",
+                reason=extracted.reason or "reader_ok",
+                method=extracted.method,
+                page_type=extracted.page_type,
+                chars_in=len(html),
+                chars_out=len(text),
+                tokens_in=count_tokens(html),
+                tokens_out=count_tokens(text),
+                truncated=extracted.truncated,
+                source_count=extracted.source_count,
+                host=host_from_url(url),
+            )
+            if not text:
+                alert_large_empty(
+                    service="orchestrator",
+                    host=host_from_url(url),
+                    raw_chars=len(html),
+                )
 
     if not text:
         # Fallback: plain visible text (already tag-free) when readability fails.
@@ -159,9 +209,22 @@ async def _fetch_page_text(agent_id: str, url: str) -> str:
             return "[needs_human] Challenge detected; human intervention required via noVNC."
         if len(text) > budget:
             text = text[:budget] + "\n\n[content truncated]"
+        record_load(
+            service="orchestrator",
+            reason="stagehand_read_fallback" if text else "reader_empty",
+            method="stagehand-read",
+            chars_out=len(text),
+            tokens_out=count_tokens(text),
+            host=host_from_url(url),
+        )
 
     if not text:
         return "[no text content]"
+    text = wrap_untrusted(text, url)
+    if run_id:
+        allowed, _used = _OUTPUT_BUDGET.consume(run_id, len(text))
+        if not allowed:
+            return "[budget_exceeded] Tool-output budget reached; summarize and stop fetching."
     return text
 
 
@@ -170,8 +233,17 @@ async def healthz() -> dict[str, Any]:
     return {"status": "ok"}
 
 
+@app.get("/metrics", response_class=PlainTextResponse)
+async def metrics_endpoint() -> str:
+    from shared import metrics
+
+    return metrics.render()
+
+
 @app.post("/v1/chat/completions")
-async def chat_completions(req: ChatRequest, authorization: str | None = Header(default=None)) -> dict[str, Any]:
+async def chat_completions(
+    req: ChatRequest, authorization: str | None = Header(default=None)
+) -> dict[str, Any]:
     _check_auth(authorization)
     agent_id = "openwebui"
     result = await run_agent(agent_id, req.messages)
@@ -191,12 +263,22 @@ async def chat_completions(req: ChatRequest, authorization: str | None = Header(
         "id": f"chatcmpl-{uuid.uuid4().hex[:12]}",
         "object": "chat.completion",
         "model": req.model,
-        "choices": [{"index": 0, "message": {"role": "assistant", "content": content}, "finish_reason": "stop"}],
+        "choices": [
+            {
+                "index": 0,
+                "message": {"role": "assistant", "content": content},
+                "finish_reason": "stop",
+            }
+        ],
     }
 
 
 @app.post("/web-loader")
-async def web_loader(req: WebLoaderRequest, authorization: str | None = Header(default=None)) -> list[dict[str, Any]]:
+async def web_loader(
+    req: WebLoaderRequest,
+    authorization: str | None = Header(default=None),
+    x_run_id: str | None = Header(default=None),
+) -> list[dict[str, Any]]:
     """Open WebUI 'external web loader' contract.
 
     Accepts ``{"urls": [...]}`` and returns ``[{"page_content": ..., "metadata": {...}}]``
@@ -211,13 +293,18 @@ async def web_loader(req: WebLoaderRequest, authorization: str | None = Header(d
 
     results: list[dict[str, Any]] = []
     for url in req.urls:
-        text = await _fetch_page_text("openwebui", url)
+        links = req.links if req.links in {"sources", "inline", "none"} else "sources"
+        text = await _fetch_page_text("openwebui", url, links, run_id=x_run_id)
         results.append({"page_content": text, "metadata": {"source": url}})
     return results
 
 
 @app.post("/fetch")
-async def fetch(req: FetchRequest, authorization: str | None = Header(default=None)) -> dict[str, Any]:
+async def fetch(
+    req: FetchRequest,
+    authorization: str | None = Header(default=None),
+    x_run_id: str | None = Header(default=None),
+) -> dict[str, Any]:
     """Plain HTTP(S) fetch for static pages/files.
 
     Handled by the safeguard gateway's ``http_fetch`` tool (SSRF/audit) rather
@@ -232,21 +319,54 @@ async def fetch(req: FetchRequest, authorization: str | None = Header(default=No
     if not req.url:
         raise HTTPException(400, "missing url")
 
-    result = await call_browser("openwebui", "http_fetch", {"url": req.url, "max_chars": req.max_chars})
+    result = await call_browser(
+        "openwebui",
+        "http_fetch",
+        {
+            "url": req.url,
+            "max_chars": req.max_chars,
+            "links": req.links,
+            "mode": req.mode,
+            "offset": req.offset,
+            "length": req.length,
+            "query": req.query,
+        },
+        run_id=x_run_id,
+    )
     if isinstance(result, dict) and result.get("error"):
         raise HTTPException(int(result["error"]), result.get("detail", "fetch failed"))
     envelope = _extract_mcp_text(result) if isinstance(result, dict) else ""
+    try:
+        meta = json.loads(envelope)
+    except (TypeError, json.JSONDecodeError):
+        meta = {}
+    if isinstance(meta, dict):
+        record_load(
+            service="orchestrator",
+            reason=str(meta.get("reason", "reader_ok")),
+            method=str(meta.get("method", "text")),
+            page_type=str(meta.get("page_type", "unknown")),
+            chars_out=len(str(meta.get("text", ""))),
+            tokens_out=count_tokens(str(meta.get("text", ""))),
+            truncated=bool(meta.get("truncated", False)),
+            source_count=int(meta.get("source_count", 0) or 0),
+            host=host_from_url(req.url),
+        )
     return {"text": _unwrap_fetch_payload(envelope)}
 
 
 @app.get("/approvals/{approval_id}")
-async def get_approval(approval_id: int, authorization: str | None = Header(default=None)) -> dict[str, Any]:
+async def get_approval(
+    approval_id: int, authorization: str | None = Header(default=None)
+) -> dict[str, Any]:
     _check_auth(authorization)
     from agent import _pg
 
     conn = await _pg()
     try:
-        row = await conn.fetchrow("SELECT * FROM orchestrator.approvals WHERE id=$1", approval_id)
+        row = await conn.fetchrow(
+            "SELECT * FROM orchestrator.approvals WHERE id=$1", approval_id
+        )
     finally:
         await conn.close()
     if not row:
@@ -255,13 +375,19 @@ async def get_approval(approval_id: int, authorization: str | None = Header(defa
 
 
 @app.post("/approvals/{approval_id}/decision")
-async def decide(approval_id: int, req: DecisionRequest, authorization: str | None = Header(default=None)) -> dict[str, Any]:
+async def decide(
+    approval_id: int,
+    req: DecisionRequest,
+    authorization: str | None = Header(default=None),
+) -> dict[str, Any]:
     _check_auth(authorization)
     from agent import _pg
 
     conn = await _pg()
     try:
-        row = await conn.fetchrow("SELECT * FROM orchestrator.approvals WHERE id=$1", approval_id)
+        row = await conn.fetchrow(
+            "SELECT * FROM orchestrator.approvals WHERE id=$1", approval_id
+        )
     finally:
         await conn.close()
     if not row:
@@ -273,13 +399,18 @@ async def decide(approval_id: int, req: DecisionRequest, authorization: str | No
 
     if req.decision == "edit":
         # Re-plan with feedback; keeps the approval pending.
-        return {"status": "pending", "message": "edit triggers re-planning (re-run planning with feedback)"}
+        return {
+            "status": "pending",
+            "message": "edit triggers re-planning (re-run planning with feedback)",
+        }
 
     # approve -> execute coding in an ephemeral runner on a throwaway worktree
     allowed_files = json.loads(row["allowed_files"] or "[]")
     request_text = row["request"]
     outcome = _execute_coding(request_text, allowed_files)
-    await set_approval_status(approval_id, "approved" if outcome["ok"] else "rejected", outcome)
+    await set_approval_status(
+        approval_id, "approved" if outcome["ok"] else "rejected", outcome
+    )
     return outcome
 
 
@@ -289,7 +420,11 @@ def _prepare_worktree(repo_name: str, branch: str) -> str:
     repo_dir = os.path.join(WORKSPACE, repo_name)
     worktree = os.path.join(WORKSPACE, "worktrees", branch)
     if os.path.isdir(os.path.join(repo_dir, ".git")):
-        subprocess.run(["git", "-C", repo_dir, "worktree", "add", "-b", branch, worktree], check=True, capture_output=True)
+        subprocess.run(
+            ["git", "-C", repo_dir, "worktree", "add", "-b", branch, worktree],
+            check=True,
+            capture_output=True,
+        )
     else:
         os.makedirs(worktree, exist_ok=True)
     return worktree
@@ -304,16 +439,39 @@ def _execute_coding(request_text: str, allowed_files: list[str]) -> dict[str, An
     result = run_aider(request_text, model, worktree)
 
     if result["exit_code"] != 0:
-        return {"ok": False, "reason": f"runner exited {result['exit_code']}", "branch": branch}
+        return {
+            "ok": False,
+            "reason": f"runner exited {result['exit_code']}",
+            "branch": branch,
+        }
 
     changed = _changed_files(worktree)
     unapproved = [f for f in changed if f not in allowed_files]
     if unapproved:
-        subprocess.run(["git", "-C", worktree, "worktree", "remove", "--force", worktree], capture_output=True, check=False)
-        return {"ok": False, "reason": "out-of-plan files changed", "unapproved_files": unapproved, "branch": branch}
+        subprocess.run(
+            ["git", "-C", worktree, "worktree", "remove", "--force", worktree],
+            capture_output=True,
+            check=False,
+        )
+        return {
+            "ok": False,
+            "reason": "out-of-plan files changed",
+            "unapproved_files": unapproved,
+            "branch": branch,
+        }
 
-    diff = subprocess.run(["git", "-C", worktree, "diff", "--name-only"], capture_output=True, text=True, check=False).stdout
-    return {"ok": True, "branch": branch, "changed_files": changed, "diff_files": diff.splitlines()}
+    diff = subprocess.run(
+        ["git", "-C", worktree, "diff", "--name-only"],
+        capture_output=True,
+        text=True,
+        check=False,
+    ).stdout
+    return {
+        "ok": True,
+        "branch": branch,
+        "changed_files": changed,
+        "diff_files": diff.splitlines(),
+    }
 
 
 def _repo_name() -> str:
@@ -324,5 +482,10 @@ def _repo_name() -> str:
 
 
 def _changed_files(worktree: str) -> list[str]:
-    out = subprocess.run(["git", "-C", worktree, "diff", "--name-only"], capture_output=True, text=True, check=False).stdout
+    out = subprocess.run(
+        ["git", "-C", worktree, "diff", "--name-only"],
+        capture_output=True,
+        text=True,
+        check=False,
+    ).stdout
     return [f for f in out.splitlines() if f.strip()]
