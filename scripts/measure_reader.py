@@ -91,7 +91,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--html", action="append", default=[], help="local HTML file (repeatable)")
     parser.add_argument("--url", action="append", default=[], help="URL to fetch (repeatable)")
-    parser.add_argument("--facts", default="", help="comma-separated key facts that must be retained")
+    parser.add_argument(
+        "--facts",
+        default="",
+        help="key facts separated by '|' (use '|' so commas inside numbers work)",
+    )
     parser.add_argument(
         "--budgets",
         default="2000,4000,6000,8000,10000,12000,16000,24000,32000",
@@ -102,7 +106,12 @@ def main() -> int:
     sources = args.html + args.url
     if not sources:
         parser.error("provide at least one --html or --url")
-    facts = [item.strip() for item in args.facts.split(",") if item.strip()]
+    raw_facts = args.facts
+    facts = [
+        item.strip()
+        for item in (raw_facts.split("|") if "|" in raw_facts else raw_facts.split(","))
+        if item.strip()
+    ]
     budgets = sorted({int(item) for item in args.budgets.split(",") if item.strip()})
 
     print(f"tokenizer: {TOKENIZER}")

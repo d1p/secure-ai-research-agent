@@ -309,9 +309,13 @@ navigation/headers/footers/ads/cookie banners/scripts/styles, and additionally:
 - **Compacts links.** Link labels stay inline; unique external URLs are
   appended once under `Sources:`. This removes citation URL bloat: Wikipedia's
   full output drops from 292,854 to 169,049 chars (-42%) while keeping sources.
+- **Uses table-first extraction for data pages.** SEC IDEA/XBRL statement pages
+  (R2/R4/R24) return the statement table directly (R2: 1,120 chars instead of a
+  32k reader blob). Other data pages get a data-dense table recovery when the
+  reader is empty or drops too much.
 - **Falls back to tag-strip** when trafilatura is empty or returns less than
-  35% of the tag-strip length. This fixes SEC raw-XBRL and
-  StockAnalysis-style JS/data pages where readability extraction loses data.
+  35% of the tag-strip length and less than 4k chars. Long articles are not
+  replaced by boilerplate.
 - **Detects challenge pages** in raw HTML and rendered content, returning
   `needs_human` instead of handing a Cloudflare/CAPTCHA page to the model.
 - **Uses per-domain budgets.** 12,000 chars by default, 24,000 for finance
@@ -448,10 +452,10 @@ python3 -m venv .venv && .venv/bin/pip install pytest ruff
   stream; LiteLLM retries reduce, but do not eliminate, those failures.
 - Stagehand is rate-limited to one page load per 5 s per domain, so bulk
   static-page fetches should stay on `http_fetch`.
-- Raw `sec.gov` XBRL HTML is not article content: trafilatura returns empty and
-  the reader falls back to tag-strip. Use the rendered path (`browse_page`) for
-  filings; it preserves the statement table. The 32k SEC budget still truncates
-  very long statements; it is a compromise, not a full table extractor.
+- Raw `sec.gov` XBRL statement pages are not article content; the extractor
+  detects the IDEA/XBRL marker and returns the statement table. Table extraction
+  is heuristic and may drop non-table context. The 32k SEC ceiling still
+  truncates very long narrative filings; it is not a full filing parser.
 - `browser/package.json` overrides Stagehand's pinned `zod` with `4.6.7` to
   avoid GHSA-mrhx-c7xc-m3w5 (zod memory exhaustion). This is a patch-compatible
   override; re-check it when Stagehand bumps its own pin.
