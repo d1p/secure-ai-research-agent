@@ -39,14 +39,14 @@
         "y": 1
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT COALESCE(SUM(spend),0) AS \"spend\" FROM \"LiteLLM_SpendLogs\"",
@@ -88,14 +88,14 @@
         "y": 1
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT COALESCE(SUM(spend),0) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session'",
@@ -137,14 +137,14 @@
         "y": 1
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT COUNT(*) AS \"requests\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session'",
@@ -186,14 +186,14 @@
         "y": 1
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT COALESCE(SUM(\"total_tokens\"),0) AS \"tokens\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session'",
@@ -248,14 +248,14 @@
         "y": 6
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT $__timeGroup(\"startTime\",$__interval) AS time, model, SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1,2 ORDER BY 1",
@@ -283,14 +283,14 @@
         "y": 6
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT $__timeGroup(\"startTime\",$__interval) AS time, SUM(\"prompt_tokens\") AS \"prompt\", SUM(\"completion_tokens\") AS \"completion\", SUM(COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0)) AS \"cached\", SUM(\"total_tokens\") AS \"total\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1 ORDER BY 1",
@@ -318,14 +318,14 @@
         "y": 14
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT $__timeGroup(\"startTime\",$__interval) AS time, SUM(COALESCE((metadata->'cost_breakdown'->>'input_cost')::float8,0)) AS \"input\", SUM(COALESCE((metadata->'cost_breakdown'->>'output_cost')::float8,0)) AS \"output\", SUM(COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0)) AS \"cache_read\", SUM(COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0)) AS \"reasoning\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1 ORDER BY 1",
@@ -370,14 +370,14 @@
         "y": 23
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT model, SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY model ORDER BY 2 DESC",
@@ -408,14 +408,14 @@
         "y": 23
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT \"user\", SUM(spend) AS \"spend\" FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY 1 ORDER BY 2 DESC",
@@ -446,14 +446,14 @@
         "y": 23
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT model, COUNT(*) AS requests, SUM(prompt_tokens) AS prompt, SUM(completion_tokens) AS completion, SUM(COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0)) AS cached, SUM(COALESCE((metadata->'usage_object'->'completion_tokens_details'->>'reasoning_tokens')::bigint,0)) AS reasoning, SUM(\"total_tokens\") AS total, ROUND(SUM(spend)::numeric,6) AS spend FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY model ORDER BY spend DESC",
@@ -576,14 +576,14 @@
         "y": 32
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "WITH costs AS (SELECT GREATEST(COALESCE((metadata->'cost_breakdown'->>'input_cost')::float8,0) - COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0),0) AS input, COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0) AS cache_read, GREATEST(COALESCE((metadata->'cost_breakdown'->>'output_cost')::float8,0) - COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0),0) AS output, COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0) AS reasoning FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session') SELECT 'input (uncached)' AS \"type\", SUM(input) AS \"cost\" FROM costs UNION ALL SELECT 'cache read', SUM(cache_read) FROM costs UNION ALL SELECT 'output (non-reasoning)', SUM(output) FROM costs UNION ALL SELECT 'reasoning', SUM(reasoning) FROM costs",
@@ -628,14 +628,14 @@
         "y": 32
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT model, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'input_cost')::float8,0))::numeric,6) AS input_total, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'output_cost')::float8,0))::numeric,6) AS output_total, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0))::numeric,6) AS cache_read, ROUND(SUM(COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0))::numeric,6) AS reasoning, ROUND(SUM(spend)::numeric,6) AS total_cost, SUM(\"total_tokens\") AS tokens FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' GROUP BY model ORDER BY total_cost DESC",
@@ -750,14 +750,14 @@
         "y": 41
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT session_id, COUNT(*) AS requests, ROUND(SUM(spend)::numeric,6) AS cost, SUM(\"total_tokens\") AS tokens, SUM(COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0)) AS cached, MIN(\"startTime\") AS first_seen, MAX(\"startTime\") AS last_seen FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' AND session_id <> '' GROUP BY session_id ORDER BY cost DESC LIMIT 200",
@@ -876,14 +876,14 @@
         "y": 50
       },
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "postgres-litellm"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "type": "postgres",
+            "type": "grafana-postgresql-datasource",
             "uid": "postgres-litellm"
           },
           "rawSql": "SELECT \"startTime\", model, \"user\", total_tokens, prompt_tokens, completion_tokens, COALESCE((metadata->'usage_object'->'prompt_tokens_details'->>'cached_tokens')::bigint,0) AS cached_tokens, COALESCE((metadata->'usage_object'->'completion_tokens_details'->>'reasoning_tokens')::bigint,0) AS reasoning_tokens, ROUND(COALESCE((metadata->'cost_breakdown'->>'cache_read_cost')::float8,0)::numeric,6) AS cache_read, ROUND(COALESCE((metadata->'cost_breakdown'->>'reasoning_cost')::float8,0)::numeric,6) AS reasoning, ROUND(spend::numeric,6) AS spend, request_duration_ms AS duration_ms, status, session_id, litellm_call_id, request_id, custom_llm_provider FROM \"LiteLLM_SpendLogs\" WHERE $__timeFilter(\"startTime\")\n  AND COALESCE(session_id,'') ~ '$session' ORDER BY \"startTime\" DESC LIMIT 200",
@@ -1077,7 +1077,7 @@
         "label": "Chat session / trace",
         "type": "query",
         "datasource": {
-          "type": "postgres",
+          "type": "grafana-postgresql-datasource",
           "uid": "postgres-litellm"
         },
         "definition": "SELECT DISTINCT session_id FROM \"LiteLLM_SpendLogs\" WHERE session_id <> '' ORDER BY 1",

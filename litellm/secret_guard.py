@@ -36,8 +36,12 @@ class Finding:
 _AWS_ACCESS_KEY = re.compile(
     r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b"
 )
+# Legacy keys are `sk-` + an alphanumeric body; project/service-account (and
+# Anthropic) keys use a known hyphenated prefix.  Do NOT allow arbitrary
+# hyphens in the plain body, otherwise slugs like `sk-hynix-results-...`
+# (SK Hynix) are misread as keys.
 _OPENAI_KEY = re.compile(
-    r"\bsk-(?:proj-)?[A-Za-z0-9\-_]{20,}\b"
+    r"\bsk-(?:proj-[A-Za-z0-9_-]{20,}|svcacct-[A-Za-z0-9_-]{20,}|ant-[A-Za-z0-9_-]{20,}|[A-Za-z0-9]{20,})\b"
 )
 _GITHUB_TOKEN = re.compile(
     r"\bgh[psuro]_[A-Za-z0-9]{20,}\b"

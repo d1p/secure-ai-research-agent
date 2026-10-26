@@ -16,7 +16,7 @@ datasources:
     editable: false
 
   - name: LiteLLM Postgres
-    type: postgres
+    type: grafana-postgresql-datasource
     access: proxy
     uid: postgres-litellm
     url: postgres:5432

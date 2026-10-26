@@ -21,6 +21,9 @@ data/
 fast/
 *.log
 
+# Beszel agent runtime state (generated key material)
+beszel_agent_data/
+
 # Browser profile / cookies / storage (never committed)
 browser-profile/
 *.snapshot

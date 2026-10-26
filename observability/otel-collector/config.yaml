@@ -27,6 +27,19 @@ processors:
       - key: openinference.project.name
         value: ai-stack
         action: upsert
+  # Drop high-volume, low-value spans before they reach Tempo/Phoenix:
+  #  - Open WebUI emits one ``... http send`` span per streamed chunk (thousands
+  #    per chat turn) and a ``connect`` span per DB health probe. Together these
+  #    produced multi-thousand-span traces and OOM-killed Tempo.
+  #  - Container healthcheck probes are not useful as traces.
+  filter/noise:
+    error_mode: ignore
+    traces:
+      span:
+        - 'IsMatch(name, ".* http send$")'
+        - 'IsMatch(name, "(?i).*/health.*")'
+        - 'name == "connect" and attributes["db.system"] != nil'
+
   batch:
     timeout: 5s
     send_batch_size: 512
@@ -53,7 +66,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, resource, batch]
+      processors: [memory_limiter, filter/noise, resource, batch]
       exporters: [otlp_grpc/tempo, otlp_http/phoenix]
   telemetry:
     logs:

@@ -34,6 +34,18 @@ def test_openai_proj_key_detected() -> None:
     assert "openai_key" in categories("sk-proj-abcdefghijklmnopqrstuvwxyz123456")
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "sk-hynix-results-bull-950-bear-800",
+        "https://example.com/head-taoyuan-talks-27-october-sk-hynix-results-bull-950-bear-800/",
+        "SK Hynix (sk-hynix) reported earnings",
+    ],
+)
+def test_sk_hynix_slug_not_flagged(text: str) -> None:
+    assert "openai_key" not in categories(text)
+
+
 # --- GitHub tokens ---------------------------------------------------------
 @pytest.mark.parametrize("prefix", ["ghp_", "gho_", "ghu_", "ghs_", "ghr_"])
 def test_github_tokens_detected(prefix: str) -> None:

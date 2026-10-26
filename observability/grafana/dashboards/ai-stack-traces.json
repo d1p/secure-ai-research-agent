@@ -47,8 +47,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "postgres",
-        "uid": "postgres-litellm"
+        "type": "tempo",
+        "uid": "tempo"
       },
       "targets": [
         {
@@ -115,8 +115,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "postgres",
-        "uid": "postgres-litellm"
+        "type": "tempo",
+        "uid": "tempo"
       },
       "targets": [
         {
@@ -183,8 +183,8 @@
         "y": 11
       },
       "datasource": {
-        "type": "postgres",
-        "uid": "postgres-litellm"
+        "type": "tempo",
+        "uid": "tempo"
       },
       "targets": [
         {
@@ -251,8 +251,8 @@
         "y": 11
       },
       "datasource": {
-        "type": "postgres",
-        "uid": "postgres-litellm"
+        "type": "tempo",
+        "uid": "tempo"
       },
       "targets": [
         {
@@ -433,10 +433,7 @@
         "x": 0,
         "y": 22
       },
-      "datasource": {
-        "type": "postgres",
-        "uid": "postgres-litellm"
-      },
+      "datasource": null,
       "targets": [],
       "fieldConfig": {
         "defaults": {},
